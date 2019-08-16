@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:imgur_gallery/features/splash/splash_screen.dart';
 import 'package:imgur_gallery/injection/providers.dart';
 import 'package:imgur_gallery/router.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: providers,
       child: PlatformApp(
+        debugShowCheckedModeBanner: false,
         title: 'Imgur gallery',
         android: (_) => MaterialAppData(
           theme: ThemeData(

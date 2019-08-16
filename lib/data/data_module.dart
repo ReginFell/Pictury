@@ -1,4 +1,4 @@
-import 'package:http/http.dart' as http;
+import 'package:imgur_gallery/data/client/imgur_client.dart';
 import 'package:imgur_gallery/data/gallery/gallery_repository.dart';
 import 'package:imgur_gallery/environment.dart';
 import 'package:provider/provider.dart';
@@ -10,14 +10,18 @@ List<SingleChildCloneableWidget> independentServices = [
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [
-  ProxyProvider<http.Client, Api>(
-    builder: (context, httpClient, api) => Api(httpClient, environment.baseUrl),
+  ProxyProvider<ImgurClient, Api>(
+    builder: (context, imgurClient, api) => Api(imgurClient, environment.baseUrl),
   ),
   ProxyProvider<Api, GalleryRepository>(
     builder: (context, api, _) => GalleryRepository(api),
   )
 ];
 
-http.Client _createHttpClient() {
-  return http.Client();
+ImgurClient _createHttpClient() {
+  final Map<String, String> headers = {
+    "Authorization": "Client-ID ${environment.clientId}"
+  };
+
+  return ImgurClient(headers: headers);
 }

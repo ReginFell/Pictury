@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:imgur_gallery/core/ui/base_view_model.dart';
 import 'package:provider/provider.dart';
 
-class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
+class BaseWidget<T extends BaseViewModel> extends StatefulWidget {
+
   final Widget Function(BuildContext context, T value, Widget child) builder;
   final T model;
   final Widget child;
@@ -17,13 +19,12 @@ class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _BaseWidgetState();
+    return _BaseWidgetState<T>();
   }
 }
 
-class _BaseWidgetState<T extends ChangeNotifier> extends State<BaseWidget<T>> {
-  // We want to store the instance of the model in the state
-  // that way it stays constant through rebuilds
+class _BaseWidgetState<T extends BaseViewModel> extends State<BaseWidget<T>> {
+
   T model;
 
   @override
