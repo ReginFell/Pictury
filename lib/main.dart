@@ -8,10 +8,10 @@ import 'environment.dart';
 
 void main() {
   BuildEnvironment.init(
-    flavor: BuildFlavor.all,
-    baseUrl: 'https://api.imgur.com',
-    clientId: '60fcba1c69916d0',
-  );
+      flavor: BuildFlavor.all,
+      baseUrl: 'https://api.imgur.com',
+      clientId: '60fcba1c69916d0',
+      supportedTypes: ["jpg", "png"]);
 
   runApp(MyApp());
 }
