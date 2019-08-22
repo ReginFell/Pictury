@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:imgur_gallery/core/ui/base_view_model.dart';
+import 'package:imgur_gallery/core/ui/base/base_view_model.dart';
 import 'package:provider/provider.dart';
 
 class BaseWidget<T extends BaseViewModel> extends StatefulWidget {

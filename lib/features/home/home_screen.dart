@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:imgur_gallery/core/ui/widget/app_label_text.dart';
+import 'package:imgur_gallery/core/ui/widget/keep_alive_widget.dart';
 import 'package:imgur_gallery/data/gallery/models/section.dart';
 import 'package:imgur_gallery/features/gallery/gallery_screen.dart';
+
+import '../../app_localization.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String route = '/home';
@@ -10,51 +14,60 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: buildAppBar(),
-          body: buildBody(),
-        ));
-  }
-
-  Widget buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
-      child: SafeArea(
-        child: TabBar(
-          isScrollable: true,
-          tabs: [
-            Tab(
-              child: Text(
-                "First",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            Tab(
-              child: Text(
-                "Second",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            Tab(
-              child: Text(
-                "Third",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ],
-        ),
+      length: 3,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        drawer: Text("he"),
+        appBar: buildAppBar(context),
+        body: buildBody(context),
       ),
     );
   }
 
-  Widget buildBody() {
-    return TabBarView(
-      children: [
-        GalleryScreen(Section.HOT),
-        Icon(Icons.directions_transit),
-        Icon(Icons.directions_bike),
-      ],
+  Widget buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: Builder(builder: (BuildContext context) {
+        return IconButton(
+          icon: Icon(Icons.format_align_left),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        );
+      }),
+    );
+  }
+
+  Widget buildBody(BuildContext context) {
+    final AppLocalizations localization = AppLocalizations.of(context);
+
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TabBar(
+            indicatorPadding: EdgeInsets.all(0.0),
+            indicatorWeight: 2.0,
+            isScrollable: true,
+            tabs: [
+              Tab(child: LabelText(localization.translate('hot'))),
+              Tab(child: LabelText(localization.translate('top'))),
+              Tab(child: LabelText(localization.translate('user'))),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              children: [
+                KeepAliveWidget(GalleryScreen(Section.HOT)),
+                KeepAliveWidget(GalleryScreen(Section.TOP)),
+                KeepAliveWidget(GalleryScreen(Section.USER)),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
