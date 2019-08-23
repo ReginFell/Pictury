@@ -1,4 +1,17 @@
-// base_model.dart
 import 'package:flutter/material.dart';
 
-class BaseViewModel extends ChangeNotifier {}
+abstract class BaseViewModel<VS> extends ChangeNotifier {
+  VS viewState;
+
+  BaseViewModel() {
+    viewState = initialViewState();
+  }
+
+  VS mutateViewState(Function(VS) mutable) {
+    viewState = mutable(viewState);
+    notifyListeners();
+    return viewState;
+  }
+
+  VS initialViewState();
+}

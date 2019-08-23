@@ -35,10 +35,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
           });
         },
         builder: (context, model, child) {
-          if (model.gallery != null) {
-            return buildBody(context, model);
-          } else {
+          if (model.viewState.isLoading) {
             return Center(child: PlatformCircularProgressIndicator());
+          } else {
+            return buildBody(context, model);
           }
         });
   }
@@ -48,13 +48,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
       controller: _scrollController,
       crossAxisCount: 3,
       padding: const EdgeInsets.all(8),
-      children: List.generate(model.gallery.length, (index) {
+      children: List.generate(model.viewState.images.length, (index) {
         return Padding(
           padding: const EdgeInsets.all(4),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(1),
               child: CachedNetworkImage(
-                  imageUrl: model.gallery[index].link, fit: BoxFit.cover)),
+                  imageUrl: model.viewState.images[index].link, fit: BoxFit.cover)),
         );
       }),
     );
