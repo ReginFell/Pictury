@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:imgur_gallery/core/ui/widget/app_label_text.dart';
-import 'package:imgur_gallery/core/ui/widget/keep_alive_widget.dart';
-import 'package:imgur_gallery/data/gallery/models/section.dart';
-import 'package:imgur_gallery/features/gallery/gallery_screen.dart';
+import 'package:unsplash_gallery/core/ui/widget/app_label_text.dart';
+import 'package:unsplash_gallery/core/ui/widget/keep_alive_widget.dart';
+import 'package:unsplash_gallery/data/gallery/models/section.dart';
+import 'package:unsplash_gallery/features/gallery/gallery_screen.dart';
 
 import '../../app_localization.dart';
 

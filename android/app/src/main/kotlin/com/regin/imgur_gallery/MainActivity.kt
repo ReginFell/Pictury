@@ -1,4 +1,4 @@
-package com.regin.imgur_gallery
+package com.regin.unsplash_gallery
 
 import android.os.Bundle
 

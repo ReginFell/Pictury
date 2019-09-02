@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:imgur_gallery/data/client/access_key_client.dart';
-import 'package:imgur_gallery/data/gallery/gallery_repository.dart';
-import 'package:imgur_gallery/data/source/local/preferences.dart';
-import 'package:imgur_gallery/environment.dart';
+import 'package:unsplash_gallery/data/client/access_key_client.dart';
+import 'package:unsplash_gallery/data/gallery/gallery_repository.dart';
+import 'package:unsplash_gallery/data/source/local/preferences.dart';
+import 'package:unsplash_gallery/environment.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,8 +16,8 @@ List<SingleChildCloneableWidget> independentServices = [
 
 List<SingleChildCloneableWidget> dependentServices = [
   ProxyProvider<AccessKeyClient, Api>(
-    builder: (context, imgurClient, api) =>
-        Api(imgurClient, environment.baseUrl),
+    builder: (context, accessKeyClient, api) =>
+        Api(accessKeyClient, environment.baseUrl),
   ),
   ProxyProvider<Api, GalleryRepository>(
     builder: (context, api, _) => GalleryRepository(api),

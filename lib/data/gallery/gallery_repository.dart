@@ -1,5 +1,5 @@
-import 'package:imgur_gallery/data/gallery/models/section.dart';
-import 'package:imgur_gallery/data/source/remote/models/image_response.dart';
+import 'package:unsplash_gallery/data/gallery/models/section.dart';
+import 'package:unsplash_gallery/data/source/remote/models/image_response.dart';
 
 import '../source/remote/api.dart';
 import 'models/sort.dart';

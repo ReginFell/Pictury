@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:imgur_gallery/domain/gallery/models/picture.dart';
+import 'package:unsplash_gallery/domain/gallery/models/picture.dart';
 
 class GalleryViewState {
   final List<Picture> pictures;
@@ -22,5 +22,10 @@ class GalleryViewState {
       isLoading: isLoading ?? this.isLoading,
       hasError: hasError ?? this.hasError,
     );
+  }
+
+  @override
+  String toString() {
+    return 'GalleryViewState{pictures: $pictures, isLoading: $isLoading, hasError: $hasError}';
   }
 }

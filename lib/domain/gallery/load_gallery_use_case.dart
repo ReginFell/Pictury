@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:imgur_gallery/data/gallery/gallery_repository.dart';
-import 'package:imgur_gallery/data/gallery/models/section.dart';
+import 'package:unsplash_gallery/data/gallery/gallery_repository.dart';
+import 'package:unsplash_gallery/data/gallery/models/section.dart';
 
 import 'models/picture.dart';
 

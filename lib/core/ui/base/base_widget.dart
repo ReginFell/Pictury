@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:imgur_gallery/core/ui/base/base_view_model.dart';
+import 'package:unsplash_gallery/core/ui/base/base_view_model.dart';
 import 'package:provider/provider.dart';
 
 class BaseWidget<T extends BaseViewModel> extends StatefulWidget {
-
   final Widget Function(BuildContext context, T value, Widget child) builder;
   final T model;
   final Widget child;
@@ -24,7 +23,6 @@ class BaseWidget<T extends BaseViewModel> extends StatefulWidget {
 }
 
 class _BaseWidgetState<T extends BaseViewModel> extends State<BaseWidget<T>> {
-
   T model;
 
   @override
