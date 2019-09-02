@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 enum AppTheme { LIGHT, DARK }
 
-class ThemeProvider {
+class MaterialThemeProvider {
   static final ThemeData lightTheme = ThemeData(
-    primaryColor: Colors.amberAccent,
-    accentColor: Colors.amber,
-    brightness: Brightness.light,
-    backgroundColor: Color(0xFFF6FFFF)
-  );
+      primaryColor: Colors.amberAccent,
+      accentColor: Colors.amber,
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: Color(0xFFF6FFFF));
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: Colors.grey,

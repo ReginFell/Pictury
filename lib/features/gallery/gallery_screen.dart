@@ -10,11 +10,11 @@ import 'package:imgur_gallery/features/gallery/gallery_view_model.dart';
 import 'package:provider/provider.dart';
 
 class GalleryScreen extends StatefulWidget {
+  static const String route = '/gallery';
+
   final Section section;
 
   GalleryScreen(this.section);
-
-  static const String route = '/gallery';
 
   @override
   State<StatefulWidget> createState() => _GalleryScreenState();
@@ -49,23 +49,22 @@ class _GalleryScreenState extends State<GalleryScreen> {
   Widget buildBody(BuildContext context, GalleryViewModel model) {
     return GridView.count(
       controller: _scrollController,
-      crossAxisCount: 3,
-      padding: const EdgeInsets.all(8),
+      crossAxisCount: 2,
       children: List.generate(model.viewState.pictures.length, (index) {
         final Picture picture = model.viewState.pictures[index];
-        return Hero(
-          child: InkWell(
-            enableFeedback: false,
-            onTap: () => model.onImageClick(context, picture),
-            child: Padding(
-              padding: const EdgeInsets.all(4),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(1),
-                  child: CachedNetworkImage(
-                      imageUrl: picture.link, fit: BoxFit.cover)),
+        return Container(
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: Hero(
+              child: InkWell(
+                onTap: () => model.onImageClick(context, picture),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(0),
+                    child: CachedNetworkImage(imageUrl: picture.link)),
+              ),
+              tag: "image ${picture.link}",
             ),
           ),
-          tag: "image ${picture.link}",
         );
       }),
     );

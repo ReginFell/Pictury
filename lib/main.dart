@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:imgur_gallery/injection/providers.dart';
 import 'package:imgur_gallery/router.dart';
-import 'package:imgur_gallery/theme_provider.dart';
+import 'package:imgur_gallery/theme/cupertino_theme_provider.dart';
+import 'package:imgur_gallery/theme/material_theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'app_localization.dart';
@@ -34,11 +36,12 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
+        onGenerateRoute: Router.generateRoute,
         android: (_) => MaterialAppData(
-          theme: ThemeProvider.lightTheme,
-          darkTheme: ThemeProvider.darkTheme,
-          onGenerateRoute: Router.generateRoute,
+          theme: MaterialThemeProvider.lightTheme,
+          darkTheme: MaterialThemeProvider.darkTheme,
         ),
+        ios: (_) => CupertinoAppData(theme: CupertinoThemeProvider.lightTheme),
       ),
     );
   }

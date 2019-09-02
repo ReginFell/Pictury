@@ -18,11 +18,12 @@ class _GalleryDetailsScreenState extends State<GalleryDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
-      body: Hero(
+        body: SafeArea(
+      child: Hero(
         child: CachedNetworkImage(imageUrl: widget._arguments.picture.link),
         tag: "image ${widget._arguments.picture.link}",
       ),
-    );
+    ));
   }
 }
 

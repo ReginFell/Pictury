@@ -16,7 +16,6 @@ class HomeScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
         drawer: Text("he"),
         appBar: buildAppBar(context),
         body: buildBody(context),
@@ -31,6 +30,7 @@ class HomeScreen extends StatelessWidget {
       leading: Builder(builder: (BuildContext context) {
         return IconButton(
           icon: Icon(Icons.format_align_left),
+          color: Colors.black,
           onPressed: () {
             Scaffold.of(context).openDrawer();
           },
