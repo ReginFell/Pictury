@@ -9,7 +9,7 @@ class GalleryRepository {
 
   GalleryRepository(this._api);
 
-  Future<ImageResponse> loadGallery(Section section, int page) {
+  Future<List<ImageResponse>> loadGallery(Section section, int page) {
     return _api.loadGallery(section, Sort.VIRAL, page);
   }
 }

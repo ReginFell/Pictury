@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:imgur_gallery/data/client/imgur_client.dart';
+import 'package:imgur_gallery/data/client/access_key_client.dart';
 import 'package:imgur_gallery/data/gallery/models/section.dart';
 import 'package:imgur_gallery/data/gallery/models/sort.dart';
 
@@ -9,17 +10,17 @@ import 'models/image_response.dart';
 
 class Api {
   final String _baseUrl;
-  final ImgurClient _imgurClient;
+  final AccessKeyClient _imgurClient;
 
   Api(this._imgurClient, this._baseUrl);
 
-  // /3/gallery/{section}/{page}
-  Future<ImageResponse> loadGallery(
+  FutureOr<List<ImageResponse>> loadGallery(
       Section section, Sort sort, int page) async {
-    http.Response response = await _imgurClient
-        .get("$_baseUrl/3/gallery/${section.value}/${sort.value}/$page");
+    http.Response response =
+        await _imgurClient.get("$_baseUrl/photos?page=$page");
 
-    final parsedJson = json.decode(response.body);
-    return ImageResponse.fromJson(parsedJson);
+    final List<dynamic> parsedJson = json.decode(response.body);
+
+    return parsedJson.map((value) => ImageResponse.fromJson(value)).toList();
   }
 }

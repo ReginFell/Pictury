@@ -7,13 +7,28 @@ BuildEnvironment _environment;
 
 class BuildEnvironment {
   final String baseUrl;
-  final String clientId;
   final BuildFlavor flavor;
   final List<String> supportedTypes;
 
-  BuildEnvironment._init({this.flavor, this.baseUrl, this.clientId, this.supportedTypes});
+  final String accessKey;
 
-  static void init({@required flavor, @required baseUrl, @required clientId, @required supportedTypes}) =>
+  BuildEnvironment._init({
+    this.flavor,
+    this.baseUrl,
+    this.supportedTypes,
+    this.accessKey,
+  });
+
+  static void init(
+          {@required flavor,
+          @required baseUrl,
+          @required supportedTypes,
+          @required accessKey,
+          @required secretKey}) =>
       _environment ??= BuildEnvironment._init(
-          flavor: flavor, baseUrl: baseUrl, clientId: clientId, supportedTypes: supportedTypes);
+        flavor: flavor,
+        baseUrl: baseUrl,
+        supportedTypes: supportedTypes,
+        accessKey: accessKey,
+      );
 }

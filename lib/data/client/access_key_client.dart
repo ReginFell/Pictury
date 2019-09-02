@@ -1,10 +1,10 @@
 import 'package:http/http.dart' as http;
 
-class ImgurClient extends http.BaseClient {
+class AccessKeyClient extends http.BaseClient {
   final http.Client _httpClient = new http.Client();
   final Map<String, String> headers;
 
-  ImgurClient({this.headers});
+  AccessKeyClient({this.headers});
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {

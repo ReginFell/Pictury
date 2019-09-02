@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:imgur_gallery/data/client/imgur_client.dart';
+import 'package:imgur_gallery/data/client/access_key_client.dart';
 import 'package:imgur_gallery/data/gallery/gallery_repository.dart';
 import 'package:imgur_gallery/data/source/local/preferences.dart';
 import 'package:imgur_gallery/environment.dart';
@@ -15,7 +15,7 @@ List<SingleChildCloneableWidget> independentServices = [
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [
-  ProxyProvider<ImgurClient, Api>(
+  ProxyProvider<AccessKeyClient, Api>(
     builder: (context, imgurClient, api) =>
         Api(imgurClient, environment.baseUrl),
   ),
@@ -27,12 +27,12 @@ List<SingleChildCloneableWidget> dependentServices = [
   )
 ];
 
-ImgurClient _createHttpClient() {
+AccessKeyClient _createHttpClient() {
   final Map<String, String> headers = {
-    "Authorization": "Client-ID ${environment.clientId}"
+    "Authorization": "Client-ID ${environment.accessKey}"
   };
 
-  return ImgurClient(headers: headers);
+  return AccessKeyClient(headers: headers);
 }
 
 FutureOr<SharedPreferences> _createSharedPreferences() {

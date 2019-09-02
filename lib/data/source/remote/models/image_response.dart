@@ -4,152 +4,169 @@ part 'image_response.g.dart';
 
 @JsonSerializable()
 class ImageResponse {
-  List<Data> data;
+  String id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int width;
+  int height;
+  String color;
+  dynamic description;
+  String altDescription;
+  Urls urls;
+  List<dynamic> categories;
+  int likes;
+  bool likedByUser;
+  List<dynamic> currentUserCollections;
+  User user;
 
-  ImageResponse({this.data});
+  ImageResponse({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.width,
+    this.height,
+    this.color,
+    this.description,
+    this.altDescription,
+    this.urls,
+    this.categories,
+    this.likes,
+    this.likedByUser,
+    this.currentUserCollections,
+    this.user,
+  });
 
   factory ImageResponse.fromJson(Map<String, dynamic> json) =>
       _$ImageResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ImageResponseToJson(this);
-
-  @override
-  String toString() {
-    return 'ImageResponse{data: $data}';
-  }
 }
 
 @JsonSerializable()
-class Data {
-  String id;
-  String title;
-  String description;
-  int datetime;
-  String cover;
-  int coverWidth;
-  int coverHeight;
-  String accountUrl;
-  int accountId;
-  String privacy;
-  String layout;
-  int views;
-  String link;
-  int ups;
-  int downs;
-  int points;
-  int score;
-  bool isAlbum;
-  bool favorite;
-  bool nsfw;
-  String section;
-  int commentCount;
-  int favoriteCount;
-  String topic;
-  int topicId;
-  int imagesCount;
-  bool inGallery;
-  bool isAd;
-  int adType;
-  String adUrl;
-  bool inMostViral;
-  bool includeAlbumAds;
-  List<Images> images;
+class Links {
+  String self;
+  String html;
+  String download;
+  String downloadLocation;
 
-  Data(
-      {this.id,
-      this.title,
-      this.description,
-      this.datetime,
-      this.cover,
-      this.coverWidth,
-      this.coverHeight,
-      this.accountUrl,
-      this.accountId,
-      this.privacy,
-      this.layout,
-      this.views,
-      this.link,
-      this.ups,
-      this.downs,
-      this.points,
-      this.score,
-      this.isAlbum,
-      this.favorite,
-      this.nsfw,
-      this.section,
-      this.commentCount,
-      this.favoriteCount,
-      this.topic,
-      this.topicId,
-      this.imagesCount,
-      this.inGallery,
-      this.isAd,
-      this.adType,
-      this.adUrl,
-      this.inMostViral,
-      this.includeAlbumAds,
-      this.images});
-
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DataToJson(this);
-}
-
-@JsonSerializable()
-class Images {
-  String id;
-  String title;
-  String description;
-  int datetime;
-  String type;
-  bool animated;
-  int width;
-  int height;
-  int size;
-  int views;
-  int bandwidth;
-  bool favorite;
-  bool isAd;
-  bool inMostViral;
-  bool hasSound;
-  int adType;
-  String adUrl;
-  String edited;
-  bool inGallery;
-  String link;
-  int mp4Size;
-  String mp4;
-  String gifv;
-  String hls;
-
-  Images({
-    this.id,
-    this.title,
-    this.description,
-    this.datetime,
-    this.type,
-    this.animated,
-    this.width,
-    this.height,
-    this.size,
-    this.views,
-    this.bandwidth,
-    this.favorite,
-    this.isAd,
-    this.inMostViral,
-    this.hasSound,
-    this.adType,
-    this.adUrl,
-    this.edited,
-    this.inGallery,
-    this.link,
-    this.mp4Size,
-    this.mp4,
-    this.gifv,
-    this.hls,
+  Links({
+    this.self,
+    this.html,
+    this.download,
+    this.downloadLocation,
   });
 
-  factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
+  factory Links.fromJson(Map<String, dynamic> json) => _$LinksFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImagesToJson(this);
+  Map<String, dynamic> toJson() => _$LinksToJson(this);
+}
+
+@JsonSerializable()
+class User {
+  String id;
+  DateTime updatedAt;
+  String username;
+  String name;
+  String firstName;
+  String lastName;
+  String twitterUsername;
+  String portfolioUrl;
+  String bio;
+  dynamic location;
+  UserLinks links;
+  ProfileImage profileImage;
+  String instagramUsername;
+  int totalCollections;
+  int totalLikes;
+  int totalPhotos;
+  bool acceptedTos;
+
+  User({
+    this.id,
+    this.updatedAt,
+    this.username,
+    this.name,
+    this.firstName,
+    this.lastName,
+    this.twitterUsername,
+    this.portfolioUrl,
+    this.bio,
+    this.location,
+    this.links,
+    this.profileImage,
+    this.instagramUsername,
+    this.totalCollections,
+    this.totalLikes,
+    this.totalPhotos,
+    this.acceptedTos,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+}
+
+@JsonSerializable()
+class UserLinks {
+  String self;
+  String html;
+  String photos;
+  String likes;
+  String portfolio;
+  String following;
+  String followers;
+
+  UserLinks({
+    this.self,
+    this.html,
+    this.photos,
+    this.likes,
+    this.portfolio,
+    this.following,
+    this.followers,
+  });
+
+  factory UserLinks.fromJson(Map<String, dynamic> json) =>
+      _$UserLinksFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserLinksToJson(this);
+}
+
+@JsonSerializable()
+class ProfileImage {
+  String small;
+  String medium;
+  String large;
+
+  ProfileImage({
+    this.small,
+    this.medium,
+    this.large,
+  });
+
+  factory ProfileImage.fromJson(Map<String, dynamic> json) =>
+      _$ProfileImageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProfileImageToJson(this);
+}
+
+@JsonSerializable()
+class Urls {
+  String raw;
+  String full;
+  String regular;
+  String small;
+  String thumb;
+
+  Urls({
+    this.raw,
+    this.full,
+    this.regular,
+    this.small,
+    this.thumb,
+  });
+
+  factory Urls.fromJson(Map<String, dynamic> json) => _$UrlsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UrlsToJson(this);
 }
