@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imgur_gallery/features/gallery_details/gallery_details_screen.dart';
 import 'package:imgur_gallery/features/home/home_screen.dart';
 import 'package:imgur_gallery/features/splash/splash_screen.dart';
 
@@ -9,6 +10,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case HomeScreen.route:
         return MaterialPageRoute(builder: (_) => HomeScreen());
+      case GalleryDetailsScreen.route:
+        return MaterialPageRoute(builder: (_) => GalleryDetailsScreen(settings.arguments));
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

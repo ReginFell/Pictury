@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:imgur_gallery/core/ui/base/base_widget.dart';
 import 'package:imgur_gallery/data/gallery/models/section.dart';
+import 'package:imgur_gallery/domain/gallery/models/picture.dart';
 import 'package:imgur_gallery/features/gallery/gallery_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -48,13 +51,21 @@ class _GalleryScreenState extends State<GalleryScreen> {
       controller: _scrollController,
       crossAxisCount: 3,
       padding: const EdgeInsets.all(8),
-      children: List.generate(model.viewState.images.length, (index) {
-        return Padding(
-          padding: const EdgeInsets.all(4),
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(1),
-              child: CachedNetworkImage(
-                  imageUrl: model.viewState.images[index].link, fit: BoxFit.cover)),
+      children: List.generate(model.viewState.pictures.length, (index) {
+        final Picture picture = model.viewState.pictures[index];
+        return Hero(
+          child: InkWell(
+            enableFeedback: false,
+            onTap: () => model.onImageClick(context, picture),
+            child: Padding(
+              padding: const EdgeInsets.all(4),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(1),
+                  child: CachedNetworkImage(
+                      imageUrl: picture.link, fit: BoxFit.cover)),
+            ),
+          ),
+          tag: "image ${picture.link}",
         );
       }),
     );
