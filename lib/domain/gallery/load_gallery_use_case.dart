@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:unsplash_gallery/data/gallery/gallery_repository.dart';
-import 'package:unsplash_gallery/data/gallery/models/section.dart';
+import 'package:pictury/data/gallery/gallery_repository.dart';
+import 'package:pictury/data/gallery/models/section.dart';
 
 import 'models/picture.dart';
 

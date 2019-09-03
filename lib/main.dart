@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:unsplash_gallery/injection/providers.dart';
-import 'package:unsplash_gallery/router.dart';
-import 'package:unsplash_gallery/theme/cupertino_theme_provider.dart';
-import 'package:unsplash_gallery/theme/material_theme_provider.dart';
+import 'package:pictury/injection/providers.dart';
+import 'package:pictury/router.dart';
+import 'package:pictury/theme/cupertino_theme_provider.dart';
+import 'package:pictury/theme/material_theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'app_localization.dart';

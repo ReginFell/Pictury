@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:unsplash_gallery/data/client/access_key_client.dart';
-import 'package:unsplash_gallery/data/gallery/models/section.dart';
-import 'package:unsplash_gallery/data/gallery/models/sort.dart';
+import 'package:pictury/data/client/access_key_client.dart';
+import 'package:pictury/data/gallery/models/section.dart';
+import 'package:pictury/data/gallery/models/sort.dart';
 
 import 'models/image_response.dart';
 

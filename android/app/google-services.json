@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "225211762251",
+    "firebase_url": "https://unsplash-fd71a.firebaseio.com",
+    "project_id": "unsplash-fd71a",
+    "storage_bucket": "unsplash-fd71a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225211762251:android:b70e93c5060397f0",
+        "android_client_info": {
+          "package_name": "com.regin.pictury"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225211762251-7a42v6hre0d09c11o40kbhkrenpipgqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcUoaGiBPj3I02bMhJ8DOPx9_-n4k_WXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225211762251-7a42v6hre0d09c11o40kbhkrenpipgqa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

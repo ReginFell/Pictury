@@ -1,4 +1,4 @@
-# unsplash_gallery
+# pictury
 
 Gallery for imgur
 

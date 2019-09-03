@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:unsplash_gallery/domain/gallery/models/picture.dart';
+import 'package:pictury/domain/gallery/models/picture.dart';
 
 class GalleryViewState {
   final List<Picture> pictures;

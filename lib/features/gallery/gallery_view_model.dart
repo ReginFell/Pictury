@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:unsplash_gallery/core/ui/base/base_view_model.dart';
-import 'package:unsplash_gallery/data/gallery/models/section.dart';
-import 'package:unsplash_gallery/domain/gallery/load_gallery_use_case.dart';
-import 'package:unsplash_gallery/domain/gallery/models/picture.dart';
-import 'package:unsplash_gallery/features/gallery/gallery_view_state.dart';
-import 'package:unsplash_gallery/features/gallery_details/gallery_details_screen.dart';
+import 'package:pictury/core/ui/base/base_view_model.dart';
+import 'package:pictury/data/gallery/models/section.dart';
+import 'package:pictury/domain/gallery/load_gallery_use_case.dart';
+import 'package:pictury/domain/gallery/models/picture.dart';
+import 'package:pictury/features/gallery/gallery_view_state.dart';
+import 'package:pictury/features/gallery_details/gallery_details_screen.dart';
 
 class GalleryViewModel extends BaseViewModel<GalleryViewState> {
   final LoadGalleryUseCase _loadGalleryUseCase;

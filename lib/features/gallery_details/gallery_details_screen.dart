@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:unsplash_gallery/domain/gallery/models/picture.dart';
+import 'package:pictury/domain/gallery/models/picture.dart';
 
 class GalleryDetailsScreen extends StatefulWidget {
   static const String route = '/gallery/details';

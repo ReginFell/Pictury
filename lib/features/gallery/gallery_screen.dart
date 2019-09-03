@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:unsplash_gallery/core/ui/base/base_widget.dart';
-import 'package:unsplash_gallery/data/gallery/models/section.dart';
-import 'package:unsplash_gallery/domain/gallery/models/picture.dart';
-import 'package:unsplash_gallery/features/gallery/gallery_view_model.dart';
+import 'package:pictury/core/ui/base/base_widget.dart';
+import 'package:pictury/data/gallery/models/section.dart';
+import 'package:pictury/domain/gallery/models/picture.dart';
+import 'package:pictury/features/gallery/gallery_view_model.dart';
 import 'package:provider/provider.dart';
 
 class GalleryScreen extends StatefulWidget {
@@ -46,7 +46,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
       child: Column(
         children: [
           if (model.viewState.isLoading && model.viewState.pictures.isEmpty)
-            Center(child: PlatformCircularProgressIndicator())
+            Expanded(child: Center(child: PlatformCircularProgressIndicator()))
           else
             Expanded(child: buildGrid(context, model)),
           if (model.viewState.isLoading && model.viewState.pictures.isNotEmpty)
@@ -74,9 +74,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
             child: Hero(
               child: GestureDetector(
                   onTap: () => model.onImageClick(context, picture),
-                  child: CachedNetworkImage(
-                    imageUrl: picture.link,
-                  )),
+                  child: CachedNetworkImage(imageUrl: picture.link)),
               tag: "image ${picture.link}",
             ),
           );

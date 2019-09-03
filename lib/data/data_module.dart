@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:unsplash_gallery/data/client/access_key_client.dart';
-import 'package:unsplash_gallery/data/gallery/gallery_repository.dart';
-import 'package:unsplash_gallery/data/source/local/preferences.dart';
-import 'package:unsplash_gallery/environment.dart';
+import 'package:pictury/data/client/access_key_client.dart';
+import 'package:pictury/data/gallery/gallery_repository.dart';
+import 'package:pictury/data/source/local/preferences.dart';
+import 'package:pictury/environment.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
