@@ -34,7 +34,7 @@ class CategoriesViewModel extends BaseViewModel<CategoriesViewState> {
   }
 
   void skip(BuildContext context) {
-    Navigator.pushReplacementNamed(context, HomeScreen.route);
+    Navigator.pushNamed(context, HomeScreen.route);
   }
 
   @override
