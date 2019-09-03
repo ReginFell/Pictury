@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/widget/app_label_text.dart';
 import 'package:pictury/core/ui/widget/keep_alive_widget.dart';
-import 'package:pictury/data/gallery/models/section.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
 
 import '../../app_localization.dart';
@@ -60,9 +58,9 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: TabBarView(
               children: [
-                KeepAliveWidget(GalleryScreen(Section.HOT)),
-                KeepAliveWidget(GalleryScreen(Section.TOP)),
-                KeepAliveWidget(GalleryScreen(Section.USER)),
+                KeepAliveWidget(GalleryScreen()),
+                KeepAliveWidget(GalleryScreen()),
+                KeepAliveWidget(GalleryScreen()),
               ],
             ),
           ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:pictury/core/ui/base/base_widget.dart';
-import 'package:pictury/data/gallery/models/section.dart';
 import 'package:pictury/domain/gallery/models/picture.dart';
 import 'package:pictury/features/gallery/gallery_view_model.dart';
 import 'package:provider/provider.dart';
@@ -11,9 +10,7 @@ import 'package:provider/provider.dart';
 class GalleryScreen extends StatefulWidget {
   static const String route = '/gallery';
 
-  final Section section;
-
-  GalleryScreen(this.section);
+  GalleryScreen();
 
   @override
   State<StatefulWidget> createState() => _GalleryScreenState();
@@ -27,12 +24,12 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return BaseWidget<GalleryViewModel>(
         model: GalleryViewModel(Provider.of(context)),
         onModelReady: (model) {
-          model.loadGallery(widget.section);
+          model.loadGallery();
 
           _scrollController.addListener(() {
             if (_scrollController.position.pixels ==
                 _scrollController.position.maxScrollExtent) {
-              model.loadGallery(widget.section);
+              model.loadGallery();
             }
           });
         },

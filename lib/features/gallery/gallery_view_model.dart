@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pictury/core/ui/base/base_view_model.dart';
-import 'package:pictury/data/gallery/models/section.dart';
 import 'package:pictury/domain/gallery/load_gallery_use_case.dart';
 import 'package:pictury/domain/gallery/models/picture.dart';
 import 'package:pictury/features/gallery/gallery_view_state.dart';
@@ -13,11 +12,10 @@ class GalleryViewModel extends BaseViewModel<GalleryViewState> {
 
   GalleryViewModel(this._loadGalleryUseCase);
 
-  Future loadGallery(Section section) async {
+  Future loadGallery() async {
     mutateViewState((viewState) => viewState.copy(isLoading: true));
 
-    final List<Picture> result =
-        await _loadGalleryUseCase.loadGallery(section, page++);
+    final List<Picture> result = await _loadGalleryUseCase.loadGallery(page++);
 
     mutateViewState((viewState) => viewState.copy(
           isLoading: false,

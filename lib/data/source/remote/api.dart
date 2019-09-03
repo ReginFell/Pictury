@@ -3,8 +3,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:pictury/data/client/access_key_client.dart';
-import 'package:pictury/data/gallery/models/section.dart';
-import 'package:pictury/data/gallery/models/sort.dart';
 
 import 'models/image_response.dart';
 
@@ -14,8 +12,7 @@ class Api {
 
   Api(this._accessKeyClient, this._baseUrl);
 
-  FutureOr<List<ImageResponse>> loadGallery(
-      Section section, Sort sort, int page) async {
+  FutureOr<List<ImageResponse>> loadGallery(int page) async {
     http.Response response =
         await _accessKeyClient.get("$_baseUrl/photos?page=$page&per_page=30");
 
