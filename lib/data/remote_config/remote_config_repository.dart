@@ -17,7 +17,7 @@ class RemoteConfigRepository {
     return config;
   }
 
-  FutureOr<List<Category>> loadCategories() {
+  Future<List<Category>> loadCategories() {
     return _fetch().then((result) {
       final List<dynamic> parsedJson =
           json.decode(result.getString("categories"));

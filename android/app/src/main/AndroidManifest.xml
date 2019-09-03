@@ -5,7 +5,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@drawable/sky"
-        android:label="pictury"
+        android:label="Pictury"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"

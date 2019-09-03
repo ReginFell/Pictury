@@ -10,7 +10,7 @@ class SplashViewModel extends BaseViewModel {
 
   Future startSplash(BuildContext context) async {
     Timer(Duration(seconds: splashDuration),
-        () => Navigator.pushReplacementNamed(context, CategoriesScreen.route));
+        () => Navigator.pushReplacementNamed(context, HomeScreen.route));
   }
 
   @override

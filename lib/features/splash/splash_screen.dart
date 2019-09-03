@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<SplashViewModel>(
-      model: new SplashViewModel(),
+      model: SplashViewModel(),
       onModelReady: (model) => model.startSplash(context),
       builder: (context, model, child) => PlatformScaffold(
         body: PlatformText("Hello"),

@@ -8,5 +8,10 @@
     "name" : "Dog",
     "query": "dog",
     "picture": "https://images.unsplash.com/photo-1472491235688-bdc81a63246e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
+  },
+  {
+    "name" : "Nature",
+    "query": "nature",
+    "picture": "https://images.unsplash.com/photo-1558275689-63decdec176e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
   }
 ]
