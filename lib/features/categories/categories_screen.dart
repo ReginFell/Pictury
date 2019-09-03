@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Widget buildBody(BuildContext context, CategoriesViewModel model) {
+    final ThemeData theme = Theme.of(context);
+
     return SafeArea(
         child: Container(
       child: Column(
@@ -35,14 +39,39 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           if (model.viewState.isLoading)
             Expanded(child: Center(child: PlatformCircularProgressIndicator()))
           else
-            Expanded(child: buildGrid(context, model)),
-          InkWell(
-            onTap: () => PlatformText("sa"),
-            child: SizedBox(
-              height: 60,
-              child: PlatformText("Skip"),
-            ),
-          ),
+            Expanded(
+                child: Container(
+                    child: Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Hi! how are you?",
+                          style: theme.textTheme.headline
+                              .copyWith(color: theme.primaryColorDark))),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Choose what you like to fill your feed",
+                          style: theme.textTheme.subhead
+                              .copyWith(color: theme.primaryColorDark))),
+                ),
+                Expanded(child: buildGrid(context, model)),
+                InkWell(
+                  onTap: () => model.skip(context),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: Center(child: PlatformText("Skip")),
+                  ),
+                ),
+              ],
+            ))),
         ],
       ),
     ));
@@ -53,17 +82,45 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         crossAxisCount: 2,
         children: List.generate(model.viewState.categories.length, (index) {
           final Category category = model.viewState.categories[index];
+          final bool isSelected =
+              model.viewState.selectedCategories.contains(category);
 
-          return Stack(fit: StackFit.expand, children: [
-            CachedNetworkImage(
-              imageUrl: category.picture,
-              fit: BoxFit.cover,
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: PlatformText(category.name),
-            )
-          ]);
+          final List<Category> selectedCategories =
+              model.viewState.selectedCategories;
+
+          return GestureDetector(
+            onTap: () => model.selectCategory(category),
+            child: Stack(fit: StackFit.expand, children: [
+              CachedNetworkImage(
+                imageBuilder: (context, provider) {
+                  return Stack(fit: StackFit.expand, children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: provider,
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                            isSelected ? Colors.red : Colors.transparent,
+                            BlendMode.colorBurn,
+                          ),
+                        ),
+                      ),
+                    )
+                  ]);
+                },
+                imageUrl: category.picture,
+                fit: BoxFit.cover,
+                colorBlendMode: selectedCategories.contains(category)
+                    ? BlendMode.hardLight
+                    : BlendMode.colorDodge,
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: PlatformText(
+                    selectedCategories.contains(category).toString()),
+              )
+            ]),
+          );
         }));
   }
 }

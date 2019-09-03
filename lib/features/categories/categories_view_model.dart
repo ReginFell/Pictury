@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:pictury/core/ui/base/base_view_model.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/domain/categories/load_categories_use_case.dart';
+import 'package:pictury/features/home/home_screen.dart';
 
 import 'categories_view_state.dart';
 
@@ -22,9 +24,17 @@ class CategoriesViewModel extends BaseViewModel<CategoriesViewState> {
   void selectCategory(Category category) {
     mutateViewState((viewState) {
       if (viewState.selectedCategories.contains(category)) {
-        viewState.copy(selectedCategories: viewState.selectedCategories);
+        return viewState.copy(
+            selectedCategories: viewState.selectedCategories..remove(category));
+      } else {
+        return viewState.copy(
+            selectedCategories: viewState.selectedCategories..add(category));
       }
     });
+  }
+
+  void skip(BuildContext context) {
+    Navigator.pushReplacementNamed(context, HomeScreen.route);
   }
 
   @override

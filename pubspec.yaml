@@ -33,3 +33,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/lang/en.json
+  fonts:
+    - family: Sans
+      fonts:
+        - asset: assets/fonts/ProductSans-Regular.ttf

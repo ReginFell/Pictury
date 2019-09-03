@@ -6,11 +6,13 @@ class MaterialThemeProvider {
   static final ThemeData lightTheme = ThemeData(
       primaryColor: Colors.amberAccent,
       accentColor: Colors.amber,
+      fontFamily: "Sans",
       brightness: Brightness.light,
       scaffoldBackgroundColor: Color(0xFFF6FFFF));
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: Colors.grey,
+    fontFamily: "Sans",
     brightness: Brightness.dark,
   );
 

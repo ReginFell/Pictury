@@ -18,4 +18,16 @@ class Category {
       _$CategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Category &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          query == other.query &&
+          picture == other.picture;
+
+  @override
+  int get hashCode => name.hashCode ^ query.hashCode ^ picture.hashCode;
 }
