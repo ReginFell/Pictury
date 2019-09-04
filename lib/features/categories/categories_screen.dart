@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_widget.dart';
@@ -18,7 +19,18 @@ class CategoriesScreen extends StatefulWidget {
   _CategoriesScreenState createState() => _CategoriesScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+class _CategoriesScreenState extends State<CategoriesScreen>
+    with TickerProviderStateMixin {
+  AnimationController _scaleController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scaleController = AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseWidget<CategoriesViewModel>(
@@ -26,12 +38,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         onModelReady: (model) => model.loadCategories(),
         builder: (context, model, child) {
           return PlatformScaffold(
-            body: buildBody(context, model),
+            body: _buildBody(context, model),
           );
         });
   }
 
-  Widget buildBody(BuildContext context, CategoriesViewModel model) {
+  Widget _buildBody(BuildContext context, CategoriesViewModel model) {
     final ThemeData theme = Theme.of(context);
     final AppLocalizations localization = AppLocalizations.of(context);
 
@@ -65,7 +77,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           style: theme.textTheme.subhead
                               .copyWith(color: theme.primaryColorDark))),
                 ),
-                Expanded(child: buildGrid(context, model)),
+                Expanded(child: _buildGrid(context, model)),
                 InkWell(
                   onTap: () => model.skip(context),
                   child: SizedBox(
@@ -82,41 +94,47 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     ));
   }
 
-  Widget buildGrid(BuildContext context, CategoriesViewModel model) {
+  Widget _buildGrid(BuildContext context, CategoriesViewModel model) {
     return GridView.count(
+        childAspectRatio: 1.5,
         crossAxisCount: 2,
         children: List.generate(model.viewState.categories.length, (index) {
           final Category category = model.viewState.categories[index];
           final bool isSelected =
               model.viewState.selectedCategories.contains(category);
 
-          final List<Category> selectedCategories =
-              model.viewState.selectedCategories;
-
           return GestureDetector(
               onTap: () => model.selectCategory(category),
               child: Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: EdgeInsets.all(4.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(18),
-                  child: Stack(fit: StackFit.expand, children: [
-                    CachedNetworkImage(
-                      imageUrl: category.picture,
-                      fit: BoxFit.cover,
-                      colorBlendMode: selectedCategories.contains(category)
-                          ? BlendMode.hardLight
-                          : BlendMode.colorDodge,
-                    ),
-                    AnimatedContainer(
-                      duration: Duration(seconds: 1),
-                      color: isSelected
-                          ? Theme.of(context).primaryColorDark
-                          : Colors.transparent,
-                    ),
+                  child: Stack(children: [
+                    Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: CachedNetworkImage(
+                          imageUrl: category.picture,
+                          fit: BoxFit.cover,
+                        )),
+                    SizedOverflowBox(
+                        size: Size(300, 300),
+                        child: AnimatedContainer(
+                          width: isSelected ? 200 : 0,
+                          height: isSelected ? 200 : 0,
+                          alignment: Alignment.center,
+                          duration: Duration(milliseconds: 100),
+                          color: isSelected
+                              ? Theme.of(context).primaryColorDark
+                              : Colors.transparent,
+                        )),
                     Align(
-                      alignment: Alignment.bottomCenter,
-                      child: PlatformText(
-                          selectedCategories.contains(category).toString()),
+                      alignment: Alignment.center,
+                      child: Text(category.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle
+                              .copyWith(color: Colors.white)),
                     )
                   ]),
                 ),
