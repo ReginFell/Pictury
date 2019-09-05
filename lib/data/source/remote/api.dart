@@ -12,12 +12,13 @@ class Api {
 
   Api(this._accessKeyClient, this._baseUrl);
 
-  FutureOr<List<ImageResponse>> loadGallery(int page) async {
-    http.Response response =
-        await _accessKeyClient.get("$_baseUrl/photos?page=$page&per_page=30");
+  FutureOr<List<ImageResponse>> loadByQuery(String query, int page) async {
+    http.Response response = await _accessKeyClient
+        .get("$_baseUrl/search/photos?page=$page&query=$query&per_page=30");
 
-    final List<dynamic> parsedJson = json.decode(response.body);
+    final dynamic parsedJson = json.decode(response.body);
+    final SearchResponse searchResponse = SearchResponse.fromJson(parsedJson);
 
-    return parsedJson.map((value) => ImageResponse.fromJson(value)).toList();
+    return searchResponse.results;
   }
 }

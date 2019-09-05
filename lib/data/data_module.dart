@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:pictury/data/category/category_repository.dart';
 import 'package:pictury/data/client/access_key_client.dart';
 import 'package:pictury/data/gallery/gallery_repository.dart';
-import 'package:pictury/data/remote_config/remote_config_repository.dart';
+import 'package:pictury/data/local_config/local_config_provider.dart';
+import 'package:pictury/data/remote_config/remote_config_provider.dart';
 import 'package:pictury/data/source/local/preferences.dart';
 import 'package:pictury/environment.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'source/remote/api.dart';
 
@@ -25,11 +28,18 @@ List<SingleChildCloneableWidget> dependentServices = [
   ProxyProvider<Api, GalleryRepository>(
     builder: (context, api, _) => GalleryRepository(api),
   ),
-  ProxyProvider<FutureOr<RemoteConfig>, RemoteConfigRepository>(
-    builder: (context, remoteConfig, _) => RemoteConfigRepository(remoteConfig),
+  ProxyProvider<FutureOr<RemoteConfig>, RemoteConfigProvider>(
+    builder: (context, remoteConfig, _) => RemoteConfigProvider(remoteConfig),
   ),
-  ProxyProvider<FutureOr<SharedPreferences>, Preferences>(
+  ProxyProvider<FutureOr<StreamingSharedPreferences>, Preferences>(
     builder: (context, sharedPreferences, _) => Preferences(sharedPreferences),
+  ),
+  ProxyProvider<Preferences, LocalConfigProvider>(
+    builder: (context, preferences, _) => LocalConfigProvider(preferences),
+  ),
+  ProxyProvider2<LocalConfigProvider, RemoteConfigProvider, CategoryRepository>(
+    builder: (context, localConfigProvider, remoteConfigProvider, _) =>
+        CategoryRepository(localConfigProvider, remoteConfigProvider),
   )
 ];
 
@@ -41,8 +51,8 @@ AccessKeyClient _createHttpClient() {
   return AccessKeyClient(headers: headers);
 }
 
-FutureOr<SharedPreferences> _createSharedPreferences() {
-  return SharedPreferences.getInstance();
+FutureOr<StreamingSharedPreferences> _createSharedPreferences() {
+  return StreamingSharedPreferences.instance;
 }
 
 FutureOr<RemoteConfig> _createRemoteConfig() {

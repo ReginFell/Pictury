@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pictury/core/ui/base/base_view_model.dart';
 import 'package:provider/provider.dart';
 
-class BaseWidget<T extends BaseViewModel> extends StatefulWidget {
+class ViewModelProvider<T extends BaseViewModel> extends StatefulWidget {
   final Widget Function(BuildContext context, T value, Widget child) builder;
   final T model;
   final Widget child;
   final Function(T) onModelReady;
 
-  BaseWidget({
+  ViewModelProvider({
     Key key,
     this.model,
     this.builder,
@@ -18,11 +18,12 @@ class BaseWidget<T extends BaseViewModel> extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _BaseWidgetState<T>();
+    return _ViewModelProviderState<T>();
   }
 }
 
-class _BaseWidgetState<T extends BaseViewModel> extends State<BaseWidget<T>> {
+class _ViewModelProviderState<T extends BaseViewModel>
+    extends State<ViewModelProvider<T>> {
   T model;
 
   @override

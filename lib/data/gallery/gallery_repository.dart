@@ -7,7 +7,7 @@ class GalleryRepository {
 
   GalleryRepository(this._api);
 
-  Future<List<ImageResponse>> loadGallery(int page) {
-    return _api.loadGallery(page);
+  Future<List<ImageResponse>> loadGallery(String query, int page) {
+    return _api.loadByQuery(query, page);
   }
 }

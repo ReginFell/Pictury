@@ -6,6 +6,16 @@ part of 'image_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) {
+  return SearchResponse((json['results'] as List)
+      ?.map((e) =>
+          e == null ? null : ImageResponse.fromJson(e as Map<String, dynamic>))
+      ?.toList());
+}
+
+Map<String, dynamic> _$SearchResponseToJson(SearchResponse instance) =>
+    <String, dynamic>{'results': instance.results};
+
 ImageResponse _$ImageResponseFromJson(Map<String, dynamic> json) {
   return ImageResponse(
       id: json['id'] as String,

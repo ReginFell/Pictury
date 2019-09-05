@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class Preferences {
-  final FutureOr<SharedPreferences> sharedPreferences;
+  final FutureOr<StreamingSharedPreferences> sharedPreferences;
 
   Preferences(this.sharedPreferences);
 }

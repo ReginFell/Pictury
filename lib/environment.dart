@@ -19,12 +19,12 @@ class BuildEnvironment {
     this.accessKey,
   });
 
-  static void init(
-          {@required flavor,
-          @required baseUrl,
-          @required supportedTypes,
-          @required accessKey,
-          @required secretKey}) =>
+  static void init({
+    @required flavor,
+    @required baseUrl,
+    @required supportedTypes,
+    @required accessKey,
+  }) =>
       _environment ??= BuildEnvironment._init(
         flavor: flavor,
         baseUrl: baseUrl,

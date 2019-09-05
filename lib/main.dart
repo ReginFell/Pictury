@@ -14,7 +14,7 @@ import 'environment.dart';
 void main() {
   BuildEnvironment.init(
       flavor: BuildFlavor.all,
-      baseUrl: 'https://api.unsplash.com/',
+      baseUrl: 'https://api.unsplash.com',
       accessKey:
           '7901b0a91d93ee491a49c7ff93e0a24fa7a7cff5d26c1d53b21a51e1960ac018',
       supportedTypes: ["jpg", "png", "gif"]);

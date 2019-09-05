@@ -1,23 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pictury/core/ui/base/base_widget.dart';
 import 'package:pictury/core/ui/widget/app_label_text.dart';
 import 'package:pictury/core/ui/widget/keep_alive_widget.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
-
-import '../../app_localization.dart';
+import 'package:pictury/features/home/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String route = '/home';
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        drawer: Text("he"),
-        appBar: buildAppBar(context),
-        body: buildBody(context),
-      ),
+    return ViewModelProvider<HomeViewModel>(
+      model: HomeViewModel(Provider.of(context)),
+      builder: (context, model, _) => DefaultTabController(
+          length: model.viewState.categories.length,
+          child: Scaffold(
+            appBar: buildAppBar(context),
+            body: buildBody(context, model),
+          )),
     );
   }
 
@@ -37,9 +39,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildBody(BuildContext context) {
-    final AppLocalizations localization = AppLocalizations.of(context);
-
+  Widget buildBody(BuildContext context, HomeViewModel model) {
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -50,17 +50,15 @@ class HomeScreen extends StatelessWidget {
             indicatorWeight: 2.0,
             isScrollable: true,
             tabs: [
-              Tab(child: LabelText(localization.translate('hot'))),
-              Tab(child: LabelText(localization.translate('top'))),
-              Tab(child: LabelText(localization.translate('user'))),
+              ...model.viewState.categories
+                  .map((category) => Tab(child: LabelText(category.name)))
             ],
           ),
           Expanded(
             child: TabBarView(
               children: [
-                KeepAliveWidget(GalleryScreen()),
-                KeepAliveWidget(GalleryScreen()),
-                KeepAliveWidget(GalleryScreen()),
+                ...model.viewState.categories.map((category) =>
+                    KeepAliveWidget(GalleryScreen(category.query)))
               ],
             ),
           ),

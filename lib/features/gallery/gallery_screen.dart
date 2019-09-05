@@ -10,7 +10,9 @@ import 'package:provider/provider.dart';
 class GalleryScreen extends StatefulWidget {
   static const String route = '/gallery';
 
-  GalleryScreen();
+  final String query;
+
+  GalleryScreen(this.query);
 
   @override
   State<StatefulWidget> createState() => _GalleryScreenState();
@@ -21,15 +23,15 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<GalleryViewModel>(
+    return ViewModelProvider<GalleryViewModel>(
         model: GalleryViewModel(Provider.of(context)),
         onModelReady: (model) {
-          model.loadGallery();
+          model.loadGallery(widget.query);
 
           _scrollController.addListener(() {
             if (_scrollController.position.pixels ==
                 _scrollController.position.maxScrollExtent) {
-              model.loadGallery();
+              model.loadGallery(widget.query);
             }
           });
         },

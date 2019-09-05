@@ -3,6 +3,18 @@ import 'package:json_annotation/json_annotation.dart';
 part 'image_response.g.dart';
 
 @JsonSerializable()
+class SearchResponse {
+  List<ImageResponse> results;
+
+  SearchResponse(this.results);
+
+  factory SearchResponse.fromJson(Map<String, dynamic> json) =>
+      _$SearchResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchResponseToJson(this);
+}
+
+@JsonSerializable()
 class ImageResponse {
   String id;
   DateTime createdAt;

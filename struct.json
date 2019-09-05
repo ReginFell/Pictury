@@ -1,17 +1,57 @@
 [
   {
-    "name" : "Cat",
+    "name": "Cats",
     "query": "cat",
-    "picture": "https://images.unsplash.com/photo-1472491235688-bdc81a63246e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
+    "picture": "https://images.unsplash.com/photo-1496661269814-a841e78df103?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
   },
   {
-    "name" : "Dog",
+    "name": "Dogs",
     "query": "dog",
-    "picture": "https://images.unsplash.com/photo-1472491235688-bdc81a63246e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
+    "picture": "https://images.unsplash.com/photo-1422565096762-bdb997a56a84?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
   },
   {
-    "name" : "Nature",
+    "name": "Nature",
     "query": "nature",
     "picture": "https://images.unsplash.com/photo-1558275689-63decdec176e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
-  }
+  },
+  {
+    "name": "Animals",
+    "query": "animal",
+    "picture": "https://images.unsplash.com/reserve/8INzvLF8TN6oRCKDhcgo_redwood-np.jpg?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
+  },
+  {
+    "name": "Cities",
+    "query": "cities",
+    "picture": "https://images.unsplash.com/photo-1491132810535-af0f774b5974?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
+  },
+  {
+    "name": "Birds",
+    "query": "bird",
+    "picture": "https://images.unsplash.com/photo-1515681597598-85d381dad223?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max"
+  },
+  {
+    "name": "Flowers",
+    "query": "flower",
+    "picture": "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max"
+  },
+  {
+    "name": "Cars",
+    "query": "car",
+    "picture": "https://images.unsplash.com/photo-1490274494753-fd4f84681e7c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max"
+  },
+  {
+    "name": "Interiors",
+    "query": "interior",
+    "picture": "https://images.unsplash.com/photo-1556910638-6cdac31d44dc?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
+  },
+  {
+    "name": "Water",
+    "query": "river",
+    "picture": "https://images.unsplash.com/photo-1542451037-9ec89d18749c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjg5NzUyfQ"
+  },
+  {
+    "name": "Mountains",
+    "query": "mountain",
+    "picture": "https://images.unsplash.com/photo-1542662565-7e4b66bae529?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max"}
 ]
+

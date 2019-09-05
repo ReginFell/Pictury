@@ -1,12 +1,16 @@
+import 'package:pictury/data/category/category_repository.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
-import 'package:pictury/data/remote_config/remote_config_repository.dart';
 
 class LoadCategoriesUseCase {
-  final RemoteConfigRepository _remoteConfigRepository;
+  final CategoryRepository _categoryRepository;
 
-  LoadCategoriesUseCase(this._remoteConfigRepository);
+  LoadCategoriesUseCase(this._categoryRepository);
 
   Future<List<Category>> loadCategories() {
-    return _remoteConfigRepository.loadCategories();
+    return _categoryRepository.loadCategories();
+  }
+
+  Stream<List<Category>> observeSelectedCategories() {
+    return _categoryRepository.observeSelectedCategories();
   }
 }

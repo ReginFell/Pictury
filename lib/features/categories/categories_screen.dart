@@ -1,13 +1,10 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_widget.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/features/categories/categories_view_model.dart';
+import 'package:pictury/features/categories/widgets/category_item.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_localization.dart';
@@ -19,22 +16,12 @@ class CategoriesScreen extends StatefulWidget {
   _CategoriesScreenState createState() => _CategoriesScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen>
-    with TickerProviderStateMixin {
-  AnimationController _scaleController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _scaleController = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
-  }
-
+class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<CategoriesViewModel>(
-        model: CategoriesViewModel(Provider.of(context)),
+    return ViewModelProvider<CategoriesViewModel>(
+        model: CategoriesViewModel(
+            Provider.of(context), Provider.of(context), Provider.of(context)),
         onModelReady: (model) => model.loadCategories(),
         builder: (context, model, child) {
           return PlatformScaffold(
@@ -84,7 +71,10 @@ class _CategoriesScreenState extends State<CategoriesScreen>
                     width: double.infinity,
                     height: 60,
                     child: Center(
-                        child: PlatformText(localization.translate("skip"))),
+                        child: PlatformText(localization.translate(
+                            model.viewState.selectedCategories.isNotEmpty
+                                ? "continue"
+                                : "skip"))),
                   ),
                 ),
               ],
@@ -96,49 +86,18 @@ class _CategoriesScreenState extends State<CategoriesScreen>
 
   Widget _buildGrid(BuildContext context, CategoriesViewModel model) {
     return GridView.count(
-        childAspectRatio: 1.5,
-        crossAxisCount: 2,
-        children: List.generate(model.viewState.categories.length, (index) {
-          final Category category = model.viewState.categories[index];
-          final bool isSelected =
-              model.viewState.selectedCategories.contains(category);
+      childAspectRatio: 1.5,
+      crossAxisCount: 2,
+      children: List.generate(model.viewState.categories.length, (index) {
+        final Category category = model.viewState.categories[index];
+        final bool isSelected =
+            model.viewState.selectedCategories.contains(category);
 
-          return GestureDetector(
-              onTap: () => model.selectCategory(category),
-              child: Padding(
-                padding: EdgeInsets.all(4.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
-                  child: Stack(children: [
-                    Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: CachedNetworkImage(
-                          imageUrl: category.picture,
-                          fit: BoxFit.cover,
-                        )),
-                    SizedOverflowBox(
-                        size: Size(300, 300),
-                        child: AnimatedContainer(
-                          width: isSelected ? 200 : 0,
-                          height: isSelected ? 200 : 0,
-                          alignment: Alignment.center,
-                          duration: Duration(milliseconds: 100),
-                          color: isSelected
-                              ? Theme.of(context).primaryColorDark
-                              : Colors.transparent,
-                        )),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(category.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle
-                              .copyWith(color: Colors.white)),
-                    )
-                  ]),
-                ),
-              ));
-        }));
+        return CategoryItem(
+            category: category,
+            isSelected: isSelected,
+            onTap: (category) => model.selectCategory(category));
+      }),
+    );
   }
 }

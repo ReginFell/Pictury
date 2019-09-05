@@ -8,14 +8,15 @@ import 'package:pictury/features/gallery_details/gallery_details_screen.dart';
 class GalleryViewModel extends BaseViewModel<GalleryViewState> {
   final LoadGalleryUseCase _loadGalleryUseCase;
 
-  int page = 1;
+  int _currentPagePosition = 1;
 
   GalleryViewModel(this._loadGalleryUseCase);
 
-  Future loadGallery() async {
+  Future loadGallery(String query) async {
     mutateViewState((viewState) => viewState.copy(isLoading: true));
 
-    final List<Picture> result = await _loadGalleryUseCase.loadGallery(page++);
+    final List<Picture> result =
+        await _loadGalleryUseCase.loadGallery(query, _currentPagePosition++);
 
     mutateViewState((viewState) => viewState.copy(
           isLoading: false,
