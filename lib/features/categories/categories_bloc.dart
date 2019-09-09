@@ -60,8 +60,8 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
     yield currentState.rebuild(
       (b) => b
         ..selectedCategories = b.selectedCategories.contains(category)
-            ? (b.selectedCategories..remove(category))
-            : (b.selectedCategories..add(category)),
+            ? (List()..addAll(b.selectedCategories..remove(category)))
+            : (List()..addAll(b.selectedCategories..add(category))),
     );
   }
 
