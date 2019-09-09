@@ -1,44 +1,49 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:pictury/core/ui/base/base_widget.dart';
+import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
-import 'package:pictury/features/categories/categories_view_model.dart';
+import 'package:pictury/features/categories/categories_view_state.dart';
 import 'package:pictury/features/categories/widgets/category_item.dart';
+import 'package:pictury/features/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_localization.dart';
+import 'categories_bloc.dart';
+import 'categories_event.dart';
 
-class CategoriesScreen extends StatefulWidget {
+class CategoriesScreen extends StatelessWidget {
   static const String route = "/categories";
 
   @override
-  _CategoriesScreenState createState() => _CategoriesScreenState();
-}
-
-class _CategoriesScreenState extends State<CategoriesScreen> {
-  @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<CategoriesViewModel>(
-        model: CategoriesViewModel(
+    return BaseBlocProvider<CategoriesBloc, CategoriesViewState>(
+        stateListener: (state) {
+          if (state.doneEditing) {
+            Navigator.pushNamed(context, HomeScreen.route);
+          }
+        },
+        bloc: CategoriesBloc(
             Provider.of(context), Provider.of(context), Provider.of(context)),
-        onModelReady: (model) => model.loadCategories(),
-        builder: (context, model, child) {
+        onBlocReady: (model) => model.dispatch(InitLoadingEvent()),
+        builder: (context, model) {
           return PlatformScaffold(
-            body: _buildBody(context, model),
+            body: _buildBody(context),
           );
         });
   }
 
-  Widget _buildBody(BuildContext context, CategoriesViewModel model) {
+  Widget _buildBody(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final AppLocalizations localization = AppLocalizations.of(context);
+    final CategoriesBloc bloc = BlocProvider.of(context);
 
     return SafeArea(
         child: Container(
       child: Column(
         children: [
-          if (model.viewState.isLoading)
+          if (bloc.currentState.isLoading)
             Expanded(child: Center(child: PlatformCircularProgressIndicator()))
           else
             Expanded(
@@ -64,15 +69,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           style: theme.textTheme.subhead
                               .copyWith(color: theme.primaryColorDark))),
                 ),
-                Expanded(child: _buildGrid(context, model)),
+                Expanded(child: _buildGrid(context)),
                 InkWell(
-                  onTap: () => model.skip(context),
+                  onTap: () => bloc.dispatch(ContinueEvent()),
                   child: SizedBox(
                     width: double.infinity,
                     height: 60,
                     child: Center(
                         child: PlatformText(localization.translate(
-                            model.viewState.selectedCategories.isNotEmpty
+                            bloc.currentState.selectedCategories.isNotEmpty
                                 ? "continue"
                                 : "skip"))),
                   ),
@@ -84,19 +89,21 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     ));
   }
 
-  Widget _buildGrid(BuildContext context, CategoriesViewModel model) {
+  Widget _buildGrid(BuildContext context) {
+    final CategoriesBloc bloc = BlocProvider.of(context);
+
     return GridView.count(
       childAspectRatio: 1.5,
       crossAxisCount: 2,
-      children: List.generate(model.viewState.categories.length, (index) {
-        final Category category = model.viewState.categories[index];
+      children: List.generate(bloc.currentState.categories.length, (index) {
+        final Category category = bloc.currentState.categories[index];
         final bool isSelected =
-            model.viewState.selectedCategories.contains(category);
+            bloc.currentState.selectedCategories.contains(category);
 
         return CategoryItem(
             category: category,
             isSelected: isSelected,
-            onTap: (category) => model.selectCategory(category));
+            onTap: (category) => bloc.dispatch(SelectCategoryEvent(category)));
       }),
     );
   }

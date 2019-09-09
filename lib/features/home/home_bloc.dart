@@ -1,16 +1,17 @@
 import 'dart:async';
 
-import 'package:pictury/core/ui/base/base_view_model.dart';
+import 'package:pictury/core/ui/base/base_bloc.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/domain/categories/load_categories_use_case.dart';
+import 'package:pictury/features/home/home_event.dart';
 import 'package:pictury/features/home/home_view_state.dart';
 
-class HomeViewModel extends BaseViewModel<HomeViewState> {
+class HomeBloc extends BaseBloc<HomeViewState, HomeEvent> {
   final LoadCategoriesUseCase _loadCategoriesUseCase;
 
   StreamSubscription _streamSubscription;
 
-  HomeViewModel(this._loadCategoriesUseCase) {
+  HomeBloc(this._loadCategoriesUseCase) {
     _streamSubscription = _loadCategoriesUseCase
         .observeSelectedCategories()
         .asyncExpand((selectedCategories) {
@@ -29,8 +30,15 @@ class HomeViewModel extends BaseViewModel<HomeViewState> {
 
         return Future.value(categories).asStream();
       }
-    }).listen((selectedCategories) => mutateViewState(
-            (viewState) => HomeViewState(categories: selectedCategories)));
+    }).listen((selectedCategories) =>
+            dispatch(CategoriesLoadedEvent(selectedCategories)));
+  }
+
+  @override
+  Stream<HomeViewState> mapEventToState(event) async* {
+    if (event is CategoriesLoadedEvent) {
+      yield HomeViewState(categories: event.categories);
+    }
   }
 
   @override
@@ -40,5 +48,5 @@ class HomeViewModel extends BaseViewModel<HomeViewState> {
   }
 
   @override
-  initialViewState() => HomeViewState.createDefault();
+  HomeViewState get initialState => HomeViewState.createDefault();
 }

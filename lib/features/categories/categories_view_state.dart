@@ -1,36 +1,31 @@
-import 'package:meta/meta.dart';
+import 'package:built_value/built_value.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 
-class CategoriesViewState {
-  final List<Category> categories;
-  final List<Category> selectedCategories;
-  final bool isLoading;
-  final Exception hasError;
+part 'categories_view_state.g.dart';
 
-  CategoriesViewState({
-    @required this.categories,
-    @required this.selectedCategories,
-    @required this.isLoading,
-    this.hasError,
-  });
+abstract class CategoriesViewState
+    implements Built<CategoriesViewState, CategoriesViewStateBuilder> {
+  List<Category> get categories;
 
-  static CategoriesViewState createDefault() => CategoriesViewState(
-        categories: List(),
-        selectedCategories: List(),
-        isLoading: false,
-        hasError: null,
-      );
+  List<Category> get selectedCategories;
 
-  CategoriesViewState copy(
-      {List<Category> categories,
-      List<Category> selectedCategories,
-      bool isLoading,
-      Exception hasError}) {
-    return CategoriesViewState(
-      categories: categories ?? this.categories,
-      selectedCategories: selectedCategories ?? this.selectedCategories,
-      isLoading: isLoading ?? this.isLoading,
-      hasError: hasError ?? this.hasError,
-    );
-  }
+  bool get isLoading;
+
+  bool get doneEditing;
+
+  @nullable
+  Exception get hasError;
+
+  CategoriesViewState._();
+
+  static CategoriesViewState createDefault() => CategoriesViewState((b) => b
+    ..categories = List()
+    ..selectedCategories = List()
+    ..isLoading = false
+    ..doneEditing = false
+    ..hasError = null);
+
+  factory CategoriesViewState(
+          [void Function(CategoriesViewStateBuilder) updates]) =
+      _$CategoriesViewState;
 }

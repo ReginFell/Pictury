@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pictury/core/ui/base/base_widget.dart';
+import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/app_label_text.dart';
 import 'package:pictury/core/ui/widget/keep_alive_widget.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
-import 'package:pictury/features/home/home_view_model.dart';
+import 'package:pictury/features/home/home_bloc.dart';
+import 'package:pictury/features/home/home_view_state.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,10 +13,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<HomeViewModel>(
-      model: HomeViewModel(Provider.of(context)),
-      builder: (context, model, _) => DefaultTabController(
-          length: model.viewState.categories.length,
+    return BaseBlocProvider<HomeBloc, HomeViewState>(
+      bloc: HomeBloc(Provider.of(context)),
+      builder: (context, model) => DefaultTabController(
+          length: model.currentState.categories.length,
           child: Scaffold(
             appBar: buildAppBar(context),
             body: buildBody(context, model),
@@ -39,7 +40,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildBody(BuildContext context, HomeViewModel model) {
+  Widget buildBody(BuildContext context, HomeBloc model) {
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -50,14 +51,14 @@ class HomeScreen extends StatelessWidget {
             indicatorWeight: 2.0,
             isScrollable: true,
             tabs: [
-              ...model.viewState.categories
+              ...model.currentState.categories
                   .map((category) => Tab(child: LabelText(category.name)))
             ],
           ),
           Expanded(
             child: TabBarView(
               children: [
-                ...model.viewState.categories.map((category) =>
+                ...model.currentState.categories.map((category) =>
                     KeepAliveWidget(GalleryScreen(category.query)))
               ],
             ),
