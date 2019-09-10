@@ -15,6 +15,9 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
     return GestureDetector(
         onTap: () => onTap(category),
         child: Padding(
@@ -29,17 +32,15 @@ class CategoryItem extends StatelessWidget {
                     imageUrl: category.picture,
                     fit: BoxFit.cover,
                   )),
-              SizedOverflowBox(
-                  size: Size(300, 300),
-                  child: AnimatedContainer(
-                    width: isSelected ? double.infinity : 0,
-                    height: isSelected ? double.infinity : 0,
-                    alignment: Alignment.center,
-                    duration: Duration(milliseconds: 200),
-                    color: isSelected
-                        ? Theme.of(context).primaryColorDark
-                        : Colors.transparent,
-                  )),
+              AnimatedContainer(
+                width: isSelected ? width : 0,
+                height: isSelected ? height : 0,
+                alignment: Alignment.center,
+                duration: Duration(milliseconds: 200),
+                color: isSelected
+                    ? Theme.of(context).primaryColorDark
+                    : Colors.transparent,
+              ),
               Align(
                 alignment: Alignment.center,
                 child: Text(category.name,

@@ -5,8 +5,7 @@ enum AppTheme { LIGHT, DARK }
 
 class CupertinoThemeProvider {
   static final CupertinoThemeData lightTheme = CupertinoThemeData(
-      primaryColor: Colors.amberAccent,
-      scaffoldBackgroundColor: Color(0xFFF6FFFF));
+      primaryColor: Colors.grey, scaffoldBackgroundColor: Color(0xFFF6FFFF));
 
   static final CupertinoThemeData darkTheme = CupertinoThemeData(
     primaryColor: Colors.grey,

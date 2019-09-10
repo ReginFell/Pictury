@@ -10,18 +10,13 @@ import 'package:provider/provider.dart';
 import 'gallery_bloc.dart';
 import 'gallery_event.dart';
 
-class GalleryScreen extends StatefulWidget {
+class GalleryScreen extends StatelessWidget {
   static const String route = '/gallery';
 
   final String query;
 
   GalleryScreen(this.query);
 
-  @override
-  State<StatefulWidget> createState() => _GalleryScreenState();
-}
-
-class _GalleryScreenState extends State<GalleryScreen> {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -29,11 +24,11 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return BaseBlocProvider<GalleryBloc, GalleryViewState>(
         bloc: GalleryBloc(Provider.of(context)),
         onBlocReady: (model) {
-          model.dispatch(LoadNextPageEvent(widget.query));
+          model.dispatch(LoadNextPageEvent(query));
           _scrollController.addListener(() {
             if (_scrollController.position.pixels ==
                 _scrollController.position.maxScrollExtent) {
-              model.dispatch(LoadNextPageEvent(widget.query));
+              model.dispatch(LoadNextPageEvent(query));
             }
           });
         },

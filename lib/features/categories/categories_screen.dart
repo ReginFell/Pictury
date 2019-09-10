@@ -16,12 +16,20 @@ import 'categories_event.dart';
 class CategoriesScreen extends StatelessWidget {
   static const String route = "/categories";
 
+  final bool isInitial;
+
+  CategoriesScreen({this.isInitial = false});
+
   @override
   Widget build(BuildContext context) {
     return BaseBlocProvider<CategoriesBloc, CategoriesViewState>(
         stateListener: (state) {
           if (state.doneEditing) {
-            Navigator.pushReplacementNamed(context, HomeScreen.route);
+            if (isInitial) {
+              Navigator.pushReplacementNamed(context, HomeScreen.route);
+            } else {
+              Navigator.maybePop(context);
+            }
           }
         },
         bloc: CategoriesBloc(
@@ -74,7 +82,7 @@ class CategoriesScreen extends StatelessWidget {
                   onTap: () => bloc.dispatch(ContinueEvent()),
                   child: SizedBox(
                     width: double.infinity,
-                    height: 60,
+                    height: 50,
                     child: Center(
                         child: PlatformText(localization.translate(
                             bloc.currentState.selectedCategories.isNotEmpty

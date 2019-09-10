@@ -10,7 +10,13 @@ class Router {
       case SplashScreen.route:
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case CategoriesScreen.route:
-        return MaterialPageRoute(builder: (_) => CategoriesScreen());
+        return MaterialPageRoute(builder: (_) {
+          if (settings.arguments != null) {
+            return CategoriesScreen(isInitial: settings.arguments);
+          } else {
+            return CategoriesScreen();
+          }
+        });
       case HomeScreen.route:
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case GalleryDetailsScreen.route:

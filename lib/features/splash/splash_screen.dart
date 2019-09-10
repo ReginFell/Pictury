@@ -23,16 +23,15 @@ class SplashScreen extends StatelessWidget {
           if (state.isCategoriesSelected) {
             Navigator.pushReplacementNamed(context, HomeScreen.route);
           } else {
-            Navigator.pushReplacementNamed(context, CategoriesScreen.route);
+            Navigator.pushReplacementNamed(
+              context,
+              CategoriesScreen.route,
+              arguments: true,
+            );
           }
         }
       },
-      builder: (context, model) => PlatformScaffold(
-          body: Container(
-        child: Row(
-          children: <Widget>[Text("HI")],
-        ),
-      )),
+      builder: (context, model) => PlatformScaffold(body: Container()),
     );
   }
 }
