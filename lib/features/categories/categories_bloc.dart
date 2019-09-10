@@ -23,8 +23,6 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
 
   @override
   Stream<CategoriesViewState> mapEventToState(event) async* {
-    print("event ${event.toString()} and ${this.hashCode.toString()}");
-
     if (event is InitLoadingEvent) {
       yield* _loadCategories();
     } else if (event is SelectCategoryEvent) {

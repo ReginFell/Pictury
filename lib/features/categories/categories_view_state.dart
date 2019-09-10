@@ -1,6 +1,5 @@
 import 'package:built_value/built_value.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
-import 'package:built_collection/built_collection.dart';
 
 part 'categories_view_state.g.dart';
 

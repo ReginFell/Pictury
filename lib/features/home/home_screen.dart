@@ -15,56 +15,62 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseBlocProvider<HomeBloc, HomeViewState>(
       bloc: HomeBloc(Provider.of(context)),
-      builder: (context, model) => DefaultTabController(
-          length: model.currentState.categories.length,
-          child: Scaffold(
-            appBar: buildAppBar(context),
-            body: buildBody(context, model),
-          )),
+      builder: (context, model) {
+        if (model.currentState.categories.isNotEmpty) {
+          return DefaultTabController(
+              length: model.currentState.categories.length,
+              child: Scaffold(
+                body: _buildBody(context, model),
+              ));
+        } else {
+          return Container();
+        }
+      },
     );
   }
 
-  Widget buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      leading: Builder(builder: (BuildContext context) {
-        return IconButton(
-          icon: Icon(Icons.format_align_left),
-          color: Colors.black,
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-        );
-      }),
-    );
+  Widget _buildAppBar(BuildContext context) {
+    return Positioned(
+        top: 0.0,
+        left: 0.0,
+        right: 0.0,
+        child: AppBar(
+          backgroundColor: Colors.black.withOpacity(0.5),
+          elevation: 0,
+        ));
   }
 
-  Widget buildBody(BuildContext context, HomeBloc model) {
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TabBar(
-            indicatorPadding: EdgeInsets.all(0.0),
-            indicatorWeight: 2.0,
-            isScrollable: true,
-            tabs: [
-              ...model.currentState.categories
-                  .map((category) => Tab(child: LabelText(category.name)))
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
+  Widget _buildBody(BuildContext context, HomeBloc model) {
+    return Stack(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 22),
+          child: Container(
+            child: Column(
               children: [
-                ...model.currentState.categories.map((category) =>
-                    KeepAliveWidget(GalleryScreen(category.query)))
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      ...model.currentState.categories.map((category) =>
+                          KeepAliveWidget(GalleryScreen(category.query)))
+                    ],
+                  ),
+                ),
+                TabBar(
+                  indicatorPadding: EdgeInsets.all(0.0),
+                  indicatorWeight: 2.0,
+                  isScrollable: true,
+                  tabs: [
+                    ...model.currentState.categories
+                        .map((category) => Tab(child: LabelText(category.name)))
+                  ],
+                ),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+        _buildAppBar(context),
+      ],
     );
   }
 }

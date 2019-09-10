@@ -32,8 +32,8 @@ class CategoryItem extends StatelessWidget {
               SizedOverflowBox(
                   size: Size(300, 300),
                   child: AnimatedContainer(
-                    width: isSelected ? 200 : 0,
-                    height: isSelected ? 200 : 0,
+                    width: isSelected ? double.infinity : 0,
+                    height: isSelected ? double.infinity : 0,
                     alignment: Alignment.center,
                     duration: Duration(milliseconds: 200),
                     color: isSelected

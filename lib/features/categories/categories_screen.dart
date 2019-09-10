@@ -21,7 +21,7 @@ class CategoriesScreen extends StatelessWidget {
     return BaseBlocProvider<CategoriesBloc, CategoriesViewState>(
         stateListener: (state) {
           if (state.doneEditing) {
-            Navigator.pushNamed(context, HomeScreen.route);
+            Navigator.pushReplacementNamed(context, HomeScreen.route);
           }
         },
         bloc: CategoriesBloc(
