@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/domain/gallery/models/picture.dart';
 
-class GalleryDetailsScreen extends StatefulWidget {
+class GalleryDetailsScreen extends StatelessWidget {
   static const String route = '/gallery/details';
 
   final GalleryDetailsArguments _arguments;
@@ -11,17 +11,12 @@ class GalleryDetailsScreen extends StatefulWidget {
   GalleryDetailsScreen(this._arguments);
 
   @override
-  State<StatefulWidget> createState() => _GalleryDetailsScreenState();
-}
-
-class _GalleryDetailsScreenState extends State<GalleryDetailsScreen> {
-  @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
         body: SafeArea(
       child: Hero(
-        child: CachedNetworkImage(imageUrl: widget._arguments.picture.link),
-        tag: "image ${widget._arguments.picture.link}",
+        child: CachedNetworkImage(imageUrl: _arguments.picture.link),
+        tag: "image ${_arguments.picture.link}",
       ),
     ));
   }
