@@ -3,16 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/app_label_text.dart';
+import 'package:pictury/core/ui/widget/horizontal_list_wheel_scroll_view.dart';
 import 'package:pictury/core/ui/widget/keep_alive_widget.dart';
+import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/features/categories/categories_screen.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
-import 'package:pictury/features/home/decorations/line_tab_decoration.dart';
 import 'package:pictury/features/home/home_bloc.dart';
 import 'package:pictury/features/home/home_view_state.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String route = '/home';
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  TabController _tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +28,25 @@ class HomeScreen extends StatelessWidget {
       bloc: HomeBloc(Provider.of(context)),
       builder: (context, model) {
         if (model.currentState.categories.isNotEmpty) {
-          return DefaultTabController(
-              length: model.currentState.categories.length,
-              child: Scaffold(
-                appBar: _buildAppBar(context),
-                extendBodyBehindAppBar: true,
-                body: _buildBody(context, model),
-              ));
+          _tabController = new TabController(
+              vsync: this, length: model.currentState.categories.length);
+
+          return Scaffold(
+            appBar: _buildAppBar(context),
+            extendBodyBehindAppBar: true,
+            body: _buildBody(context, model),
+          );
         } else {
           return Container();
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
   Widget _buildAppBar(BuildContext context) {
@@ -55,41 +70,48 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildPages(BuildContext context, HomeBloc model) {
-    return TabBarView(children: [
-      ...model.currentState.categories
-          .map((category) => KeepAliveWidget(GalleryScreen(category.query)))
-    ]);
+    return TabBarView(
+      controller: _tabController,
+      children: [
+        ...model.currentState.categories
+            .map((category) => KeepAliveWidget(GalleryScreen(category.query)))
+      ],
+    );
   }
 
   Widget _buildBottomTabs(BuildContext context, HomeBloc model) {
-    final double tabHeight = 50;
+    final double tabHeight = 38;
 
-    return Row(
+    return Column(
       children: <Widget>[
         Container(
-          height: tabHeight,
-          child: InkWell(
-            customBorder: CircleBorder(),
-            onTap: () =>
-                Navigator.of(context).pushNamed(CategoriesScreen.route),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-              child: Icon(Icons.add),
-            ),
-          ),
-        ),
-        Expanded(
-            child: Container(
-              height: tabHeight,
-              child: TabBar(
-          isScrollable: true,
-          indicator: LineTabDecoration(color: Colors.grey),
-          tabs: [
-              ...model.currentState.categories
-                  .map((category) => Tab(child: LabelText(category.name)))
+            height: 12,
+            child: VerticalDivider(
+              thickness: 1,
+              color: Colors.grey,
+              width: 2,
+            )),
+        Row(
+          children: <Widget>[
+            Expanded(
+                child: Container(
+                    height: tabHeight,
+                    child: HorizontalListWheelScrollView(
+                      itemExtent: 90,
+                      onSelectedItemChanged: (index) {
+                        _tabController.animateTo(index);
+                      },
+                      scrollDirection: Axis.horizontal,
+                      childCount: model.currentState.categories.length,
+                      builder: (context, index) {
+                        final Category category =
+                            model.currentState.categories[index];
+
+                        return Tab(child: LabelText(category.name));
+                      },
+                    ))),
           ],
         ),
-            )),
       ],
     );
   }

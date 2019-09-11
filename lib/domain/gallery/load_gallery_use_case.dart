@@ -11,7 +11,7 @@ class LoadGalleryUseCase {
 
   FutureOr<List<Picture>> loadGallery(String query, int page) async {
     return (await _galleryRepository.loadGallery(query, page))
-        .map((value) => Picture(value.description, value.urls.regular))
+        .map((value) => Picture(value.description, value.urls.small))
         .toList();
   }
 }

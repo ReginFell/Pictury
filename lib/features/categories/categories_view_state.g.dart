@@ -12,6 +12,8 @@ class _$CategoriesViewState extends CategoriesViewState {
   @override
   final List<Category> selectedCategories;
   @override
+  final List<Category> customCategories;
+  @override
   final bool isLoading;
   @override
   final bool doneEditing;
@@ -25,6 +27,7 @@ class _$CategoriesViewState extends CategoriesViewState {
   _$CategoriesViewState._(
       {this.categories,
       this.selectedCategories,
+      this.customCategories,
       this.isLoading,
       this.doneEditing,
       this.hasError})
@@ -35,6 +38,10 @@ class _$CategoriesViewState extends CategoriesViewState {
     if (selectedCategories == null) {
       throw new BuiltValueNullFieldError(
           'CategoriesViewState', 'selectedCategories');
+    }
+    if (customCategories == null) {
+      throw new BuiltValueNullFieldError(
+          'CategoriesViewState', 'customCategories');
     }
     if (isLoading == null) {
       throw new BuiltValueNullFieldError('CategoriesViewState', 'isLoading');
@@ -54,29 +61,37 @@ class _$CategoriesViewState extends CategoriesViewState {
       new CategoriesViewStateBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is _$CategoriesViewState &&
-          runtimeType == other.runtimeType &&
-          categories == other.categories &&
-          selectedCategories == other.selectedCategories &&
-          isLoading == other.isLoading &&
-          doneEditing == other.doneEditing &&
-          hasError == other.hasError;
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CategoriesViewState &&
+        categories == other.categories &&
+        selectedCategories == other.selectedCategories &&
+        customCategories == other.customCategories &&
+        isLoading == other.isLoading &&
+        doneEditing == other.doneEditing &&
+        hasError == other.hasError;
+  }
 
   @override
-  int get hashCode =>
-      categories.hashCode ^
-      selectedCategories.hashCode ^
-      isLoading.hashCode ^
-      doneEditing.hashCode ^
-      hasError.hashCode;
+  int get hashCode {
+    return $jf($jc(
+        $jc(
+            $jc(
+                $jc(
+                    $jc($jc(0, categories.hashCode),
+                        selectedCategories.hashCode),
+                    customCategories.hashCode),
+                isLoading.hashCode),
+            doneEditing.hashCode),
+        hasError.hashCode));
+  }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('CategoriesViewState')
           ..add('categories', categories)
           ..add('selectedCategories', selectedCategories)
+          ..add('customCategories', customCategories)
           ..add('isLoading', isLoading)
           ..add('doneEditing', doneEditing)
           ..add('hasError', hasError))
@@ -97,6 +112,11 @@ class CategoriesViewStateBuilder
   set selectedCategories(List<Category> selectedCategories) =>
       _$this._selectedCategories = selectedCategories;
 
+  List<Category> _customCategories;
+  List<Category> get customCategories => _$this._customCategories;
+  set customCategories(List<Category> customCategories) =>
+      _$this._customCategories = customCategories;
+
   bool _isLoading;
   bool get isLoading => _$this._isLoading;
   set isLoading(bool isLoading) => _$this._isLoading = isLoading;
@@ -115,6 +135,7 @@ class CategoriesViewStateBuilder
     if (_$v != null) {
       _categories = _$v.categories;
       _selectedCategories = _$v.selectedCategories;
+      _customCategories = _$v.customCategories;
       _isLoading = _$v.isLoading;
       _doneEditing = _$v.doneEditing;
       _hasError = _$v.hasError;
@@ -142,6 +163,7 @@ class CategoriesViewStateBuilder
         new _$CategoriesViewState._(
             categories: categories,
             selectedCategories: selectedCategories,
+            customCategories: customCategories,
             isLoading: isLoading,
             doneEditing: doneEditing,
             hasError: hasError);

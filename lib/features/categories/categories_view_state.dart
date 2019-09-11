@@ -9,6 +9,8 @@ abstract class CategoriesViewState
 
   List<Category> get selectedCategories;
 
+  List<Category> get customCategories;
+
   bool get isLoading;
 
   bool get doneEditing;
@@ -21,6 +23,7 @@ abstract class CategoriesViewState
   static CategoriesViewState createDefault() => CategoriesViewState(
         (b) => b
           ..categories = List()
+          ..customCategories = List()
           ..selectedCategories = List()
           ..isLoading = false
           ..doneEditing = false
