@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,26 +59,13 @@ class CategoriesScreen extends StatelessWidget {
                 child: Container(
                     child: Column(
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(localization.translate("hi_how_are_you"),
-                          style: theme.textTheme.headline
-                              .copyWith(color: theme.primaryColorDark))),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                          localization.translate("choose_what_you_like"),
-                          style: theme.textTheme.subhead
-                              .copyWith(color: theme.primaryColorDark))),
-                ),
-                Expanded(child: _buildGrid(context)),
+                Expanded(
+                    child: CustomScrollView(slivers: [
+                  _buildTitle(context),
+                  _buildAppCategories(context),
+                  _buildCustomCategoryTitle(context),
+                  _buildAppCategories2(context)
+                ])),
                 InkWell(
                   onTap: () => bloc.dispatch(ContinueEvent()),
                   child: SizedBox(
@@ -97,22 +85,100 @@ class CategoriesScreen extends StatelessWidget {
     ));
   }
 
-  Widget _buildGrid(BuildContext context) {
+  Widget _buildAppCategories(BuildContext context) {
     final CategoriesBloc bloc = BlocProvider.of(context);
 
-    return GridView.count(
-      childAspectRatio: 1.5,
-      crossAxisCount: 2,
-      children: List.generate(bloc.currentState.categories.length, (index) {
-        final Category category = bloc.currentState.categories[index];
-        final bool isSelected =
-            bloc.currentState.selectedCategories.contains(category);
+    return SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, childAspectRatio: 1.5),
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            final Category category = bloc.currentState.categories[index];
+            final bool isSelected =
+                bloc.currentState.selectedCategories.contains(category);
 
-        return CategoryItem(
-            category: category,
-            isSelected: isSelected,
-            onTap: (category) => bloc.dispatch(SelectCategoryEvent(category)));
-      }),
+            return SelectableItem(
+                item: category,
+                background: CachedNetworkImage(
+                  imageUrl: category.picture,
+                  fit: BoxFit.cover,
+                ),
+                foreground: Text(category.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle
+                        .copyWith(color: Colors.white)),
+                isSelected: isSelected,
+                onTap: (category) =>
+                    bloc.dispatch(SelectCategoryEvent(category)));
+          },
+          childCount: bloc.currentState.categories.length,
+        ));
+  }
+
+  Widget _buildTitle(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final AppLocalizations localization = AppLocalizations.of(context);
+
+    return SliverPadding(
+      padding: const EdgeInsets.all(16.0),
+      sliver: SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+        return Container(
+          child: Column(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(localization.translate("hi_how_are_you"),
+                    style: theme.textTheme.headline
+                        .copyWith(color: theme.primaryColorDark)),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(localization.translate("choose_what_you_like"),
+                    style: theme.textTheme.subhead
+                        .copyWith(color: theme.primaryColorDark)),
+              ),
+            ],
+          ),
+        );
+      }, childCount: 1)),
     );
+  }
+
+  Widget _buildCustomCategoryTitle(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final AppLocalizations localization = AppLocalizations.of(context);
+
+    return SliverPadding(
+      padding: const EdgeInsets.all(16.0),
+      sliver: SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+        return Text(localization.translate("or_add_your_own"),
+            style: theme.textTheme.headline
+                .copyWith(color: theme.primaryColorDark));
+      }, childCount: 1)),
+    );
+  }
+
+  Widget _buildAppCategories2(BuildContext context) {
+    final CategoriesBloc bloc = BlocProvider.of(context);
+
+    return SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, childAspectRatio: 1.5),
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            return SelectableItem(
+                background: Container(),
+                foreground: Text("+",
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle
+                        .copyWith(color: Colors.white)),
+                isSelected: true);
+          },
+          childCount: 1,
+        ));
   }
 }

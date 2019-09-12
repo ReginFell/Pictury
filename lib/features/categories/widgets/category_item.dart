@@ -2,13 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 
-class CategoryItem extends StatelessWidget {
-  final Category category;
+class SelectableItem<T> extends StatelessWidget {
+  final T item;
+  final Widget foreground;
+  final Widget background;
   final bool isSelected;
-  final Function(Category) onTap;
+  final Function(T) onTap;
 
-  CategoryItem({
-    @required this.category,
+  SelectableItem({
+    @required this.foreground,
+    @required this.background,
+    @required this.item,
     @required this.isSelected,
     @required this.onTap,
   });
@@ -19,7 +23,7 @@ class CategoryItem extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
 
     return GestureDetector(
-        onTap: () => onTap(category),
+        onTap: () => onTap(item),
         child: Padding(
           padding: EdgeInsets.all(4.0),
           child: ClipRRect(
@@ -28,10 +32,7 @@ class CategoryItem extends StatelessWidget {
               Container(
                   width: double.infinity,
                   height: double.infinity,
-                  child: CachedNetworkImage(
-                    imageUrl: category.picture,
-                    fit: BoxFit.cover,
-                  )),
+                  child: background),
               AnimatedContainer(
                 width: isSelected ? width : 0,
                 height: isSelected ? height : 0,
@@ -43,12 +44,7 @@ class CategoryItem extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.center,
-                child: Text(category.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle
-                        .copyWith(color: Colors.white)),
-              )
+                child: foreground),
             ]),
           ),
         ));
