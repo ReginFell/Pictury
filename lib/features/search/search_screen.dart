@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
@@ -35,11 +36,30 @@ class SearchScreen extends StatelessWidget {
         return Container(
           child: Column(
             children: [
-              PlatformTextField(
-                onChanged: (text) =>
-                    model.dispatch(SearchQueryChangedEvent(text)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(40.0),
+                  child: Container(
+                    color: Colors.grey.withOpacity(0.2),
+                    child: TextField(
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(Icons.search, color: Colors.grey),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintText: 'Search anything you like',
+                      ),
+                      onChanged: (text) =>
+                          model.dispatch(SearchQueryChangedEvent(text)),
+                    ),
+                  ),
+                ),
               ),
-              Expanded(child: GalleryScreen(model.currentState.query))
+              Expanded(
+                  child: GalleryScreen(
+                model.currentState.query,
+                key: UniqueKey(),
+              ))
             ],
           ),
         );

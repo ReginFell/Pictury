@@ -16,14 +16,13 @@ class GalleryScreen extends StatelessWidget {
 
   final String query;
 
-  GalleryScreen(this.query);
+  GalleryScreen(this.query, {key}) : super(key: key);
 
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return BaseBlocProvider<GalleryBloc, GalleryViewState>(
-        key: UniqueKey(),
         bloc: GalleryBloc(Provider.of(context)),
         onBlocReady: (model) {
           model.dispatch(LoadNextPageEvent(query));
@@ -68,20 +67,24 @@ class GalleryScreen extends StatelessWidget {
         crossAxisCount: 4,
         itemCount: model.currentState.pictures.length,
         itemBuilder: (BuildContext context, int index) {
-          final Key heroKey = UniqueKey();
-
           final Picture picture = model.currentState.pictures[index];
-          return FittedBox(
-            fit: BoxFit.cover,
-            child: Hero(
-              child: GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                        context,
-                        GalleryDetailsScreen.route,
-                        arguments: GalleryDetailsArguments(picture, heroKey),
-                      ),
-                  child: CachedNetworkImage(imageUrl: picture.link)),
-              tag: heroKey.toString(),
+
+          final String heroTag = "image $query ${picture.link}";
+
+          return Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: Hero(
+                child: GestureDetector(
+                    onTap: () => Navigator.pushNamed(
+                          context,
+                          GalleryDetailsScreen.route,
+                          arguments: GalleryDetailsArguments(picture, heroTag),
+                        ),
+                    child: CachedNetworkImage(imageUrl: picture.link)),
+                tag: heroTag,
+              ),
             ),
           );
         });

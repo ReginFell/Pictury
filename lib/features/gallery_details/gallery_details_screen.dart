@@ -15,16 +15,16 @@ class GalleryDetailsScreen extends StatelessWidget {
     return PlatformScaffold(
         body: SafeArea(
       child: Hero(
-        child: CachedNetworkImage(imageUrl: _arguments.picture.link),
-        tag: _arguments.key.toString(),
+        child: CachedNetworkImage(imageUrl: _arguments._picture.link),
+        tag: _arguments._tag,
       ),
     ));
   }
 }
 
 class GalleryDetailsArguments {
-  final Picture picture;
-  final Key key;
+  final Picture _picture;
+  final String _tag;
 
-  GalleryDetailsArguments(this.picture, this.key);
+  GalleryDetailsArguments(this._picture, this._tag);
 }
