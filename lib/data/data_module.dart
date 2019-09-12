@@ -9,7 +9,6 @@ import 'package:pictury/data/remote_config/remote_config_provider.dart';
 import 'package:pictury/data/source/local/preferences.dart';
 import 'package:pictury/environment.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'source/remote/api.dart';
