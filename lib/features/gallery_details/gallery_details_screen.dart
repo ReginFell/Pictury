@@ -16,7 +16,7 @@ class GalleryDetailsScreen extends StatelessWidget {
         body: SafeArea(
       child: Hero(
         child: CachedNetworkImage(imageUrl: _arguments.picture.link),
-        tag: "image ${_arguments.picture.link}",
+        tag: _arguments.key.toString(),
       ),
     ));
   }
@@ -24,6 +24,7 @@ class GalleryDetailsScreen extends StatelessWidget {
 
 class GalleryDetailsArguments {
   final Picture picture;
+  final Key key;
 
-  GalleryDetailsArguments(this.picture);
+  GalleryDetailsArguments(this.picture, this.key);
 }

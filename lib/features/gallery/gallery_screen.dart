@@ -5,6 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/domain/gallery/models/picture.dart';
 import 'package:pictury/features/gallery/gallery_view_state.dart';
+import 'package:pictury/features/gallery_details/gallery_details_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'gallery_bloc.dart';
@@ -66,14 +67,20 @@ class GalleryScreen extends StatelessWidget {
         crossAxisCount: 4,
         itemCount: model.currentState.pictures.length,
         itemBuilder: (BuildContext context, int index) {
+          final Key heroKey = UniqueKey();
+
           final Picture picture = model.currentState.pictures[index];
           return FittedBox(
             fit: BoxFit.cover,
             child: Hero(
               child: GestureDetector(
-                  onTap: () => model.onImageClick(context, picture),
+                  onTap: () => Navigator.pushNamed(
+                        context,
+                        GalleryDetailsScreen.route,
+                        arguments: GalleryDetailsArguments(picture, heroKey),
+                      ),
                   child: CachedNetworkImage(imageUrl: picture.link)),
-              tag: "image ${picture.link}",
+              tag: heroKey.toString(),
             ),
           );
         });

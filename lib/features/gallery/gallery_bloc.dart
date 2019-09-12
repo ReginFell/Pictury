@@ -25,14 +25,6 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
     );
   }
 
-  void onImageClick(BuildContext context, Picture picture) {
-    Navigator.pushNamed(
-      context,
-      GalleryDetailsScreen.route,
-      arguments: GalleryDetailsArguments(picture),
-    );
-  }
-
   @override
   GalleryViewState get initialState => GalleryViewState.createDefault();
 
