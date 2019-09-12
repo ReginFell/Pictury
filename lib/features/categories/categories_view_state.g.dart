@@ -54,23 +54,25 @@ class _$CategoriesViewState extends CategoriesViewState {
       new CategoriesViewStateBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is _$CategoriesViewState &&
-          runtimeType == other.runtimeType &&
-          categories == other.categories &&
-          selectedCategories == other.selectedCategories &&
-          isLoading == other.isLoading &&
-          doneEditing == other.doneEditing &&
-          hasError == other.hasError;
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CategoriesViewState &&
+        categories == other.categories &&
+        selectedCategories == other.selectedCategories &&
+        isLoading == other.isLoading &&
+        doneEditing == other.doneEditing &&
+        hasError == other.hasError;
+  }
 
   @override
-  int get hashCode =>
-      categories.hashCode ^
-      selectedCategories.hashCode ^
-      isLoading.hashCode ^
-      doneEditing.hashCode ^
-      hasError.hashCode;
+  int get hashCode {
+    return $jf($jc(
+        $jc(
+            $jc($jc($jc(0, categories.hashCode), selectedCategories.hashCode),
+                isLoading.hashCode),
+            doneEditing.hashCode),
+        hasError.hashCode));
+  }
 
   @override
   String toString() {

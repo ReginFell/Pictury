@@ -23,6 +23,7 @@ class GalleryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseBlocProvider<GalleryBloc, GalleryViewState>(
+        key: UniqueKey(),
         bloc: GalleryBloc(Provider.of(context)),
         onBlocReady: (model) {
           model.dispatch(LoadNextPageEvent(query));

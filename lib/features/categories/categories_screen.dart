@@ -8,6 +8,7 @@ import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/features/categories/categories_view_state.dart';
 import 'package:pictury/features/categories/widgets/category_item.dart';
 import 'package:pictury/features/home/home_screen.dart';
+import 'package:pictury/features/search/search_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_localization.dart';
@@ -64,7 +65,7 @@ class CategoriesScreen extends StatelessWidget {
                   _buildTitle(context),
                   _buildAppCategories(context),
                   _buildCustomCategoryTitle(context),
-                  _buildAppCategories2(context)
+                  _buildCustomCategories(context)
                 ])),
                 InkWell(
                   onTap: () => bloc.dispatch(ContinueEvent()),
@@ -161,7 +162,7 @@ class CategoriesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAppCategories2(BuildContext context) {
+  Widget _buildCustomCategories(BuildContext context) {
     final CategoriesBloc bloc = BlocProvider.of(context);
 
     return SliverGrid(
@@ -169,14 +170,20 @@ class CategoriesScreen extends StatelessWidget {
             crossAxisCount: 2, childAspectRatio: 1.5),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            return SelectableItem(
-                background: Container(),
-                foreground: Text("+",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle
-                        .copyWith(color: Colors.white)),
-                isSelected: true);
+            if (index == 0) {
+              return SelectableItem(
+                  background: Container(),
+                  foreground: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  onTap: (item) {
+                    Navigator.pushNamed(context, SearchScreen.route);
+                  },
+                  isSelected: true);
+            } else {
+              return Container();
+            }
           },
           childCount: 1,
         ));
