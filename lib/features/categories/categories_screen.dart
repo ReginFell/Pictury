@@ -101,14 +101,19 @@ class CategoriesScreen extends StatelessWidget {
             return SelectableItem(
                 item: category,
                 background: CachedNetworkImage(
-                  imageUrl: category.picture,
+                  imageUrl: (category as ApiCategory).picture,
                   fit: BoxFit.cover,
                 ),
                 foreground: Text(category.name,
                     style: Theme.of(context)
                         .textTheme
                         .subtitle
-                        .copyWith(color: Colors.white)),
+                        .copyWith(color: Colors.white, fontSize: 22)),
+                foregroundSelected: Text(category.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle
+                        .copyWith(color: Colors.black, fontSize: 22)),
                 isSelected: isSelected,
                 onTap: (category) =>
                     bloc.dispatch(SelectCategoryEvent(category)));

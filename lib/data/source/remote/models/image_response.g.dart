@@ -7,39 +7,45 @@ part of 'image_response.dart';
 // **************************************************************************
 
 SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) {
-  return SearchResponse((json['results'] as List)
-      ?.map((e) =>
-          e == null ? null : ImageResponse.fromJson(e as Map<String, dynamic>))
-      ?.toList());
+  return SearchResponse(
+    (json['results'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ImageResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
 }
 
 Map<String, dynamic> _$SearchResponseToJson(SearchResponse instance) =>
-    <String, dynamic>{'results': instance.results};
+    <String, dynamic>{
+      'results': instance.results,
+    };
 
 ImageResponse _$ImageResponseFromJson(Map<String, dynamic> json) {
   return ImageResponse(
-      id: json['id'] as String,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      width: json['width'] as int,
-      height: json['height'] as int,
-      color: json['color'] as String,
-      description: json['description'],
-      altDescription: json['altDescription'] as String,
-      urls: json['urls'] == null
-          ? null
-          : Urls.fromJson(json['urls'] as Map<String, dynamic>),
-      categories: json['categories'] as List,
-      likes: json['likes'] as int,
-      likedByUser: json['likedByUser'] as bool,
-      currentUserCollections: json['currentUserCollections'] as List,
-      user: json['user'] == null
-          ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>));
+    id: json['id'] as String,
+    createdAt: json['createdAt'] == null
+        ? null
+        : DateTime.parse(json['createdAt'] as String),
+    updatedAt: json['updatedAt'] == null
+        ? null
+        : DateTime.parse(json['updatedAt'] as String),
+    width: json['width'] as int,
+    height: json['height'] as int,
+    color: json['color'] as String,
+    description: json['description'],
+    altDescription: json['altDescription'] as String,
+    urls: json['urls'] == null
+        ? null
+        : Urls.fromJson(json['urls'] as Map<String, dynamic>),
+    categories: json['categories'] as List,
+    likes: json['likes'] as int,
+    likedByUser: json['likedByUser'] as bool,
+    currentUserCollections: json['currentUserCollections'] as List,
+    user: json['user'] == null
+        ? null
+        : User.fromJson(json['user'] as Map<String, dynamic>),
+  );
 }
 
 Map<String, dynamic> _$ImageResponseToJson(ImageResponse instance) =>
@@ -57,49 +63,51 @@ Map<String, dynamic> _$ImageResponseToJson(ImageResponse instance) =>
       'likes': instance.likes,
       'likedByUser': instance.likedByUser,
       'currentUserCollections': instance.currentUserCollections,
-      'user': instance.user
+      'user': instance.user,
     };
 
 Links _$LinksFromJson(Map<String, dynamic> json) {
   return Links(
-      self: json['self'] as String,
-      html: json['html'] as String,
-      download: json['download'] as String,
-      downloadLocation: json['downloadLocation'] as String);
+    self: json['self'] as String,
+    html: json['html'] as String,
+    download: json['download'] as String,
+    downloadLocation: json['downloadLocation'] as String,
+  );
 }
 
 Map<String, dynamic> _$LinksToJson(Links instance) => <String, dynamic>{
       'self': instance.self,
       'html': instance.html,
       'download': instance.download,
-      'downloadLocation': instance.downloadLocation
+      'downloadLocation': instance.downloadLocation,
     };
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
-      id: json['id'] as String,
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      username: json['username'] as String,
-      name: json['name'] as String,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-      twitterUsername: json['twitterUsername'] as String,
-      portfolioUrl: json['portfolioUrl'] as String,
-      bio: json['bio'] as String,
-      location: json['location'],
-      links: json['links'] == null
-          ? null
-          : UserLinks.fromJson(json['links'] as Map<String, dynamic>),
-      profileImage: json['profileImage'] == null
-          ? null
-          : ProfileImage.fromJson(json['profileImage'] as Map<String, dynamic>),
-      instagramUsername: json['instagramUsername'] as String,
-      totalCollections: json['totalCollections'] as int,
-      totalLikes: json['totalLikes'] as int,
-      totalPhotos: json['totalPhotos'] as int,
-      acceptedTos: json['acceptedTos'] as bool);
+    id: json['id'] as String,
+    updatedAt: json['updatedAt'] == null
+        ? null
+        : DateTime.parse(json['updatedAt'] as String),
+    username: json['username'] as String,
+    name: json['name'] as String,
+    firstName: json['firstName'] as String,
+    lastName: json['lastName'] as String,
+    twitterUsername: json['twitterUsername'] as String,
+    portfolioUrl: json['portfolioUrl'] as String,
+    bio: json['bio'] as String,
+    location: json['location'],
+    links: json['links'] == null
+        ? null
+        : UserLinks.fromJson(json['links'] as Map<String, dynamic>),
+    profileImage: json['profileImage'] == null
+        ? null
+        : ProfileImage.fromJson(json['profileImage'] as Map<String, dynamic>),
+    instagramUsername: json['instagramUsername'] as String,
+    totalCollections: json['totalCollections'] as int,
+    totalLikes: json['totalLikes'] as int,
+    totalPhotos: json['totalPhotos'] as int,
+    acceptedTos: json['acceptedTos'] as bool,
+  );
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -119,18 +127,19 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'totalCollections': instance.totalCollections,
       'totalLikes': instance.totalLikes,
       'totalPhotos': instance.totalPhotos,
-      'acceptedTos': instance.acceptedTos
+      'acceptedTos': instance.acceptedTos,
     };
 
 UserLinks _$UserLinksFromJson(Map<String, dynamic> json) {
   return UserLinks(
-      self: json['self'] as String,
-      html: json['html'] as String,
-      photos: json['photos'] as String,
-      likes: json['likes'] as String,
-      portfolio: json['portfolio'] as String,
-      following: json['following'] as String,
-      followers: json['followers'] as String);
+    self: json['self'] as String,
+    html: json['html'] as String,
+    photos: json['photos'] as String,
+    likes: json['likes'] as String,
+    portfolio: json['portfolio'] as String,
+    following: json['following'] as String,
+    followers: json['followers'] as String,
+  );
 }
 
 Map<String, dynamic> _$UserLinksToJson(UserLinks instance) => <String, dynamic>{
@@ -140,30 +149,32 @@ Map<String, dynamic> _$UserLinksToJson(UserLinks instance) => <String, dynamic>{
       'likes': instance.likes,
       'portfolio': instance.portfolio,
       'following': instance.following,
-      'followers': instance.followers
+      'followers': instance.followers,
     };
 
 ProfileImage _$ProfileImageFromJson(Map<String, dynamic> json) {
   return ProfileImage(
-      small: json['small'] as String,
-      medium: json['medium'] as String,
-      large: json['large'] as String);
+    small: json['small'] as String,
+    medium: json['medium'] as String,
+    large: json['large'] as String,
+  );
 }
 
 Map<String, dynamic> _$ProfileImageToJson(ProfileImage instance) =>
     <String, dynamic>{
       'small': instance.small,
       'medium': instance.medium,
-      'large': instance.large
+      'large': instance.large,
     };
 
 Urls _$UrlsFromJson(Map<String, dynamic> json) {
   return Urls(
-      raw: json['raw'] as String,
-      full: json['full'] as String,
-      regular: json['regular'] as String,
-      small: json['small'] as String,
-      thumb: json['thumb'] as String);
+    raw: json['raw'] as String,
+    full: json['full'] as String,
+    regular: json['regular'] as String,
+    small: json['small'] as String,
+    thumb: json['thumb'] as String,
+  );
 }
 
 Map<String, dynamic> _$UrlsToJson(Urls instance) => <String, dynamic>{
@@ -171,5 +182,5 @@ Map<String, dynamic> _$UrlsToJson(Urls instance) => <String, dynamic>{
       'full': instance.full,
       'regular': instance.regular,
       'small': instance.small,
-      'thumb': instance.thumb
+      'thumb': instance.thumb,
     };

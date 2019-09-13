@@ -14,15 +14,18 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
   GalleryBloc(this._loadGalleryUseCase);
 
   Stream<GalleryViewState> _loadGallery(String query) async* {
-    yield currentState.copy(isLoading: true);
+    if (query.isEmpty) {
+    } else {
+      yield currentState.copy(isLoading: true);
 
-    final List<Picture> result =
-        await _loadGalleryUseCase.loadGallery(query, _currentPagePosition++);
+      final List<Picture> result =
+          await _loadGalleryUseCase.loadGallery(query, _currentPagePosition++);
 
-    yield currentState.copy(
-      isLoading: false,
-      pictures: currentState.pictures + result,
-    );
+      yield currentState.copy(
+        isLoading: false,
+        pictures: currentState.pictures + result,
+      );
+    }
   }
 
   @override

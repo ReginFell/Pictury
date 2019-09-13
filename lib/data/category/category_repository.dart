@@ -18,7 +18,7 @@ class CategoryRepository {
       final List<dynamic> parsedJson =
           json.decode(storage.getString(categoriesTag));
 
-      return parsedJson.map((value) => Category.fromJson(value)).toList();
+      return parsedJson.map((value) => ApiCategory.fromJson(value)).toList();
     });
   }
 

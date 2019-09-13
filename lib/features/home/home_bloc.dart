@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pictury/core/ui/base/base_bloc.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/domain/categories/load_categories_use_case.dart';
@@ -20,11 +22,15 @@ class HomeBloc extends BaseBloc<HomeViewState, HomeEvent> {
       } else {
         final List<Category> categories = List();
 
-        if (selectedCategories.length != 1) {
-          categories.add(Category(
-              name: "All",
-              query: selectedCategories.map((v) => v.query).join(",")));
-        }
+        categories.add(ApiCategory.create(
+            name: "Everything",
+            query: selectedCategories
+                .where((category) => category is ApiCategory)
+                .cast()
+                .map((v) => v.query)
+                .join(",")));
+
+        categories.add(LocalCategory(Icons.star));
 
         categories.addAll(selectedCategories);
 

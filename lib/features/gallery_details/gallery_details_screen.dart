@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/domain/gallery/models/picture.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
@@ -12,13 +13,14 @@ class GalleryDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
-        body: SafeArea(
-      child: Hero(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: ApplicationAppBar.create(title: _arguments._picture.title),
+      body: Hero(
         child: CachedNetworkImage(imageUrl: _arguments._picture.link),
         tag: _arguments._tag,
       ),
-    ));
+    );
   }
 }
 

@@ -1,28 +1,35 @@
+import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category.g.dart';
 
-@JsonSerializable()
 class Category {
   String name;
-  String query;
+
+  Category.named(this.name);
+
+  Category();
+}
+
+@JsonSerializable()
+class ApiCategory extends Category {
   String picture;
+  String query;
 
-  Category({
-    this.name,
-    this.query,
-    this.picture,
-  });
+  ApiCategory();
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
+  ApiCategory.create({@required String name, this.picture, this.query})
+      : super.named(name);
 
-  Map<String, dynamic> toJson() => _$CategoryToJson(this);
+  factory ApiCategory.fromJson(Map<String, dynamic> json) =>
+      _$ApiCategoryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ApiCategoryToJson(this);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Category &&
+      other is ApiCategory &&
           runtimeType == other.runtimeType &&
           name == other.name &&
           query == other.query &&
@@ -30,4 +37,10 @@ class Category {
 
   @override
   int get hashCode => name.hashCode ^ query.hashCode ^ picture.hashCode;
+}
+
+class LocalCategory extends Category {
+  IconData iconData;
+
+  LocalCategory(this.iconData);
 }

@@ -35,7 +35,7 @@ class _CustomPainter extends BoxPainter {
     final difference = (rect.right - rect.left) / 2;
 
     final dx = rect.right - difference;
-    final dy = rect.height / 4;
+    final dy = rect.height / 5;
 
     final Offset startOffset = Offset(dx, dy);
     final Offset endOffset = Offset(dx, -dy);

@@ -13,7 +13,7 @@ class CategoryAdapter extends PreferenceAdapter<List<Category>> {
     } else {
       final List<dynamic> decoded = json.decode(value);
 
-      return decoded.map((value) => Category.fromJson(value)).toList();
+      return decoded.map((value) => ApiCategory.fromJson(value)).toList();
     }
   }
 

@@ -8,7 +8,8 @@ class MaterialThemeProvider {
       accentColor: Colors.amber,
       fontFamily: "Sans",
       brightness: Brightness.light,
-      scaffoldBackgroundColor: Color(0xFFF6FFFF));
+      primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
+      scaffoldBackgroundColor: Colors.white);
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: Colors.grey,
