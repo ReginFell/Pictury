@@ -11,3 +11,9 @@ class SelectCategoryEvent extends CategoriesEvent {
 }
 
 class ContinueEvent extends CategoriesEvent {}
+
+class SearchQueryChangedEvent extends CategoriesEvent {
+  final String query;
+
+  SearchQueryChangedEvent(this.query);
+}

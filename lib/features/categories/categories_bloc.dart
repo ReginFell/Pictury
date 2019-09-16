@@ -29,12 +29,9 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
       yield* _selectCategory(event.category);
     } else if (event is ContinueEvent) {
       yield* _continue();
+    } else if (event is SearchQueryChangedEvent) {
+      yield* _searchCategories(event.query);
     }
-  }
-
-  @override
-  void onError(Object error, StackTrace stacktrace) {
-    print(error);
   }
 
   Stream<CategoriesViewState> _loadCategories() async* {
@@ -50,7 +47,19 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
       (b) => b
         ..isLoading = false
         ..categories = categories
+        ..filteredCategories = categories
         ..selectedCategories = selectedCategories,
+    );
+  }
+
+  Stream<CategoriesViewState> _searchCategories(String query) async* {
+    final List filteredCategories = currentState.categories
+        .where((category) =>
+            category.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    yield currentState.rebuild(
+      (b) => b..filteredCategories = filteredCategories,
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
+import 'package:pictury/core/ui/widget/search_view.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/features/categories/categories_view_state.dart';
 import 'package:pictury/features/categories/widgets/category_item.dart';
@@ -63,18 +64,17 @@ class CategoriesScreen extends StatelessWidget {
                 Expanded(
                     child: CustomScrollView(slivers: [
                   _buildTitle(context),
+                  _buildSearch(context, bloc),
                   _buildAppCategories(context),
-                  _buildCustomCategoryTitle(context),
-                  _buildCustomCategories(context)
                 ])),
                 InkWell(
                   onTap: () => bloc.dispatch(ContinueEvent()),
-                  child: SizedBox(
+                  child: Container(
                     width: double.infinity,
                     height: 50,
                     child: Center(
                         child: PlatformText(localization.translate(
-                            bloc.currentState.selectedCategories.isNotEmpty
+                            bloc.currentState.filteredCategories.isNotEmpty
                                 ? "continue"
                                 : "skip"))),
                   ),
@@ -91,10 +91,12 @@ class CategoriesScreen extends StatelessWidget {
 
     return SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 1.5),
+          crossAxisCount: 2,
+          childAspectRatio: 1.5,
+        ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            final Category category = bloc.currentState.categories[index];
+            final Category category = bloc.currentState.filteredCategories[index];
             final bool isSelected =
                 bloc.currentState.selectedCategories.contains(category);
 
@@ -108,17 +110,17 @@ class CategoriesScreen extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .subtitle
-                        .copyWith(color: Colors.white, fontSize: 22)),
+                        .copyWith(color: Colors.black, fontSize: 22)),
                 foregroundSelected: Text(category.name,
                     style: Theme.of(context)
                         .textTheme
                         .subtitle
-                        .copyWith(color: Colors.black, fontSize: 22)),
+                        .copyWith(color: Colors.white, fontSize: 22)),
                 isSelected: isSelected,
                 onTap: (category) =>
                     bloc.dispatch(SelectCategoryEvent(category)));
           },
-          childCount: bloc.currentState.categories.length,
+          childCount: bloc.currentState.filteredCategories.length,
         ));
   }
 
@@ -152,45 +154,22 @@ class CategoriesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCustomCategoryTitle(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+  Widget _buildSearch(BuildContext context, CategoriesBloc bloc) {
     final AppLocalizations localization = AppLocalizations.of(context);
 
     return SliverPadding(
       padding: const EdgeInsets.all(16.0),
       sliver: SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
-        return Text(localization.translate("or_add_your_own"),
-            style: theme.textTheme.headline
-                .copyWith(color: theme.primaryColorDark));
+        return ClipRRect(
+            borderRadius: BorderRadius.circular(40.0),
+            child: SearchView(
+              hint: localization.translate("find_category"),
+              onChanged: (query) {
+                bloc.dispatch(SearchQueryChangedEvent(query));
+              },
+            ));
       }, childCount: 1)),
     );
-  }
-
-  Widget _buildCustomCategories(BuildContext context) {
-    final CategoriesBloc bloc = BlocProvider.of(context);
-
-    return SliverGrid(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 1.5),
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            if (index == 0) {
-              return SelectableItem(
-                  background: Container(),
-                  foreground: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  onTap: (item) {
-                    Navigator.pushNamed(context, SearchScreen.route);
-                  },
-                  isSelected: true);
-            } else {
-              return Container();
-            }
-          },
-          childCount: 1,
-        ));
   }
 }

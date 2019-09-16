@@ -33,11 +33,11 @@ class SelectableItem<T> extends StatelessWidget {
             child: background,
           ),
           AnimatedContainer(
-            width: isSelected ? width : 0,
-            height: isSelected ? height : 0,
+            width: isSelected ? 0 : width,
+            height: isSelected ? 0 : height,
             alignment: Alignment.center,
             duration: Duration(milliseconds: 200),
-            color: isSelected ? Colors.white : Colors.transparent,
+            color: isSelected ? Colors.transparent : Colors.white,
           ),
           Align(
             alignment: Alignment.center,

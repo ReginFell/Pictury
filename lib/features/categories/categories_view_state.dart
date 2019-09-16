@@ -7,6 +7,8 @@ abstract class CategoriesViewState
     implements Built<CategoriesViewState, CategoriesViewStateBuilder> {
   List<Category> get categories;
 
+  List<Category> get filteredCategories;
+
   List<Category> get selectedCategories;
 
   bool get isLoading;
@@ -21,6 +23,7 @@ abstract class CategoriesViewState
   static CategoriesViewState createDefault() => CategoriesViewState(
         (b) => b
           ..categories = List()
+          ..filteredCategories = List()
           ..selectedCategories = List()
           ..isLoading = false
           ..doneEditing = false
