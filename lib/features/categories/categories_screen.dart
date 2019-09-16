@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
+import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/core/ui/widget/search_view.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/features/categories/categories_view_state.dart';
 import 'package:pictury/features/categories/widgets/category_item.dart';
 import 'package:pictury/features/home/home_screen.dart';
-import 'package:pictury/features/search/search_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_localization.dart';
@@ -69,9 +69,7 @@ class CategoriesScreen extends StatelessWidget {
                 ])),
                 InkWell(
                   onTap: () => bloc.dispatch(ContinueEvent()),
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
+                  child: BottomBar(
                     child: Center(
                         child: PlatformText(localization.translate(
                             bloc.currentState.filteredCategories.isNotEmpty
@@ -96,7 +94,8 @@ class CategoriesScreen extends StatelessWidget {
         ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            final Category category = bloc.currentState.filteredCategories[index];
+            final Category category =
+                bloc.currentState.filteredCategories[index];
             final bool isSelected =
                 bloc.currentState.selectedCategories.contains(category);
 

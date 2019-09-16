@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/app_label_text.dart';
+import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/core/ui/widget/keep_alive_widget.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
@@ -56,7 +57,6 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         children: [
           Expanded(child: _buildPages(context, model)),
-          Container(height: 2, color: Colors.black),
           _buildBottomTabs(context, model)
         ],
       ),
@@ -79,42 +79,41 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBottomTabs(BuildContext context, HomeBloc model) {
-    final double tabHeight = 50;
-
-    return Row(
-      children: <Widget>[
-        Container(
-          height: tabHeight,
-          child: InkWell(
-            customBorder: CircleBorder(),
-            onTap: () =>
-                Navigator.of(context).pushNamed(CategoriesScreen.route),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-              child: Icon(Icons.add),
+    return BottomBar(
+      child: Row(
+        children: <Widget>[
+          Container(
+            child: InkWell(
+              customBorder: CircleBorder(),
+              onTap: () =>
+                  Navigator.of(context).pushNamed(CategoriesScreen.route),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+                child: Icon(Icons.add),
+              ),
             ),
           ),
-        ),
-        Expanded(
-            child: Container(
-          height: tabHeight,
-          child: TabBar(
-            isScrollable: true,
-            indicator: LineTabDecoration(color: Colors.black),
-            tabs: [
-              ...model.currentState.categories.map((category) {
-                if (category is ApiCategory) {
-                  return Tab(child: LabelText(category.name));
-                } else if (category is LocalCategory) {
-                  return Tab(child: Icon(category.iconData));
-                } else {
-                  return Container();
-                }
-              })
-            ],
-          ),
-        )),
-      ],
+          Expanded(
+              child: Container(
+                height: double.infinity,
+            child: TabBar(
+              isScrollable: true,
+              indicator: LineTabDecoration(color: Colors.black),
+              tabs: [
+                ...model.currentState.categories.map((category) {
+                  if (category is ApiCategory) {
+                    return Tab(child: LabelText(category.name));
+                  } else if (category is LocalCategory) {
+                    return Tab(child: Icon(category.iconData));
+                  } else {
+                    return Container();
+                  }
+                })
+              ],
+            ),
+          )),
+        ],
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
+import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/domain/gallery/models/picture.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
@@ -41,8 +42,7 @@ class GalleryDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildBottomMenu(BuildContext context) {
-    return Container(
-      height: 50,
+    return BottomBar(
       color: Colors.white,
       child: Material(
         child: Stack(
