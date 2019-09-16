@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
         if (category is ApiCategory) {
           return KeepAliveWidget(GalleryScreen(
             category.query,
-            key: ObjectKey(category.query),
+            key: ValueKey(category.query),
           ));
         } else {
           return KeepAliveWidget(GalleryScreen("Dog")); //TODO
@@ -95,7 +95,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
               child: Container(
-                height: double.infinity,
+            height: double.infinity,
             child: TabBar(
               isScrollable: true,
               indicator: LineTabDecoration(color: Colors.black),

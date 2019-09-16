@@ -1,31 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:pictury/core/ui/base/base_bloc.dart';
-import 'package:pictury/domain/gallery/load_gallery_use_case.dart';
+import 'package:pictury/data/gallery/gallery_repository.dart';
+import 'package:pictury/data/gallery/models/gallery_entity.dart';
 import 'package:pictury/domain/gallery/models/picture.dart';
 import 'package:pictury/features/gallery/gallery_event.dart';
 import 'package:pictury/features/gallery/gallery_view_state.dart';
-import 'package:pictury/features/gallery_details/gallery_details_screen.dart';
 
 class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
-  final LoadGalleryUseCase _loadGalleryUseCase;
+  final GalleryRepository _galleryRepository;
 
   int _currentPagePosition = 1;
 
-  GalleryBloc(this._loadGalleryUseCase);
-
-  Stream<GalleryViewState> _loadGallery(String query) async* {
-    if (query.isEmpty) {
-    } else {
-      yield currentState.copy(isLoading: true);
-
-      final List<Picture> result =
-          await _loadGalleryUseCase.loadGallery(query, _currentPagePosition++);
-
-      yield currentState.copy(
-        isLoading: false,
-        pictures: currentState.pictures + result,
-      );
-    }
+  GalleryBloc(this._galleryRepository) {
+    _galleryRepository.observeGallery("", 0).listen((result) {
+      dispatch(PageLoadedEvent(result));
+    });
   }
 
   @override
@@ -34,7 +22,26 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
   @override
   Stream<GalleryViewState> mapEventToState(event) async* {
     if (event is LoadNextPageEvent) {
-      yield* _loadGallery(event.query);
+      yield* _loadNextPage(event.query);
+    } else if (event is PageLoadedEvent) {
+      yield* _onPageLoaded(event.entities);
     }
+  }
+
+  Stream<GalleryViewState> _loadNextPage(String query) async* {
+    if (query.isNotEmpty) {
+      yield currentState.copy(isLoading: true);
+
+      await _galleryRepository.loadGallery(query, _currentPagePosition++);
+
+      yield currentState.copy(isLoading: false);
+    }
+  }
+
+  Stream<GalleryViewState> _onPageLoaded(List<GalleryEntity> entities) async* {
+    yield currentState.copy(
+        pictures: entities
+            .map((entity) => Picture(entity.title, entity.link))
+            .toList());
   }
 }

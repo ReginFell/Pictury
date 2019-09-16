@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:pictury/data/category/category_repository.dart';
 import 'package:pictury/data/client/access_key_client.dart';
+import 'package:pictury/data/gallery/gallery_dao.dart';
 import 'package:pictury/data/gallery/gallery_repository.dart';
 import 'package:pictury/data/local_config/local_config_provider.dart';
 import 'package:pictury/data/remote_config/remote_config_provider.dart';
+import 'package:pictury/data/source/local/app_database.dart';
 import 'package:pictury/data/source/local/preferences.dart';
 import 'package:pictury/environment.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +19,7 @@ List<SingleChildCloneableWidget> independentServices = [
   Provider.value(value: _createHttpClient()),
   Provider.value(value: _createSharedPreferences()),
   Provider.value(value: _createRemoteConfig()),
+  Provider.value(value: _createDatabase()),
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [
@@ -24,8 +27,12 @@ List<SingleChildCloneableWidget> dependentServices = [
     builder: (context, accessKeyClient, api) =>
         Api(accessKeyClient, environment.baseUrl),
   ),
-  ProxyProvider<Api, GalleryRepository>(
-    builder: (context, api, _) => GalleryRepository(api),
+  ProxyProvider<Future<AppDatabase>, Future<GalleryDao>>(
+    builder: (context, database, _) =>
+        database.then((database) => database.galleryDao),
+  ),
+  ProxyProvider2<Api, Future<GalleryDao>, GalleryRepository>(
+    builder: (context, api, dao, _) => GalleryRepository(api, dao),
   ),
   ProxyProvider<FutureOr<RemoteConfig>, RemoteConfigProvider>(
     builder: (context, remoteConfig, _) => RemoteConfigProvider(remoteConfig),
@@ -48,6 +55,10 @@ AccessKeyClient _createHttpClient() {
   };
 
   return AccessKeyClient(headers: headers);
+}
+
+Future<AppDatabase> _createDatabase() async {
+  return await $FloorAppDatabase.databaseBuilder('app_database.db').build();
 }
 
 FutureOr<StreamingSharedPreferences> _createSharedPreferences() {
