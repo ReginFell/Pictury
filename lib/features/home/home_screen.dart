@@ -6,7 +6,6 @@ import 'package:pictury/core/ui/widget/app_label_text.dart';
 import 'package:pictury/core/ui/widget/keep_alive_widget.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
-import 'package:pictury/data/source/remote/api.dart';
 import 'package:pictury/features/categories/categories_screen.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
 import 'package:pictury/features/home/decorations/line_tab_decoration.dart';
@@ -68,7 +67,10 @@ class HomeScreen extends StatelessWidget {
     return TabBarView(children: [
       ...model.currentState.categories.map((category) {
         if (category is ApiCategory) {
-          return KeepAliveWidget(GalleryScreen(category.query));
+          return KeepAliveWidget(GalleryScreen(
+            category.query,
+            key: ObjectKey(category.query),
+          ));
         } else {
           return KeepAliveWidget(GalleryScreen("Dog")); //TODO
         }

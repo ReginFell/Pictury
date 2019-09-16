@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:pictury/data/client/access_key_client.dart';
 
@@ -16,9 +17,13 @@ class Api {
     http.Response response = await _accessKeyClient
         .get("$_baseUrl/search/photos?page=$page&query=$query&per_page=30");
 
-    final dynamic parsedJson = json.decode(response.body);
+    var parsedJson = await compute(_parseResult, response.body);
     final SearchResponse searchResponse = SearchResponse.fromJson(parsedJson);
 
     return searchResponse.results;
+  }
+
+  static _parseResult(String body) {
+    return json.decode(body);
   }
 }

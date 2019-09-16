@@ -25,6 +25,7 @@ dependencies:
   flutter_bloc: 0.21.0
   built_value: 6.7.1
   json_annotation: ^3.0.0
+  flutter_svg: 0.14.1
 
 dev_dependencies:
   flutter_test:
@@ -37,6 +38,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/lang/en.json
+    - assets/icons/
   fonts:
     - family: Sans
       fonts:
