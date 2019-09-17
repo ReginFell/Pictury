@@ -14,8 +14,7 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
   GalleryBloc(this._loadGalleryUseCase);
 
   Stream<GalleryViewState> _loadGallery(String query) async* {
-    if (query.isEmpty) {
-    } else {
+    if (query.isNotEmpty) {
       yield currentState.copy(isLoading: true);
 
       final List<Picture> result =

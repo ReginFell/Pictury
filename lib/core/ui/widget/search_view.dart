@@ -9,18 +9,21 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey.withOpacity(0.2),
-      child: TextField(
-          decoration: new InputDecoration(
-            prefixIcon: Icon(Icons.search, color: Colors.grey),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            hintText: hint,
-          ),
-          onChanged: (text) {
-            onChanged(text);
-          }),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15.0),
+      child: Container(
+        color: Colors.grey.withOpacity(0.2),
+        child: TextField(
+            decoration: new InputDecoration(
+              prefixIcon: Icon(Icons.search, color: Colors.grey),
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              hintText: hint,
+            ),
+            onChanged: (text) {
+              onChanged(text);
+            }),
+      ),
     );
   }
 }
