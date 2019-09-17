@@ -104,6 +104,12 @@ class _$GalleryDao extends GalleryDao {
   }
 
   @override
+  Stream<GalleryEntity> observeById(String id) {
+    return _queryAdapter.queryStream('SELECT * FROM Gallery WHERE id = ?',
+        arguments: <dynamic>[id], tableName: 'Gallery', mapper: _galleryMapper);
+  }
+
+  @override
   Future<void> insertEntity(GalleryEntity entity) async {
     await _galleryEntityInsertionAdapter.insert(
         entity, sqflite.ConflictAlgorithm.abort);

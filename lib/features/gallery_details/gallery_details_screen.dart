@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
-import 'package:pictury/domain/gallery/models/picture.dart';
+import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
   static const String route = '/gallery/details';
@@ -17,7 +16,7 @@ class GalleryDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: ApplicationAppBar.create(title: _arguments._picture.title),
+      appBar: ApplicationAppBar.create(title: _arguments._galleryViewModel.title),
       body: Builder(builder: (context) => _buildBody(context)),
     );
   }
@@ -30,7 +29,7 @@ class GalleryDetailsScreen extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.cover,
               child: Hero(
-                child: CachedNetworkImage(imageUrl: _arguments._picture.link),
+                child: CachedNetworkImage(imageUrl: _arguments._galleryViewModel.link),
                 tag: _arguments._tag,
               ),
             ),
@@ -79,7 +78,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                                 leading: Icon(Icons.file_download),
                                 title: Text('Download full'),
                                 subtitle: Text(
-                                  _arguments._picture.link,
+                                  _arguments._galleryViewModel.link,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
@@ -88,7 +87,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                                 leading: Icon(Icons.file_download),
                                 title: Text('Download raw'),
                                 subtitle: Text(
-                                  _arguments._picture.link,
+                                  _arguments._galleryViewModel.link,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
@@ -123,8 +122,8 @@ class GalleryDetailsScreen extends StatelessWidget {
 }
 
 class GalleryDetailsArguments {
-  final Picture _picture;
+  final GalleryViewModel _galleryViewModel;
   final String _tag;
 
-  GalleryDetailsArguments(this._picture, this._tag);
+  GalleryDetailsArguments(this._galleryViewModel, this._tag);
 }

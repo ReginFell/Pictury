@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
-import 'package:pictury/domain/gallery/models/picture.dart';
+import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
 import 'package:pictury/features/gallery/gallery_view_state.dart';
 import 'package:pictury/features/gallery_details/gallery_details_screen.dart';
 import 'package:provider/provider.dart';
@@ -67,9 +67,10 @@ class GalleryScreen extends StatelessWidget {
         crossAxisCount: 4,
         itemCount: model.currentState.pictures.length,
         itemBuilder: (BuildContext context, int index) {
-          final Picture picture = model.currentState.pictures[index];
+          final GalleryViewModel galleryViewModel =
+              model.currentState.pictures[index];
 
-          final String heroTag = "image $query ${picture.link}";
+          final String heroTag = "image $query ${galleryViewModel.link}";
 
           return Padding(
             padding: const EdgeInsets.all(3.0),
@@ -80,9 +81,10 @@ class GalleryScreen extends StatelessWidget {
                     onTap: () => Navigator.pushNamed(
                           context,
                           GalleryDetailsScreen.route,
-                          arguments: GalleryDetailsArguments(picture, heroTag),
+                          arguments: GalleryDetailsArguments(
+                              galleryViewModel, heroTag),
                         ),
-                    child: CachedNetworkImage(imageUrl: picture.link)),
+                    child: CachedNetworkImage(imageUrl: galleryViewModel.link)),
                 tag: heroTag,
               ),
             ),

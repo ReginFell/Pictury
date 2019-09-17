@@ -10,23 +10,30 @@ class GalleryRepository {
 
   GalleryRepository(this._api, this._galleryDao);
 
-  Future loadGallery(String query, int page) async {
-    final GalleryDao dao = await _galleryDao;
-
+  Future<List<GalleryEntity>> loadGallery(String query, int page) async {
     final List<ImageResponse> result = await _api.loadByQuery(query, page);
-    try {
-      return dao.insertEntities(result
-          .map((value) =>
-              GalleryEntity(value.id, value.description, value.urls.full))
-          .toList());
-    } catch (e) {
-      print(e);
-    }
+
+    return result
+        .map((imageResponse) => GalleryEntity(imageResponse.id,
+            imageResponse.description, imageResponse.urls.regular))
+        .toList();
   }
 
-  Stream<List<GalleryEntity>> observeGallery(String query, int page) async* {
+  Future<void> addToFavorite(GalleryEntity galleryEntity) async {
+    final GalleryDao dao = await _galleryDao;
+
+    dao.insertEntity(galleryEntity);
+  }
+
+  Stream<List<GalleryEntity>> observeFavorites() async* {
     final GalleryDao dao = await _galleryDao;
 
     yield* dao.observeAll();
+  }
+
+  Stream<GalleryEntity> observeById(String id) async* {
+    final GalleryDao dao = await _galleryDao;
+
+    yield* dao.observeById(id);
   }
 }
