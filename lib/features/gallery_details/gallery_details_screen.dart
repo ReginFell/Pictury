@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
+import 'package:pictury/features/gallery_details/gallery_details_bloc.dart';
+import 'package:pictury/features/gallery_details/gallery_details_event.dart';
+import 'package:provider/provider.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
   static const String route = '/gallery/details';
@@ -14,14 +18,19 @@ class GalleryDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: ApplicationAppBar.create(title: _arguments._galleryViewModel.title),
-      body: Builder(builder: (context) => _buildBody(context)),
+    return BaseBlocProvider(
+      bloc: GalleryDetailsBloc(
+          _arguments._galleryViewModel, Provider.of(context)),
+      builder: (context, bloc) => Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar:
+            ApplicationAppBar.create(title: _arguments._galleryViewModel.title),
+        body: Builder(builder: (context) => _buildBody(context, bloc)),
+      ),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, GalleryDetailsBloc bloc) {
     return Container(
       child: Column(
         children: <Widget>[
@@ -29,18 +38,19 @@ class GalleryDetailsScreen extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.cover,
               child: Hero(
-                child: CachedNetworkImage(imageUrl: _arguments._galleryViewModel.link),
+                child: CachedNetworkImage(
+                    imageUrl: _arguments._galleryViewModel.link),
                 tag: _arguments._tag,
               ),
             ),
           ),
-          _buildBottomMenu(context)
+          _buildBottomMenu(context, bloc)
         ],
       ),
     );
   }
 
-  Widget _buildBottomMenu(BuildContext context) {
+  Widget _buildBottomMenu(BuildContext context, GalleryDetailsBloc bloc) {
     return BottomBar(
       color: Colors.white,
       child: Material(
@@ -53,8 +63,10 @@ class GalleryDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     customBorder: new CircleBorder(),
-                    child: Icon(Icons.star_border),
-                    onTap: () => {},
+                    child: bloc.currentState.isFavorite
+                        ? Icon(Icons.star)
+                        : Icon(Icons.star_border),
+                    onTap: () => {bloc.dispatch(MakeFavoriteEvent())},
                   ),
                 )),
             Align(

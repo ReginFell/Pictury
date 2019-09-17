@@ -24,7 +24,8 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
         ..pictures = [
           ...currentState.pictures,
           ...result
-              .map((value) => GalleryViewModel(value.title, value.link))
+              .map((value) =>
+                  GalleryViewModel(value.id, value.title, value.link))
               .toList(),
         ]);
     }

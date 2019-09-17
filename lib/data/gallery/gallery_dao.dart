@@ -12,6 +12,9 @@ abstract class GalleryDao {
   @insert
   Future<void> insertEntity(GalleryEntity entity);
 
+  @delete
+  Future<void> deleteEntity(GalleryEntity entity);
+
   @insert
   Future<void> insertEntities(List<GalleryEntity> entity);
 }

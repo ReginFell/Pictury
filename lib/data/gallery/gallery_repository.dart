@@ -19,10 +19,16 @@ class GalleryRepository {
         .toList();
   }
 
-  Future<void> addToFavorite(GalleryEntity galleryEntity) async {
+  Future<void> addFavorite(GalleryEntity galleryEntity) async {
     final GalleryDao dao = await _galleryDao;
 
     dao.insertEntity(galleryEntity);
+  }
+
+  Future<void> removeFavorite(GalleryEntity galleryEntity) async {
+    final GalleryDao dao = await _galleryDao;
+
+    dao.deleteEntity(galleryEntity);
   }
 
   Stream<List<GalleryEntity>> observeFavorites() async* {

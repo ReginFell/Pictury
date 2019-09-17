@@ -84,6 +84,16 @@ class _$GalleryDao extends GalleryDao {
                   'title': item.title,
                   'link': item.link
                 },
+            changeListener),
+        _galleryEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'Gallery',
+            ['id'],
+            (GalleryEntity item) => <String, dynamic>{
+                  'id': item.id,
+                  'title': item.title,
+                  'link': item.link
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -96,6 +106,8 @@ class _$GalleryDao extends GalleryDao {
       row['id'] as String, row['title'] as String, row['link'] as String);
 
   final InsertionAdapter<GalleryEntity> _galleryEntityInsertionAdapter;
+
+  final DeletionAdapter<GalleryEntity> _galleryEntityDeletionAdapter;
 
   @override
   Stream<List<GalleryEntity>> observeAll() {
@@ -119,5 +131,10 @@ class _$GalleryDao extends GalleryDao {
   Future<void> insertEntities(List<GalleryEntity> entity) async {
     await _galleryEntityInsertionAdapter.insertList(
         entity, sqflite.ConflictAlgorithm.abort);
+  }
+
+  @override
+  Future<void> deleteEntity(GalleryEntity entity) async {
+    await _galleryEntityDeletionAdapter.delete(entity);
   }
 }
