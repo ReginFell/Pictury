@@ -27,21 +27,17 @@ class HomeScreen extends StatelessWidget {
           return DefaultTabController(
               length: model.currentState.categories.length,
               child: Scaffold(
-                appBar: ApplicationAppBar.create(
-                  title: "Pictury",
-                  actions: List()
-                    ..add(
-                      IconButton(
-                        icon: Icon(
-                          Icons.search,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, SearchScreen.route);
-                        },
-                      ),
+                appBar: ApplicationAppBar.create(title: "Pictury", actions: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
                     ),
-                ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, SearchScreen.route);
+                    },
+                  ),
+                ]),
                 extendBodyBehindAppBar: true,
                 body: _buildBody(context, model),
               ));

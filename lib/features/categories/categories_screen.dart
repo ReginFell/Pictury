@@ -160,14 +160,12 @@ class CategoriesScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       sliver: SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(40.0),
-            child: SearchView(
-              hint: localization.translate("find_category"),
-              onChanged: (query) {
-                bloc.dispatch(SearchQueryChangedEvent(query));
-              },
-            ));
+        return SearchView(
+          hint: localization.translate("find_category"),
+          onChanged: (query) {
+            bloc.dispatch(SearchQueryChangedEvent(query));
+          },
+        );
       }, childCount: 1)),
     );
   }
