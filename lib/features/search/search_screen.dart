@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
+import 'package:pictury/features/gallery/gallery_type.dart';
 import 'package:pictury/features/search/search_bloc.dart';
 import 'package:pictury/features/search/search_event.dart';
 import 'package:pictury/features/search/search_view_state.dart';
@@ -48,7 +49,7 @@ class SearchScreen extends StatelessWidget {
               ),
               Expanded(
                   child: GalleryScreen(
-                model.currentState.query,
+                RemoteGalleryType(model.currentState.query),
                 key: GlobalKey(),
               ))
             ],

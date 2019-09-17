@@ -9,6 +9,7 @@ import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/features/categories/categories_screen.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
+import 'package:pictury/features/gallery/gallery_type.dart';
 import 'package:pictury/features/home/decorations/line_tab_decoration.dart';
 import 'package:pictury/features/home/home_bloc.dart';
 import 'package:pictury/features/home/home_view_state.dart';
@@ -64,11 +65,11 @@ class HomeScreen extends StatelessWidget {
       ...model.currentState.categories.map((category) {
         if (category is ApiCategory) {
           return KeepAliveWidget(GalleryScreen(
-            category.query,
+            RemoteGalleryType(category.query),
             key: ValueKey(category.query),
           ));
         } else {
-          return KeepAliveWidget(GalleryScreen("Dog")); //TODO
+          return KeepAliveWidget(GalleryScreen(FavoriteGalleryType()));
         }
       })
     ]);

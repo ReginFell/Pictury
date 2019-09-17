@@ -10,26 +10,27 @@ import 'package:provider/provider.dart';
 
 import 'gallery_bloc.dart';
 import 'gallery_event.dart';
+import 'gallery_type.dart';
 
 class GalleryScreen extends StatelessWidget {
   static const String route = '/gallery';
 
-  final String query;
+  final GalleryType type;
 
-  GalleryScreen(this.query, {key}) : super(key: key);
+  GalleryScreen(this.type, {key}) : super(key: key);
 
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return BaseBlocProvider<GalleryBloc, GalleryViewState>(
-        bloc: GalleryBloc(Provider.of(context)),
+        bloc: GalleryBloc(type, Provider.of(context)),
         onBlocReady: (model) {
-          model.dispatch(LoadNextPageEvent(query));
+          model.dispatch(LoadNextPageEvent());
           _scrollController.addListener(() {
             if (_scrollController.position.pixels ==
                 _scrollController.position.maxScrollExtent) {
-              model.dispatch(LoadNextPageEvent(query));
+              model.dispatch(LoadNextPageEvent());
             }
           });
         },
@@ -70,7 +71,7 @@ class GalleryScreen extends StatelessWidget {
           final GalleryViewModel galleryViewModel =
               model.currentState.pictures[index];
 
-          final String heroTag = "image $query ${galleryViewModel.link}";
+          final String heroTag = "image $type ${galleryViewModel.link}";
 
           return Padding(
             padding: const EdgeInsets.all(3.0),

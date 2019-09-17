@@ -5,30 +5,39 @@ import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
 import 'package:pictury/features/gallery/gallery_event.dart';
 import 'package:pictury/features/gallery/gallery_view_state.dart';
 
+import 'gallery_type.dart';
+
 class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
+  final GalleryType _galleryType;
   final GalleryRepository _galleryRepository;
 
   int _currentPagePosition = 1;
 
-  GalleryBloc(this._galleryRepository);
+  GalleryBloc(this._galleryType, this._galleryRepository);
 
-  Stream<GalleryViewState> _loadGallery(String query) async* {
-    if (query.isNotEmpty) {
-      yield currentState.rebuild((b) => b..isLoading = true);
+  Stream<GalleryViewState> _loadGallery() async* {
+    final GalleryType type = _galleryType;
+    List<GalleryEntity> result;
 
-      final List<GalleryEntity> result =
-          await _galleryRepository.loadGallery(query, _currentPagePosition++);
+    if (type is RemoteGalleryType) {
+      if (type.query.isNotEmpty) {
+        yield currentState.rebuild((b) => b..isLoading = true);
 
-      yield currentState.rebuild((b) => b
-        ..isLoading = false
-        ..pictures = [
-          ...currentState.pictures,
-          ...result
-              .map((value) =>
-                  GalleryViewModel(value.id, value.title, value.link))
-              .toList(),
-        ]);
+        result = await _galleryRepository.loadGallery(
+            type.query, _currentPagePosition++);
+      }
+    } else if (_galleryType is FavoriteGalleryType) {
+      result = await _galleryRepository.observeFavorites().first;
     }
+
+    yield currentState.rebuild((b) => b
+      ..isLoading = false
+      ..pictures = [
+        ...currentState.pictures,
+        ...result
+            .map((value) => GalleryViewModel(value.id, value.title, value.link))
+            .toList(),
+      ]);
   }
 
   @override
@@ -37,7 +46,7 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
   @override
   Stream<GalleryViewState> mapEventToState(event) async* {
     if (event is LoadNextPageEvent) {
-      yield* _loadGallery(event.query);
+      yield* _loadGallery();
     }
   }
 }

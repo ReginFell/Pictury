@@ -196,7 +196,7 @@ packages:
       name: floor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0"
+    version: "0.7.0"
   floor_annotation:
     dependency: transitive
     description:

@@ -88,7 +88,7 @@ class _$GalleryDao extends GalleryDao {
         _galleryEntityDeletionAdapter = DeletionAdapter(
             database,
             'Gallery',
-            ['id'],
+            'id',
             (GalleryEntity item) => <String, dynamic>{
                   'id': item.id,
                   'title': item.title,
