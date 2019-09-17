@@ -13,31 +13,47 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
 
   int _currentPagePosition = 1;
 
-  GalleryBloc(this._galleryType, this._galleryRepository);
+  GalleryBloc(this._galleryType, this._galleryRepository) {
+    if (_galleryType is FavoriteGalleryType) {
+      subscriptions.add(
+        _galleryRepository
+            .observeFavorites()
+            .listen((entities) => dispatch(PageLoadedEvent(entities))),
+      );
+    }
+  }
 
   Stream<GalleryViewState> _loadGallery() async* {
     final GalleryType type = _galleryType;
-    List<GalleryEntity> result;
-
     if (type is RemoteGalleryType) {
       if (type.query.isNotEmpty) {
         yield currentState.rebuild((b) => b..isLoading = true);
 
-        result = await _galleryRepository.loadGallery(
+        List<GalleryEntity> result = await _galleryRepository.loadGallery(
             type.query, _currentPagePosition++);
-      }
-    } else if (_galleryType is FavoriteGalleryType) {
-      result = await _galleryRepository.observeFavorites().first;
-    }
 
-    yield currentState.rebuild((b) => b
-      ..isLoading = false
-      ..pictures = [
-        ...currentState.pictures,
-        ...result
+        yield currentState.rebuild((b) => b
+          ..isLoading = false
+          ..pictures = [
+            ...currentState.pictures,
+            ...result
+                .map((value) =>
+                    GalleryViewModel(value.id, value.title, value.link))
+                .toList(),
+          ]);
+      }
+    }
+  }
+
+  Stream<GalleryViewState> _loadGalleryLocally(
+      List<GalleryEntity> entities) async* {
+    yield currentState.rebuild(
+      (b) => b
+        ..isLoading = false
+        ..pictures = entities
             .map((value) => GalleryViewModel(value.id, value.title, value.link))
             .toList(),
-      ]);
+    );
   }
 
   @override
@@ -45,8 +61,11 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
 
   @override
   Stream<GalleryViewState> mapEventToState(event) async* {
+    print(event);
     if (event is LoadNextPageEvent) {
       yield* _loadGallery();
+    } else if (event is PageLoadedEvent) {
+      yield* _loadGalleryLocally(event.entities);
     }
   }
 }
