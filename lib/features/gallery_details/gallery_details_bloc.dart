@@ -13,9 +13,11 @@ class GalleryDetailsBloc
   final GalleryViewModel _galleryViewModel;
 
   GalleryDetailsBloc(this._galleryViewModel, this._galleryRepository) {
-    _galleryRepository
-        .observeById(_galleryViewModel.id)
-        .listen((entity) => dispatch(GalleryUpdatedEvent(entity)));
+    subscriptions.add(
+      _galleryRepository
+          .observeById(_galleryViewModel.id)
+          .listen((entity) => dispatch(GalleryUpdatedEvent(entity))),
+    );
   }
 
   @override

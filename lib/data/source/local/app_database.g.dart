@@ -26,16 +26,28 @@ class _$AppDatabaseBuilder {
 
   final List<Migration> _migrations = [];
 
+  Callback _callback;
+
   /// Adds migrations to the builder.
   _$AppDatabaseBuilder addMigrations(List<Migration> migrations) {
     _migrations.addAll(migrations);
     return this;
   }
 
+  /// Adds a database [Callback] to the builder.
+  _$AppDatabaseBuilder addCallback(Callback callback) {
+    _callback = callback;
+    return this;
+  }
+
   /// Creates the database and initializes it.
   Future<AppDatabase> build() async {
     final database = _$AppDatabase();
-    database.database = await database.open(name ?? ':memory:', _migrations);
+    database.database = await database.open(
+      name ?? ':memory:',
+      _migrations,
+      _callback,
+    );
     return database;
   }
 }
@@ -47,7 +59,8 @@ class _$AppDatabase extends AppDatabase {
 
   GalleryDao _galleryDaoInstance;
 
-  Future<sqflite.Database> open(String name, List<Migration> migrations) async {
+  Future<sqflite.Database> open(String name, List<Migration> migrations,
+      [Callback callback]) async {
     final path = join(await sqflite.getDatabasesPath(), name);
 
     return sqflite.openDatabase(
@@ -56,13 +69,20 @@ class _$AppDatabase extends AppDatabase {
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
       },
+      onOpen: (database) async {
+        await callback?.onOpen?.call(database);
+      },
       onUpgrade: (database, startVersion, endVersion) async {
         MigrationAdapter.runMigrations(
             database, startVersion, endVersion, migrations);
+
+        await callback?.onUpgrade?.call(database, startVersion, endVersion);
       },
-      onCreate: (database, _) async {
+      onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Gallery` (`id` TEXT, `title` TEXT, `link` TEXT, PRIMARY KEY (`id`))');
+
+        await callback?.onCreate?.call(database, version);
       },
     );
   }
@@ -88,7 +108,7 @@ class _$GalleryDao extends GalleryDao {
         _galleryEntityDeletionAdapter = DeletionAdapter(
             database,
             'Gallery',
-            'id',
+            ['id'],
             (GalleryEntity item) => <String, dynamic>{
                   'id': item.id,
                   'title': item.title,
@@ -102,7 +122,7 @@ class _$GalleryDao extends GalleryDao {
 
   final QueryAdapter _queryAdapter;
 
-  final _galleryMapper = (Map<String, dynamic> row) => GalleryEntity(
+  static final _galleryMapper = (Map<String, dynamic> row) => GalleryEntity(
       row['id'] as String, row['title'] as String, row['link'] as String);
 
   final InsertionAdapter<GalleryEntity> _galleryEntityInsertionAdapter;
