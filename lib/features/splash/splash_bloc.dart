@@ -18,12 +18,12 @@ class SplashBloc extends BaseBloc<SplashViewState, SplashEvent> {
   @override
   Stream<SplashViewState> mapEventToState(SplashEvent event) async* {
     yield* event.when(
-      startSplashEvent: (event) => _startSplash(),
+      startSplashEvent: _startSplash,
       endSplashEvent: null,
     );
   }
 
-  Stream<SplashViewState> _startSplash() async* {
+  Stream<SplashViewState> _startSplash(SplashEvent event) async* {
     await Future.delayed(Duration(seconds: splashDuration));
     final bool isCategorySelected =
         await _localConfigProvider.isCategorySelected();

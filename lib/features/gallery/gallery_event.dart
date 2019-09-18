@@ -1,6 +1,10 @@
+import 'package:meta/meta.dart';
 import 'package:pictury/data/gallery/models/gallery_entity.dart';
 
-abstract class GalleryEvent {}
+part 'gallery_event.g.dart';
+
+@sealed
+abstract class GalleryEvent with SealedGalleryEvent {}
 
 class LoadNextPageEvent extends GalleryEvent {}
 

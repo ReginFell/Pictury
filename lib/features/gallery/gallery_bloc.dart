@@ -23,7 +23,7 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
     }
   }
 
-  Stream<GalleryViewState> _loadGallery() async* {
+  Stream<GalleryViewState> _loadGallery(LoadNextPageEvent event) async* {
     final GalleryType type = _galleryType;
     if (type is RemoteGalleryType) {
       if (type.query.isNotEmpty) {
@@ -45,12 +45,11 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
     }
   }
 
-  Stream<GalleryViewState> _loadGalleryLocally(
-      List<GalleryEntity> entities) async* {
+  Stream<GalleryViewState> _loadGalleryLocally(PageLoadedEvent event) async* {
     yield currentState.rebuild(
       (b) => b
         ..isLoading = false
-        ..pictures = entities
+        ..pictures = event.entities
             .map((value) => GalleryViewModel(value.id, value.title, value.link))
             .toList(),
     );
@@ -61,11 +60,9 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
 
   @override
   Stream<GalleryViewState> mapEventToState(event) async* {
-    print(event);
-    if (event is LoadNextPageEvent) {
-      yield* _loadGallery();
-    } else if (event is PageLoadedEvent) {
-      yield* _loadGalleryLocally(event.entities);
-    }
+    yield* event.when(
+      loadNextPageEvent: _loadGallery,
+      pageLoadedEvent: _loadGalleryLocally,
+    );
   }
 }
