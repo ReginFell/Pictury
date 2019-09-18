@@ -8,9 +8,9 @@ class RemoteGalleryType extends GalleryType {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is RemoteGalleryType &&
-              runtimeType == other.runtimeType &&
-              query == other.query;
+      other is RemoteGalleryType &&
+          runtimeType == other.runtimeType &&
+          query == other.query;
 
   @override
   int get hashCode => query.hashCode;
@@ -21,4 +21,9 @@ class RemoteGalleryType extends GalleryType {
   }
 }
 
-class FavoriteGalleryType extends GalleryType {}
+class FavoriteGalleryType extends GalleryType {
+  @override
+  String toString() {
+    return 'FavoriteGalleryType{}';
+  }
+}

@@ -12,7 +12,7 @@ class ApplicationAppBar extends AppBar {
         overflow: TextOverflow.ellipsis,
       ),
       actions: actions,
-      backgroundColor: Colors.black.withOpacity(0.2),
+      backgroundColor: Color(0xFF4D4D4D).withOpacity(0.5),
       elevation: 0,
     );
   }
