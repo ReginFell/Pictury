@@ -1,6 +1,11 @@
 import 'package:pictury/data/gallery/models/gallery_entity.dart';
 
-class GalleryDetailsEvent {}
+import 'package:meta/meta.dart';
+
+part 'gallery_details_event.g.dart';
+
+@sealed
+class GalleryDetailsEvent with SealedGalleryDetailsEvent {}
 
 class MakeFavoriteEvent extends GalleryDetailsEvent {}
 

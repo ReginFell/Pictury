@@ -26,19 +26,20 @@ class GalleryDetailsBloc
   @override
   Stream<GalleryDetailsViewState> mapEventToState(
       GalleryDetailsEvent event) async* {
-    if (event is MakeFavoriteEvent) {
-      _makeFavorite();
-    } else if (event is GalleryUpdatedEvent) {
-      yield* _onGalleryUpdated(event.galleryEntity);
-    }
+    yield* event.when(
+      makeFavoriteEvent: _makeFavorite,
+      galleryUpdatedEvent: _onGalleryUpdated,
+    );
   }
 
   Stream<GalleryDetailsViewState> _onGalleryUpdated(
-      GalleryEntity galleryEntity) async* {
-    yield currentState.rebuild((b) => b.isFavorite = galleryEntity != null);
+      GalleryUpdatedEvent event) async* {
+    yield currentState
+        .rebuild((b) => b.isFavorite = event.galleryEntity != null);
   }
 
-  void _makeFavorite() async {
+  Stream<GalleryDetailsViewState> _makeFavorite(
+      MakeFavoriteEvent event) async* {
     if (currentState.isFavorite) {
       await _galleryRepository.removeFavorite(_galleryViewModel.asEntity());
     } else {
