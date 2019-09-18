@@ -17,9 +17,10 @@ class SplashBloc extends BaseBloc<SplashViewState, SplashEvent> {
 
   @override
   Stream<SplashViewState> mapEventToState(SplashEvent event) async* {
-    if (event is StartSplashEvent) {
-      yield* _startSplash();
-    }
+    yield* event.when(
+      startSplashEvent: (event) => _startSplash(),
+      endSplashEvent: null,
+    );
   }
 
   Stream<SplashViewState> _startSplash() async* {
