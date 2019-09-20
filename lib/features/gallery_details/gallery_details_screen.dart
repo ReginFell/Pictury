@@ -36,12 +36,14 @@ class GalleryDetailsScreen extends StatelessWidget {
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
+        children: [
           Expanded(
             child: PhotoView(
+                backgroundDecoration: BoxDecoration(color: Colors.white),
                 heroAttributes: PhotoViewHeroAttributes(tag: _arguments._tag),
                 imageProvider: CachedNetworkImageProvider(
-                    _arguments._galleryViewModel.link)),
+                  _arguments._galleryViewModel.link,
+                )),
           ),
           _buildBottomMenu(context, bloc)
         ],

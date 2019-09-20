@@ -8,13 +8,17 @@ part of 'categories_event.dart';
 
 class SealedCategoriesEvent {
   R when<R>({
-    @required R Function(InitLoadingEvent) initLoadingEvent,
+    @required R Function(InitEvent) initEvent,
+    @required R Function(LoadCategoriesEvent) loadCategoriesEvent,
     @required R Function(SelectCategoryEvent) selectCategoryEvent,
     @required R Function(ContinueEvent) continueEvent,
     @required R Function(SearchQueryChangedEvent) searchQueryChangedEvent,
   }) {
-    if (this is InitLoadingEvent) {
-      return initLoadingEvent(this as InitLoadingEvent);
+    if (this is InitEvent) {
+      return initEvent(this as InitEvent);
+    }
+    if (this is LoadCategoriesEvent) {
+      return loadCategoriesEvent(this as LoadCategoriesEvent);
     }
     if (this is SelectCategoryEvent) {
       return selectCategoryEvent(this as SelectCategoryEvent);

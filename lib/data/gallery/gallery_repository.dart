@@ -1,8 +1,8 @@
+import 'package:pictury/data/api/models/image_response.dart';
 import 'package:pictury/data/gallery/gallery_dao.dart';
 import 'package:pictury/data/gallery/models/gallery_entity.dart';
-import 'package:pictury/data/source/remote/models/image_response.dart';
 
-import '../source/remote/api.dart';
+import '../api/api.dart';
 
 class GalleryRepository {
   final Api _api;

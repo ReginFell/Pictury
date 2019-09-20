@@ -8,11 +8,9 @@ part of 'categories_view_state.dart';
 
 class _$CategoriesViewState extends CategoriesViewState {
   @override
-  final List<Category> categories;
+  final List<CategoryViewModel> categories;
   @override
-  final List<Category> filteredCategories;
-  @override
-  final List<Category> selectedCategories;
+  final List<CategoryViewModel> filteredCategories;
   @override
   final String query;
   @override
@@ -29,7 +27,6 @@ class _$CategoriesViewState extends CategoriesViewState {
   _$CategoriesViewState._(
       {this.categories,
       this.filteredCategories,
-      this.selectedCategories,
       this.query,
       this.isLoading,
       this.doneEditing,
@@ -41,10 +38,6 @@ class _$CategoriesViewState extends CategoriesViewState {
     if (filteredCategories == null) {
       throw new BuiltValueNullFieldError(
           'CategoriesViewState', 'filteredCategories');
-    }
-    if (selectedCategories == null) {
-      throw new BuiltValueNullFieldError(
-          'CategoriesViewState', 'selectedCategories');
     }
     if (query == null) {
       throw new BuiltValueNullFieldError('CategoriesViewState', 'query');
@@ -72,7 +65,6 @@ class _$CategoriesViewState extends CategoriesViewState {
     return other is CategoriesViewState &&
         categories == other.categories &&
         filteredCategories == other.filteredCategories &&
-        selectedCategories == other.selectedCategories &&
         query == other.query &&
         isLoading == other.isLoading &&
         doneEditing == other.doneEditing &&
@@ -85,10 +77,8 @@ class _$CategoriesViewState extends CategoriesViewState {
         $jc(
             $jc(
                 $jc(
-                    $jc(
-                        $jc($jc(0, categories.hashCode),
-                            filteredCategories.hashCode),
-                        selectedCategories.hashCode),
+                    $jc($jc(0, categories.hashCode),
+                        filteredCategories.hashCode),
                     query.hashCode),
                 isLoading.hashCode),
             doneEditing.hashCode),
@@ -100,7 +90,6 @@ class _$CategoriesViewState extends CategoriesViewState {
     return (newBuiltValueToStringHelper('CategoriesViewState')
           ..add('categories', categories)
           ..add('filteredCategories', filteredCategories)
-          ..add('selectedCategories', selectedCategories)
           ..add('query', query)
           ..add('isLoading', isLoading)
           ..add('doneEditing', doneEditing)
@@ -113,19 +102,15 @@ class CategoriesViewStateBuilder
     implements Builder<CategoriesViewState, CategoriesViewStateBuilder> {
   _$CategoriesViewState _$v;
 
-  List<Category> _categories;
-  List<Category> get categories => _$this._categories;
-  set categories(List<Category> categories) => _$this._categories = categories;
+  List<CategoryViewModel> _categories;
+  List<CategoryViewModel> get categories => _$this._categories;
+  set categories(List<CategoryViewModel> categories) =>
+      _$this._categories = categories;
 
-  List<Category> _filteredCategories;
-  List<Category> get filteredCategories => _$this._filteredCategories;
-  set filteredCategories(List<Category> filteredCategories) =>
+  List<CategoryViewModel> _filteredCategories;
+  List<CategoryViewModel> get filteredCategories => _$this._filteredCategories;
+  set filteredCategories(List<CategoryViewModel> filteredCategories) =>
       _$this._filteredCategories = filteredCategories;
-
-  List<Category> _selectedCategories;
-  List<Category> get selectedCategories => _$this._selectedCategories;
-  set selectedCategories(List<Category> selectedCategories) =>
-      _$this._selectedCategories = selectedCategories;
 
   String _query;
   String get query => _$this._query;
@@ -149,7 +134,6 @@ class CategoriesViewStateBuilder
     if (_$v != null) {
       _categories = _$v.categories;
       _filteredCategories = _$v.filteredCategories;
-      _selectedCategories = _$v.selectedCategories;
       _query = _$v.query;
       _isLoading = _$v.isLoading;
       _doneEditing = _$v.doneEditing;
@@ -178,7 +162,6 @@ class CategoriesViewStateBuilder
         new _$CategoriesViewState._(
             categories: categories,
             filteredCategories: filteredCategories,
-            selectedCategories: selectedCategories,
             query: query,
             isLoading: isLoading,
             doneEditing: doneEditing,

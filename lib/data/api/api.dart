@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:pictury/data/client/access_key_client.dart';
 
+import 'client/access_key_client.dart';
 import 'models/image_response.dart';
 
 class Api {

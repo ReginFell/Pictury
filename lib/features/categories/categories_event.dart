@@ -1,18 +1,25 @@
-import 'package:pictury/data/remote_config/models/category.dart';
+import 'package:pictury/data/category/models/category.dart';
 
 import 'package:meta/meta.dart';
+import 'package:pictury/domain/category/models/category_view_model.dart';
 
 part 'categories_event.g.dart';
 
 @sealed
 abstract class CategoriesEvent with SealedCategoriesEvent {}
 
-class InitLoadingEvent extends CategoriesEvent {}
+class InitEvent extends CategoriesEvent {}
+
+class LoadCategoriesEvent extends CategoriesEvent {
+  final List<CategoryEntity> entities;
+
+  LoadCategoriesEvent(this.entities);
+}
 
 class SelectCategoryEvent extends CategoriesEvent {
-  final Category category;
+  final CategoryViewModel categoryViewModel;
 
-  SelectCategoryEvent(this.category);
+  SelectCategoryEvent(this.categoryViewModel);
 }
 
 class ContinueEvent extends CategoriesEvent {}

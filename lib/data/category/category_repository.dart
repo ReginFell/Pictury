@@ -1,37 +1,48 @@
 import 'dart:convert';
 
-import 'package:pictury/data/category/adapter/category_adapter.dart';
-import 'package:pictury/data/local_config/local_config_provider.dart';
+import 'package:pictury/data/category/category_dao.dart';
+import 'package:pictury/data/category/models/category.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/data/remote_config/remote_config_provider.dart';
 
 class CategoryRepository {
   static const String categoriesTag = "categories";
 
+  final Future<CategoryDao> _categoryDao;
   final RemoteConfigProvider _remoteConfigRepository;
-  final LocalConfigProvider _localConfigRepository;
 
-  CategoryRepository(this._localConfigRepository, this._remoteConfigRepository);
+  CategoryRepository(this._categoryDao, this._remoteConfigRepository);
 
-  Future<List<Category>> loadCategories() {
+  Future<void> loadCategories() async {
     return _remoteConfigRepository.consume().then((storage) {
       final List<dynamic> parsedJson =
           json.decode(storage.getString(categoriesTag));
 
-      return parsedJson.map((value) => ApiCategory.fromJson(value)).toList();
+      final List<CategoryEntity> categoryEntities = parsedJson
+          .map((value) => ApiCategory.fromJson(value))
+          .map((apiCategory) => CategoryEntity(
+              apiCategory.name, apiCategory.picture, apiCategory.query, false))
+          .toList();
+
+      saveCategories(categoryEntities);
     });
   }
 
-  Stream<List<Category>> observeSelectedCategories() {
-    return _localConfigRepository.consume().asStream().asyncExpand((storage) {
-      return storage.getCustomValue(categoriesTag,
-          defaultValue: List(), adapter: CategoryAdapter());
-    });
+  Future<void> saveCategory(CategoryEntity entity) async {
+    final CategoryDao dao = await _categoryDao;
+
+    dao.insertEntity(entity);
   }
 
-  void selectCategories(List<Category> categories) {
-    _localConfigRepository.consume().then((storage) {
-      storage.setString(categoriesTag, jsonEncode(categories));
-    });
+  Future<void> saveCategories(List<CategoryEntity> entities) async {
+    final CategoryDao dao = await _categoryDao;
+
+    dao.insertEntities(entities);
+  }
+
+  Stream<List<CategoryEntity>> observeCategories() async* {
+    final CategoryDao dao = await _categoryDao;
+
+    yield* dao.observeAll();
   }
 }

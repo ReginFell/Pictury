@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:pictury/data/source/local/preferences.dart';
+import 'package:pictury/data/preferences/preferences.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class LocalConfigProvider {

@@ -1,22 +1,26 @@
 import 'package:pictury/core/ui/base/base_bloc.dart';
+import 'package:pictury/data/category/category_repository.dart';
+import 'package:pictury/data/category/models/category.dart';
 import 'package:pictury/data/local_config/local_config_provider.dart';
-import 'package:pictury/data/remote_config/models/category.dart';
-import 'package:pictury/domain/categories/load_categories_use_case.dart';
-import 'package:pictury/domain/categories/save_categories_use_case.dart';
+import 'package:pictury/domain/category/models/category_view_model.dart';
 import 'package:pictury/features/categories/categories_event.dart';
 
 import 'categories_view_state.dart';
 
 class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
-  final LoadCategoriesUseCase _loadCategoriesUseCase;
-  final SaveCategoriesUseCase _saveCategoriesUseCase;
   final LocalConfigProvider _localConfigProvider;
+  final CategoryRepository _categoryRepository;
 
   CategoriesBloc(
     this._localConfigProvider,
-    this._loadCategoriesUseCase,
-    this._saveCategoriesUseCase,
-  );
+    this._categoryRepository,
+  ) {
+    subscriptions.add(
+      _categoryRepository
+          .observeCategories()
+          .listen((value) => dispatch(LoadCategoriesEvent(value))),
+    );
+  }
 
   @override
   CategoriesViewState get initialState => CategoriesViewState.createDefault();
@@ -24,57 +28,64 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
   @override
   Stream<CategoriesViewState> mapEventToState(event) async* {
     yield* event.when(
-      initLoadingEvent: _loadCategories,
+      initEvent: _init,
       selectCategoryEvent: _selectCategory,
       continueEvent: _continue,
+      loadCategoriesEvent: _loadCategories,
       searchQueryChangedEvent: _searchCategories,
     );
   }
 
-  Stream<CategoriesViewState> _loadCategories(InitLoadingEvent event) async* {
+  Stream<CategoriesViewState> _init(InitEvent event) async* {
     yield currentState.rebuild((b) => b..isLoading = true);
 
-    final List<Category> categories =
-        await _loadCategoriesUseCase.loadCategories();
+    await _categoryRepository.loadCategories();
+  }
 
-    final List<Category> selectedCategories =
-        await _loadCategoriesUseCase.observeSelectedCategories().first;
+  Stream<CategoriesViewState> _loadCategories(
+      LoadCategoriesEvent event) async* {
+    yield currentState.rebuild((b) => b..isLoading = false);
 
-    yield currentState.rebuild(
-      (b) => b
-        ..isLoading = false
-        ..categories = categories
-        ..filteredCategories = categories
-        ..selectedCategories = selectedCategories,
+    yield* _filter(
+      event.entities.map((entity) => entity.asViewModel()).toList(),
+      currentState.query,
     );
   }
 
   Stream<CategoriesViewState> _searchCategories(
       SearchQueryChangedEvent event) async* {
-    final List filteredCategories = currentState.categories
-        .where((category) =>
-            category.name.toLowerCase().contains(event.query.toLowerCase()))
-        .toList();
-
-    yield currentState.rebuild((b) => b
-      ..filteredCategories = filteredCategories
-      ..query = event.query);
+    yield* _filter(
+      currentState.categories,
+      event.query,
+    );
   }
 
   Stream<CategoriesViewState> _selectCategory(
       SelectCategoryEvent event) async* {
-    yield currentState.rebuild(
-      (b) => b
-        ..selectedCategories = b.selectedCategories.contains(event.category)
-            ? [...b.selectedCategories..remove(event.category)]
-            : [...b.selectedCategories..add(event.category)],
-    );
+    final CategoryEntity entity = event.categoryViewModel
+        .asEntity(isSelected: !event.categoryViewModel.isSelected);
+
+    await _categoryRepository.saveCategory(entity);
   }
 
   Stream<CategoriesViewState> _continue(ContinueEvent event) async* {
-    _saveCategoriesUseCase.saveCategories(currentState.selectedCategories);
     _localConfigProvider.setCategorySelected(true);
 
     yield currentState.rebuild((b) => b..doneEditing = true);
+  }
+
+  Stream<CategoriesViewState> _filter(
+      List<CategoryViewModel> models, query) async* {
+    final List filteredCategories = models
+        .where((category) =>
+            category.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    yield currentState.rebuild(
+      (b) => b
+        ..categories = models
+        ..filteredCategories = filteredCategories
+        ..query = query,
+    );
   }
 }

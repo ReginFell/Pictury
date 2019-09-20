@@ -7,8 +7,9 @@ import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/core/ui/widget/search_view.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
+import 'package:pictury/domain/category/models/category_view_model.dart';
 import 'package:pictury/features/categories/categories_view_state.dart';
-import 'package:pictury/features/categories/widgets/category_item.dart';
+import 'package:pictury/features/categories/widgets/selectable_item.dart';
 import 'package:pictury/features/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -35,9 +36,8 @@ class CategoriesScreen extends StatelessWidget {
             }
           }
         },
-        bloc: CategoriesBloc(
-            Provider.of(context), Provider.of(context), Provider.of(context)),
-        onBlocReady: (model) => model.dispatch(InitLoadingEvent()),
+        bloc: CategoriesBloc(Provider.of(context), Provider.of(context)),
+        onBlocReady: (model) => model.dispatch(InitEvent()),
         builder: (context, model) {
           return PlatformScaffold(
             body: _buildBody(context),
@@ -96,24 +96,21 @@ class CategoriesScreen extends StatelessWidget {
         ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            final Category category =
+            final CategoryViewModel viewModel =
                 bloc.currentState.filteredCategories[index];
-            final bool isSelected =
-                bloc.currentState.selectedCategories.contains(category);
 
             return SelectableItem(
-                key: ObjectKey(category),
-                item: category,
+                item: viewModel,
                 selected: Stack(
                   children: [
                     Positioned.fill(
                         child: CachedNetworkImage(
-                      imageUrl: (category as ApiCategory).picture,
+                      imageUrl: viewModel.image,
                       fit: BoxFit.cover,
                     )),
                     Align(
                       alignment: Alignment.center,
-                      child: Text(category.name,
+                      child: Text(viewModel.name,
                           style: Theme.of(context)
                               .textTheme
                               .subtitle
@@ -126,7 +123,7 @@ class CategoriesScreen extends StatelessWidget {
                     Positioned.fill(child: Container(color: Colors.white)),
                     Align(
                       alignment: Alignment.center,
-                      child: Text(category.name,
+                      child: Text(viewModel.name,
                           style: Theme.of(context)
                               .textTheme
                               .subtitle
@@ -134,7 +131,7 @@ class CategoriesScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                isSelected: isSelected,
+                isSelected: viewModel.isSelected,
                 onTap: (category) =>
                     bloc.dispatch(SelectCategoryEvent(category)));
           },

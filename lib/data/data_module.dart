@@ -1,19 +1,20 @@
 import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:pictury/data/category/category_dao.dart';
 import 'package:pictury/data/category/category_repository.dart';
-import 'package:pictury/data/client/access_key_client.dart';
 import 'package:pictury/data/gallery/gallery_dao.dart';
 import 'package:pictury/data/gallery/gallery_repository.dart';
 import 'package:pictury/data/local_config/local_config_provider.dart';
 import 'package:pictury/data/remote_config/remote_config_provider.dart';
-import 'package:pictury/data/source/local/app_database.dart';
-import 'package:pictury/data/source/local/preferences.dart';
+import 'package:pictury/data/database/app_database.dart';
+import 'package:pictury/data/preferences/preferences.dart';
 import 'package:pictury/environment.dart';
 import 'package:provider/provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-import 'source/remote/api.dart';
+import 'api/api.dart';
+import 'api/client/access_key_client.dart';
 
 List<SingleChildCloneableWidget> independentServices = [
   Provider.value(value: _createHttpClient()),
@@ -31,6 +32,10 @@ List<SingleChildCloneableWidget> dependentServices = [
     builder: (context, database, _) =>
         database.then((database) => database.galleryDao),
   ),
+  ProxyProvider<Future<AppDatabase>, Future<CategoryDao>>(
+    builder: (context, database, _) =>
+        database.then((database) => database.categoryDao),
+  ),
   ProxyProvider2<Api, Future<GalleryDao>, GalleryRepository>(
     builder: (context, api, dao, _) => GalleryRepository(api, dao),
   ),
@@ -43,9 +48,9 @@ List<SingleChildCloneableWidget> dependentServices = [
   ProxyProvider<Preferences, LocalConfigProvider>(
     builder: (context, preferences, _) => LocalConfigProvider(preferences),
   ),
-  ProxyProvider2<LocalConfigProvider, RemoteConfigProvider, CategoryRepository>(
-    builder: (context, localConfigProvider, remoteConfigProvider, _) =>
-        CategoryRepository(localConfigProvider, remoteConfigProvider),
+  ProxyProvider2<Future<CategoryDao>, RemoteConfigProvider, CategoryRepository>(
+    builder: (context, categoryDao, remoteConfigProvider, _) =>
+        CategoryRepository(categoryDao, remoteConfigProvider),
   )
 ];
 

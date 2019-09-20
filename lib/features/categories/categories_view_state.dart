@@ -1,15 +1,13 @@
 import 'package:built_value/built_value.dart';
-import 'package:pictury/data/remote_config/models/category.dart';
+import 'package:pictury/domain/category/models/category_view_model.dart';
 
 part 'categories_view_state.g.dart';
 
 abstract class CategoriesViewState
     implements Built<CategoriesViewState, CategoriesViewStateBuilder> {
-  List<Category> get categories;
+  List<CategoryViewModel> get categories;
 
-  List<Category> get filteredCategories;
-
-  List<Category> get selectedCategories;
+  List<CategoryViewModel> get filteredCategories;
 
   String get query;
 
@@ -26,7 +24,6 @@ abstract class CategoriesViewState
         (b) => b
           ..categories = List()
           ..filteredCategories = List()
-          ..selectedCategories = List()
           ..query = ""
           ..isLoading = false
           ..doneEditing = false

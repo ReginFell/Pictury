@@ -59,6 +59,8 @@ class _$AppDatabase extends AppDatabase {
 
   GalleryDao _galleryDaoInstance;
 
+  CategoryDao _categoryDaoInstance;
+
   Future<sqflite.Database> open(String name, List<Migration> migrations,
       [Callback callback]) async {
     final path = join(await sqflite.getDatabasesPath(), name);
@@ -81,6 +83,8 @@ class _$AppDatabase extends AppDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Gallery` (`id` TEXT, `title` TEXT, `link` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Category` (`name` TEXT, `image` TEXT, `query` TEXT, `isSelected` INTEGER, PRIMARY KEY (`name`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -90,6 +94,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   GalleryDao get galleryDao {
     return _galleryDaoInstance ??= _$GalleryDao(database, changeListener);
+  }
+
+  @override
+  CategoryDao get categoryDao {
+    return _categoryDaoInstance ??= _$CategoryDao(database, changeListener);
   }
 }
 
@@ -156,5 +165,78 @@ class _$GalleryDao extends GalleryDao {
   @override
   Future<void> deleteEntity(GalleryEntity entity) async {
     await _galleryEntityDeletionAdapter.delete(entity);
+  }
+}
+
+class _$CategoryDao extends CategoryDao {
+  _$CategoryDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _categoryEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'Category',
+            (CategoryEntity item) => <String, dynamic>{
+                  'name': item.name,
+                  'image': item.image,
+                  'query': item.query,
+                  'isSelected': item.isSelected ? 1 : 0
+                },
+            changeListener),
+        _categoryEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'Category',
+            ['name'],
+            (CategoryEntity item) => <String, dynamic>{
+                  'name': item.name,
+                  'image': item.image,
+                  'query': item.query,
+                  'isSelected': item.isSelected ? 1 : 0
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  static final _categoryMapper = (Map<String, dynamic> row) => CategoryEntity(
+      row['name'] as String,
+      row['image'] as String,
+      row['query'] as String,
+      (row['isSelected'] as int) != 0);
+
+  final InsertionAdapter<CategoryEntity> _categoryEntityInsertionAdapter;
+
+  final DeletionAdapter<CategoryEntity> _categoryEntityDeletionAdapter;
+
+  @override
+  Stream<List<CategoryEntity>> observeAll() {
+    return _queryAdapter.queryListStream('SELECT * FROM Category ORDER BY name',
+        tableName: 'Category', mapper: _categoryMapper);
+  }
+
+  @override
+  Stream<List<CategoryEntity>> observeById(String id) {
+    return _queryAdapter.queryListStream('SELECT * FROM Category WHERE id = ?',
+        arguments: <dynamic>[id],
+        tableName: 'Category',
+        mapper: _categoryMapper);
+  }
+
+  @override
+  Future<void> insertEntity(CategoryEntity entity) async {
+    await _categoryEntityInsertionAdapter.insert(
+        entity, sqflite.ConflictAlgorithm.replace);
+  }
+
+  @override
+  Future<void> insertEntities(List<CategoryEntity> entity) async {
+    await _categoryEntityInsertionAdapter.insertList(
+        entity, sqflite.ConflictAlgorithm.replace);
+  }
+
+  @override
+  Future<void> deleteEntity(CategoryEntity entity) async {
+    await _categoryEntityDeletionAdapter.delete(entity);
   }
 }

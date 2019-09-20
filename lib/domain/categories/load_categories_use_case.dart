@@ -11,6 +11,6 @@ class LoadCategoriesUseCase {
   }
 
   Stream<List<Category>> observeSelectedCategories() {
-    return _categoryRepository.observeSelectedCategories();
+    return Stream.empty();
   }
 }
