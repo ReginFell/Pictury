@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
-  static const double borderLineSize = 2;
+  static const double borderLineSize = 0;
   static const double bottomBarSize = 50 + borderLineSize;
 
   final Widget child;
@@ -16,7 +16,6 @@ class BottomBar extends StatelessWidget {
       height: bottomBarSize,
       child: Column(
         children: [
-          Container(color: Colors.black, height: borderLineSize),
           Expanded(
             child: child,
           )

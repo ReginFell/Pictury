@@ -65,14 +65,15 @@ class GalleryDetailsScreen extends StatelessWidget {
                   onTap: () => {bloc.dispatch(MakeFavoriteEvent())},
                   customBorder: new CircleBorder(),
                   child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: AnimatedSwitcher(
-                        duration: Duration(milliseconds: 300),
-                        child: bloc.currentState.isFavorite
-                            ? Icon(Icons.star, key: ValueKey("selected"))
-                            : Icon(Icons.star_border,
-                                key: ValueKey("notSelected")),
-                      ))),
+                    padding: EdgeInsets.all(8.0),
+                    child: AnimatedSwitcher(
+                      duration: Duration(milliseconds: 300),
+                      child: bloc.currentState.isFavorite
+                          ? Icon(Icons.star, key: ValueKey("selected"))
+                          : Icon(Icons.star_border,
+                              key: ValueKey("notSelected")),
+                    ),
+                  )),
             ),
             Align(
               alignment: Alignment.center,

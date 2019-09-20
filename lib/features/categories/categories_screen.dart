@@ -100,21 +100,38 @@ class CategoriesScreen extends StatelessWidget {
                 bloc.currentState.selectedCategories.contains(category);
 
             return SelectableItem(
+                key: ObjectKey(category),
                 item: category,
-                background: CachedNetworkImage(
-                  imageUrl: (category as ApiCategory).picture,
-                  fit: BoxFit.cover,
+                selected: Stack(
+                  children: [
+                    Positioned.fill(
+                        child: CachedNetworkImage(
+                      imageUrl: (category as ApiCategory).picture,
+                      fit: BoxFit.cover,
+                    )),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(category.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle
+                              .copyWith(color: Colors.white, fontSize: 22)),
+                    )
+                  ],
                 ),
-                foreground: Text(category.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle
-                        .copyWith(color: Colors.black, fontSize: 22)),
-                foregroundSelected: Text(category.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle
-                        .copyWith(color: Colors.white, fontSize: 22)),
+                notSelected: Stack(
+                  children: [
+                    Positioned.fill(child: Container(color: Colors.white)),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(category.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle
+                              .copyWith(color: Colors.black, fontSize: 22)),
+                    )
+                  ],
+                ),
                 isSelected: isSelected,
                 onTap: (category) =>
                     bloc.dispatch(SelectCategoryEvent(category)));
@@ -130,26 +147,27 @@ class CategoriesScreen extends StatelessWidget {
     return SliverPadding(
       padding: const EdgeInsets.all(16.0),
       sliver: SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-        return Container(
-          child: Column(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(localization.translate("hi_how_are_you"),
-                    style: theme.textTheme.headline
-                        .copyWith(color: theme.primaryColorDark)),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(localization.translate("choose_what_you_like"),
-                    style: theme.textTheme.subhead
-                        .copyWith(color: theme.primaryColorDark)),
-              ),
-            ],
-          ),
-        );
-      }, childCount: 1)),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          return Container(
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(localization.translate("hi_how_are_you"),
+                      style: theme.textTheme.headline
+                          .copyWith(color: theme.primaryColorDark)),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(localization.translate("choose_what_you_like"),
+                      style: theme.textTheme.subhead
+                          .copyWith(color: theme.primaryColorDark)),
+                ),
+              ],
+            ),
+          );
+        }, childCount: 1),
+      ),
     );
   }
 
