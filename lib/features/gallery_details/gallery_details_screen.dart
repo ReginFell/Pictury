@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
-import 'package:pictury/core/ui/widget/zoomable.dart';
 import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
 import 'package:pictury/features/gallery_details/gallery_details_bloc.dart';
 import 'package:pictury/features/gallery_details/gallery_details_event.dart';
@@ -33,18 +33,15 @@ class GalleryDetailsScreen extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, GalleryDetailsBloc bloc) {
     return Container(
+      width: double.infinity,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
-            child: FittedBox(
-              child: Hero(
-                child: Zoomable(
-                  child: CachedNetworkImage(
-                      imageUrl: _arguments._galleryViewModel.link),
-                ),
-                tag: _arguments._tag,
-              ),
-            ),
+            child: PhotoView(
+                heroAttributes: PhotoViewHeroAttributes(tag: _arguments._tag),
+                imageProvider: CachedNetworkImageProvider(
+                    _arguments._galleryViewModel.link)),
           ),
           _buildBottomMenu(context, bloc)
         ],
