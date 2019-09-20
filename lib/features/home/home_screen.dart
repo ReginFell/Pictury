@@ -78,6 +78,7 @@ class HomeScreen extends StatelessWidget {
   Widget _buildBottomTabs(BuildContext context, HomeBloc model) {
     return BottomBar(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
             child: InkWell(

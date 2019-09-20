@@ -11,6 +11,8 @@ abstract class CategoriesViewState
 
   List<Category> get selectedCategories;
 
+  String get query;
+
   bool get isLoading;
 
   bool get doneEditing;
@@ -25,6 +27,7 @@ abstract class CategoriesViewState
           ..categories = List()
           ..filteredCategories = List()
           ..selectedCategories = List()
+          ..query = ""
           ..isLoading = false
           ..doneEditing = false
           ..hasError = null,

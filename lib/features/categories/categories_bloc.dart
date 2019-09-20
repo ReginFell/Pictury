@@ -23,18 +23,15 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
 
   @override
   Stream<CategoriesViewState> mapEventToState(event) async* {
-    if (event is InitLoadingEvent) {
-      yield* _loadCategories();
-    } else if (event is SelectCategoryEvent) {
-      yield* _selectCategory(event.category);
-    } else if (event is ContinueEvent) {
-      yield* _continue();
-    } else if (event is SearchQueryChangedEvent) {
-      yield* _searchCategories(event.query);
-    }
+    yield* event.when(
+      initLoadingEvent: _loadCategories,
+      selectCategoryEvent: _selectCategory,
+      continueEvent: _continue,
+      searchQueryChangedEvent: _searchCategories,
+    );
   }
 
-  Stream<CategoriesViewState> _loadCategories() async* {
+  Stream<CategoriesViewState> _loadCategories(InitLoadingEvent event) async* {
     yield currentState.rebuild((b) => b..isLoading = true);
 
     final List<Category> categories =
@@ -52,27 +49,29 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
     );
   }
 
-  Stream<CategoriesViewState> _searchCategories(String query) async* {
+  Stream<CategoriesViewState> _searchCategories(
+      SearchQueryChangedEvent event) async* {
     final List filteredCategories = currentState.categories
         .where((category) =>
-            category.name.toLowerCase().contains(query.toLowerCase()))
+            category.name.toLowerCase().contains(event.query.toLowerCase()))
         .toList();
 
-    yield currentState.rebuild(
-      (b) => b..filteredCategories = filteredCategories,
-    );
+    yield currentState.rebuild((b) => b
+      ..filteredCategories = filteredCategories
+      ..query = event.query);
   }
 
-  Stream<CategoriesViewState> _selectCategory(Category category) async* {
+  Stream<CategoriesViewState> _selectCategory(
+      SelectCategoryEvent event) async* {
     yield currentState.rebuild(
       (b) => b
-        ..selectedCategories = b.selectedCategories.contains(category)
-            ? [...b.selectedCategories..remove(category)]
-            : [...b.selectedCategories..add(category)],
+        ..selectedCategories = b.selectedCategories.contains(event.category)
+            ? [...b.selectedCategories..remove(event.category)]
+            : [...b.selectedCategories..add(event.category)],
     );
   }
 
-  Stream<CategoriesViewState> _continue() async* {
+  Stream<CategoriesViewState> _continue(ContinueEvent event) async* {
     _saveCategoriesUseCase.saveCategories(currentState.selectedCategories);
     _localConfigProvider.setCategorySelected(true);
 

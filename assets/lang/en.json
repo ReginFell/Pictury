@@ -7,5 +7,6 @@
   "skip": "Skip",
   "or_add_your_own": "Or add your own",
   "find_category": "You could find a category",
+  "category_not_found": "We don't have this category, but we can add",
   "continue": "Continue"
 }

@@ -14,6 +14,8 @@ class _$CategoriesViewState extends CategoriesViewState {
   @override
   final List<Category> selectedCategories;
   @override
+  final String query;
+  @override
   final bool isLoading;
   @override
   final bool doneEditing;
@@ -28,6 +30,7 @@ class _$CategoriesViewState extends CategoriesViewState {
       {this.categories,
       this.filteredCategories,
       this.selectedCategories,
+      this.query,
       this.isLoading,
       this.doneEditing,
       this.hasError})
@@ -42,6 +45,9 @@ class _$CategoriesViewState extends CategoriesViewState {
     if (selectedCategories == null) {
       throw new BuiltValueNullFieldError(
           'CategoriesViewState', 'selectedCategories');
+    }
+    if (query == null) {
+      throw new BuiltValueNullFieldError('CategoriesViewState', 'query');
     }
     if (isLoading == null) {
       throw new BuiltValueNullFieldError('CategoriesViewState', 'isLoading');
@@ -67,6 +73,7 @@ class _$CategoriesViewState extends CategoriesViewState {
         categories == other.categories &&
         filteredCategories == other.filteredCategories &&
         selectedCategories == other.selectedCategories &&
+        query == other.query &&
         isLoading == other.isLoading &&
         doneEditing == other.doneEditing &&
         hasError == other.hasError;
@@ -78,9 +85,11 @@ class _$CategoriesViewState extends CategoriesViewState {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc(0, categories.hashCode),
-                        filteredCategories.hashCode),
-                    selectedCategories.hashCode),
+                    $jc(
+                        $jc($jc(0, categories.hashCode),
+                            filteredCategories.hashCode),
+                        selectedCategories.hashCode),
+                    query.hashCode),
                 isLoading.hashCode),
             doneEditing.hashCode),
         hasError.hashCode));
@@ -92,6 +101,7 @@ class _$CategoriesViewState extends CategoriesViewState {
           ..add('categories', categories)
           ..add('filteredCategories', filteredCategories)
           ..add('selectedCategories', selectedCategories)
+          ..add('query', query)
           ..add('isLoading', isLoading)
           ..add('doneEditing', doneEditing)
           ..add('hasError', hasError))
@@ -117,6 +127,10 @@ class CategoriesViewStateBuilder
   set selectedCategories(List<Category> selectedCategories) =>
       _$this._selectedCategories = selectedCategories;
 
+  String _query;
+  String get query => _$this._query;
+  set query(String query) => _$this._query = query;
+
   bool _isLoading;
   bool get isLoading => _$this._isLoading;
   set isLoading(bool isLoading) => _$this._isLoading = isLoading;
@@ -136,6 +150,7 @@ class CategoriesViewStateBuilder
       _categories = _$v.categories;
       _filteredCategories = _$v.filteredCategories;
       _selectedCategories = _$v.selectedCategories;
+      _query = _$v.query;
       _isLoading = _$v.isLoading;
       _doneEditing = _$v.doneEditing;
       _hasError = _$v.hasError;
@@ -164,6 +179,7 @@ class CategoriesViewStateBuilder
             categories: categories,
             filteredCategories: filteredCategories,
             selectedCategories: selectedCategories,
+            query: query,
             isLoading: isLoading,
             doneEditing: doneEditing,
             hasError: hasError);

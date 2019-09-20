@@ -66,6 +66,8 @@ class CategoriesScreen extends StatelessWidget {
                   _buildTitle(context),
                   _buildSearch(context, bloc),
                   _buildAppCategories(context),
+                  if (bloc.currentState.filteredCategories.isEmpty)
+                    _buildNewCategory(context, bloc)
                 ])),
                 InkWell(
                   onTap: () => bloc.dispatch(ContinueEvent()),
@@ -183,6 +185,31 @@ class CategoriesScreen extends StatelessWidget {
           onChanged: (query) {
             bloc.dispatch(SearchQueryChangedEvent(query));
           },
+        );
+      }, childCount: 1)),
+    );
+  }
+
+  Widget _buildNewCategory(BuildContext context, CategoriesBloc bloc) {
+    final AppLocalizations localization = AppLocalizations.of(context);
+
+    return SliverPadding(
+      padding: const EdgeInsets.all(16.0),
+      sliver: SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+        return Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(localization.translate("category_not_found")),
+              InkWell(
+                  onTap: () {},
+                  child: Text(
+                    " ${bloc.currentState.query}",
+                    style: TextStyle(color: Colors.blue, fontSize: 22),
+                  ))
+            ],
+          ),
         );
       }, childCount: 1)),
     );

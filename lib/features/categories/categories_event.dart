@@ -1,6 +1,11 @@
 import 'package:pictury/data/remote_config/models/category.dart';
 
-abstract class CategoriesEvent {}
+import 'package:meta/meta.dart';
+
+part 'categories_event.g.dart';
+
+@sealed
+abstract class CategoriesEvent with SealedCategoriesEvent {}
 
 class InitLoadingEvent extends CategoriesEvent {}
 

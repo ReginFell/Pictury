@@ -54,8 +54,8 @@ class GalleryDetailsScreen extends StatelessWidget {
 
   Widget _buildBottomMenu(BuildContext context, GalleryDetailsBloc bloc) {
     return BottomBar(
-      color: Colors.white,
       child: Material(
+        type: MaterialType.transparency,
         child: Stack(
           fit: StackFit.expand,
           children: [
