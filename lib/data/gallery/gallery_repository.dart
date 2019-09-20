@@ -40,6 +40,12 @@ class GalleryRepository {
   Stream<GalleryEntity> observeById(String id) async* {
     final GalleryDao dao = await _galleryDao;
 
-    yield* dao.observeById(id);
+    yield* dao.observeById(id).map((result) {
+      if (result.isNotEmpty) {
+        return result.first;
+      } else {
+        return null;
+      }
+    });
   }
 }

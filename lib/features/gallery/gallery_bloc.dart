@@ -23,6 +23,17 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
     }
   }
 
+  @override
+  GalleryViewState get initialState => GalleryViewState.createDefault();
+
+  @override
+  Stream<GalleryViewState> mapEventToState(event) async* {
+    yield* event.when(
+      loadNextPageEvent: _loadGallery,
+      pageLoadedEvent: _loadGalleryLocally,
+    );
+  }
+
   Stream<GalleryViewState> _loadGallery(LoadNextPageEvent event) async* {
     final GalleryType type = _galleryType;
     if (type is RemoteGalleryType) {
@@ -52,17 +63,6 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
         ..pictures = event.entities
             .map((value) => GalleryViewModel(value.id, value.title, value.link))
             .toList(),
-    );
-  }
-
-  @override
-  GalleryViewState get initialState => GalleryViewState.createDefault();
-
-  @override
-  Stream<GalleryViewState> mapEventToState(event) async* {
-    yield* event.when(
-      loadNextPageEvent: _loadGallery,
-      pageLoadedEvent: _loadGalleryLocally,
     );
   }
 }

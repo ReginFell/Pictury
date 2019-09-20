@@ -7,7 +7,7 @@ abstract class GalleryDao {
   Stream<List<GalleryEntity>> observeAll();
 
   @Query('SELECT * FROM Gallery WHERE id = :id')
-  Stream<GalleryEntity> observeById(String id);
+  Stream<List<GalleryEntity>> observeById(String id);
 
   @insert
   Future<void> insertEntity(GalleryEntity entity);

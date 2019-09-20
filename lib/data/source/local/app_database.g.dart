@@ -136,8 +136,8 @@ class _$GalleryDao extends GalleryDao {
   }
 
   @override
-  Stream<GalleryEntity> observeById(String id) {
-    return _queryAdapter.queryStream('SELECT * FROM Gallery WHERE id = ?',
+  Stream<List<GalleryEntity>> observeById(String id) {
+    return _queryAdapter.queryListStream('SELECT * FROM Gallery WHERE id = ?',
         arguments: <dynamic>[id], tableName: 'Gallery', mapper: _galleryMapper);
   }
 

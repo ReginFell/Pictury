@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
+import 'package:pictury/core/ui/widget/zoomable.dart';
 import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
 import 'package:pictury/features/gallery_details/gallery_details_bloc.dart';
 import 'package:pictury/features/gallery_details/gallery_details_event.dart';
@@ -36,10 +37,11 @@ class GalleryDetailsScreen extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: FittedBox(
-              fit: BoxFit.cover,
               child: Hero(
-                child: CachedNetworkImage(
-                    imageUrl: _arguments._galleryViewModel.link),
+                child: Zoomable(
+                  child: CachedNetworkImage(
+                      imageUrl: _arguments._galleryViewModel.link),
+                ),
                 tag: _arguments._tag,
               ),
             ),
@@ -58,17 +60,20 @@ class GalleryDetailsScreen extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    customBorder: new CircleBorder(),
-                    child: bloc.currentState.isFavorite
-                        ? Icon(Icons.star)
-                        : Icon(Icons.star_border),
-                    onTap: () => {bloc.dispatch(MakeFavoriteEvent())},
-                  ),
-                )),
+              alignment: Alignment.centerLeft,
+              child: InkWell(
+                  onTap: () => {bloc.dispatch(MakeFavoriteEvent())},
+                  customBorder: new CircleBorder(),
+                  child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: AnimatedSwitcher(
+                        duration: Duration(milliseconds: 300),
+                        child: bloc.currentState.isFavorite
+                            ? Icon(Icons.star, key: ValueKey("selected"))
+                            : Icon(Icons.star_border,
+                                key: ValueKey("notSelected")),
+                      ))),
+            ),
             Align(
               alignment: Alignment.center,
               child: Padding(
