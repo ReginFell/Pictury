@@ -6,7 +6,6 @@ import 'package:pictury/core/ui/widget/app_label_text.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/core/ui/widget/keep_alive_widget.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
-import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:pictury/features/categories/categories_screen.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
 import 'package:pictury/features/gallery/gallery_type.dart';
@@ -63,13 +62,16 @@ class HomeScreen extends StatelessWidget {
   Widget _buildPages(BuildContext context, HomeBloc model) {
     return TabBarView(children: [
       ...model.currentState.categories.map((category) {
-        if (category is ApiCategory) {
+        if (category.name.contains("Favorite")) {
+          return KeepAliveWidget(GalleryScreen(
+            FavoriteGalleryType(),
+            key: ValueKey(category.query),
+          ));
+        } else {
           return KeepAliveWidget(GalleryScreen(
             RemoteGalleryType(category.query),
             key: ValueKey(category.query),
           ));
-        } else {
-          return KeepAliveWidget(GalleryScreen(FavoriteGalleryType()));
         }
       })
     ]);
@@ -99,12 +101,10 @@ class HomeScreen extends StatelessWidget {
               indicator: LineTabDecoration(color: Colors.black),
               tabs: [
                 ...model.currentState.categories.map((category) {
-                  if (category is ApiCategory) {
-                    return Tab(child: LabelText(category.name));
-                  } else if (category is LocalCategory) {
+                  if (category.iconData != null) {
                     return Tab(child: Icon(category.iconData));
                   } else {
-                    return Container();
+                    return Tab(child: LabelText(category.name));
                   }
                 })
               ],

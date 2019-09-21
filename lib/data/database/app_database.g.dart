@@ -181,6 +181,17 @@ class _$CategoryDao extends CategoryDao {
                   'isSelected': item.isSelected ? 1 : 0
                 },
             changeListener),
+        _categoryEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'Category',
+            ['name'],
+            (CategoryEntity item) => <String, dynamic>{
+                  'name': item.name,
+                  'image': item.image,
+                  'query': item.query,
+                  'isSelected': item.isSelected ? 1 : 0
+                },
+            changeListener),
         _categoryEntityDeletionAdapter = DeletionAdapter(
             database,
             'Category',
@@ -207,6 +218,8 @@ class _$CategoryDao extends CategoryDao {
 
   final InsertionAdapter<CategoryEntity> _categoryEntityInsertionAdapter;
 
+  final UpdateAdapter<CategoryEntity> _categoryEntityUpdateAdapter;
+
   final DeletionAdapter<CategoryEntity> _categoryEntityDeletionAdapter;
 
   @override
@@ -226,13 +239,19 @@ class _$CategoryDao extends CategoryDao {
   @override
   Future<void> insertEntity(CategoryEntity entity) async {
     await _categoryEntityInsertionAdapter.insert(
-        entity, sqflite.ConflictAlgorithm.replace);
+        entity, sqflite.ConflictAlgorithm.ignore);
   }
 
   @override
   Future<void> insertEntities(List<CategoryEntity> entity) async {
     await _categoryEntityInsertionAdapter.insertList(
-        entity, sqflite.ConflictAlgorithm.replace);
+        entity, sqflite.ConflictAlgorithm.ignore);
+  }
+
+  @override
+  Future<void> updateEntity(CategoryEntity entity) async {
+    await _categoryEntityUpdateAdapter.update(
+        entity, sqflite.ConflictAlgorithm.abort);
   }
 
   @override

@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pictury/data/remote_config/models/category.dart';
+import 'package:pictury/domain/category/models/category_view_model.dart';
 
 class HomeViewState {
-  final List<Category> categories;
+  final List<CategoryViewModel> categories;
 
   HomeViewState({@required this.categories});
 

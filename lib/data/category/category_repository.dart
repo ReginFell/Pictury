@@ -34,6 +34,12 @@ class CategoryRepository {
     dao.insertEntity(entity);
   }
 
+  Future<void> updateCategory(CategoryEntity entity) async {
+    final CategoryDao dao = await _categoryDao;
+
+    dao.updateEntity(entity);
+  }
+
   Future<void> saveCategories(List<CategoryEntity> entities) async {
     final CategoryDao dao = await _categoryDao;
 

@@ -63,9 +63,9 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
   Stream<CategoriesViewState> _selectCategory(
       SelectCategoryEvent event) async* {
     final CategoryEntity entity = event.categoryViewModel
-        .asEntity(isSelected: !event.categoryViewModel.isSelected);
+        .asEntity(isSelected: !event.categoryViewModel.isSelected ?? true);
 
-    await _categoryRepository.saveCategory(entity);
+    await _categoryRepository.updateCategory(entity);
   }
 
   Stream<CategoriesViewState> _continue(ContinueEvent event) async* {

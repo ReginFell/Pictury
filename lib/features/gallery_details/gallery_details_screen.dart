@@ -39,6 +39,7 @@ class GalleryDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             child: PhotoView(
+                initialScale: PhotoViewComputedScale.contained,
                 backgroundDecoration: BoxDecoration(color: Colors.white),
                 heroAttributes: PhotoViewHeroAttributes(tag: _arguments._tag),
                 imageProvider: CachedNetworkImageProvider(

@@ -1,13 +1,25 @@
+import 'package:built_value/built_value.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pictury/data/category/models/category.dart';
 
 class CategoryViewModel {
   final String name;
   final String image;
+
+  @nullable
   final String query;
+  @nullable
+  final IconData iconData;
 
   final bool isSelected;
 
-  CategoryViewModel(this.name, this.image, this.query, this.isSelected);
+  CategoryViewModel({
+    @required this.name,
+    this.image,
+    this.query,
+    this.iconData,
+    @required this.isSelected,
+  });
 
   CategoryEntity asEntity(
           {String name, String image, String query, bool isSelected}) =>
