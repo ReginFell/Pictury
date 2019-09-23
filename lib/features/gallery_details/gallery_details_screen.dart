@@ -25,7 +25,7 @@ class GalleryDetailsScreen extends StatelessWidget {
       builder: (context, bloc) => Scaffold(
         extendBodyBehindAppBar: true,
         appBar:
-            ApplicationAppBar.create(title: _arguments._galleryViewModel.title),
+            ApplicationAppBar.create(context, title: _arguments._galleryViewModel.title),
         body: Builder(builder: (context) => _buildBody(context, bloc)),
       ),
     );

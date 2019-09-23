@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
           return DefaultTabController(
               length: model.currentState.categories.length,
               child: Scaffold(
-                appBar: ApplicationAppBar.create(title: "Pictury", actions: [
+                appBar: ApplicationAppBar.create(context, title: "Pictury", actions: [
                   IconButton(
                     icon: Icon(
                       Icons.search,

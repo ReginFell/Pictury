@@ -6,16 +6,22 @@ class MaterialThemeLight extends AppTheme {
   Color get iconColor => Colors.black;
 
   @override
+  Color get searchIconColor => Colors.white;
+
+  @override
   Color get textColor => Colors.black;
 
   @override
   Color get bottomBarBackgroundColor => Colors.white;
 
   @override
-  Color get searchBarColor => Colors.grey;
+  Color get searchBarColor => Colors.grey.withOpacity(0.2);
 
   @override
-  double get searchBarCornerRadius => 15.0;
+  Color get appBarBackgroundColor => Color(0xFF4D4D4D).withOpacity(0.5);
+
+  @override
+  double get searchBarCornerRadius => 10.0;
 
   @override
   ThemeData get themeData => ThemeData(

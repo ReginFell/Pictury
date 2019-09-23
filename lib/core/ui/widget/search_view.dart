@@ -19,7 +19,7 @@ class SearchView extends StatelessWidget {
         color: theme.searchBarColor,
         child: TextField(
             decoration: new InputDecoration(
-              prefixIcon: Icon(Icons.search, color: Colors.grey),
+              prefixIcon: Icon(Icons.search, color: theme.searchIconColor),
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
               hintText: hint,
