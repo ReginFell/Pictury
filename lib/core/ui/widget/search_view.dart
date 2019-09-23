@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pictury/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
 class SearchView extends StatelessWidget {
   final String hint;
@@ -9,10 +11,12 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppTheme theme = Provider.of(context);
+
     return ClipRRect(
-      borderRadius: BorderRadius.circular(15.0),
+      borderRadius: BorderRadius.circular(theme.searchBarCornerRadius),
       child: Container(
-        color: Colors.grey.withOpacity(0.2),
+        color: theme.searchBarColor,
         child: TextField(
             decoration: new InputDecoration(
               prefixIcon: Icon(Icons.search, color: Colors.grey),

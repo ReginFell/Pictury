@@ -1,28 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:pictury/theme/app_theme.dart';
+import 'package:pictury/theme/material_theme.dart';
 
-enum AppTheme { LIGHT, DARK }
+enum ThemeMode { LIGHT, DARK }
 
 class MaterialThemeProvider {
-  static final ThemeData lightTheme = ThemeData(
-      primaryColor: Colors.amberAccent,
-      accentColor: Colors.amber,
-      fontFamily: "Sans",
-      brightness: Brightness.light,
-      primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
-      scaffoldBackgroundColor: Colors.white);
+  static final AppTheme lightTheme = MaterialThemeLight();
 
-  static final ThemeData darkTheme = ThemeData(
-    primaryColor: Colors.grey,
-    fontFamily: "Sans",
-    brightness: Brightness.dark,
-  );
+  static final AppTheme darkTheme = MaterialThemeLight();
 
-  static ThemeData getThemeFromKey(AppTheme theme) {
+  AppTheme getThemeFromKey(ThemeMode theme) {
     switch (theme) {
-      case AppTheme.LIGHT:
+      case ThemeMode.LIGHT:
         return lightTheme;
-      case AppTheme.DARK:
-        return darkTheme;
+      case ThemeMode.DARK:
+        return lightTheme;
       default:
         return lightTheme;
     }
