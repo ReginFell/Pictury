@@ -3,23 +3,15 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'category.g.dart';
 
-class Category {
-  String name;
-
-  Category.named(this.name);
-
-  Category();
-}
-
 @JsonSerializable()
-class ApiCategory extends Category {
+class ApiCategory {
+  String name;
   String picture;
   String query;
 
   ApiCategory();
 
-  ApiCategory.create({@required String name, this.picture, this.query})
-      : super.named(name);
+  ApiCategory.create({@required this.name, this.picture, this.query});
 
   factory ApiCategory.fromJson(Map<String, dynamic> json) =>
       _$ApiCategoryFromJson(json);
@@ -37,10 +29,4 @@ class ApiCategory extends Category {
 
   @override
   int get hashCode => name.hashCode ^ query.hashCode ^ picture.hashCode;
-}
-
-class LocalCategory extends Category {
-  IconData iconData;
-
-  LocalCategory(this.iconData);
 }
