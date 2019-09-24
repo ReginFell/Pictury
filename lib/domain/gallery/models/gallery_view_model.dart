@@ -19,11 +19,11 @@ class GalleryViewModel {
   });
 
   GalleryEntity asEntity() => GalleryEntity(
-        id: this.id,
-        title: this.title,
-        smallSizeLink: this.smallSizeLink,
-        regularSizeLink: this.regularSizeLink,
-        rawLink: this.rawLink,
-        fullSizeLink: this.fullSizeLink,
+        this.id,
+        this.title,
+        this.smallSizeLink,
+        this.regularSizeLink,
+        this.rawLink,
+        this.fullSizeLink,
       );
 }

@@ -15,12 +15,13 @@ class GalleryRepository {
 
     return result
         .map((imageResponse) => GalleryEntity(
-            id: imageResponse.id,
-            title: imageResponse.description,
-            smallSizeLink: imageResponse.urls.small,
-            regularSizeLink: imageResponse.urls.regular,
-            rawLink: imageResponse.urls.raw,
-            fullSizeLink: imageResponse.urls.full))
+              imageResponse.id,
+              imageResponse.description,
+              imageResponse.urls.small,
+              imageResponse.urls.regular,
+              imageResponse.urls.raw,
+              imageResponse.urls.full,
+            ))
         .toList();
   }
 

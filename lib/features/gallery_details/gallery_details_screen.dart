@@ -97,7 +97,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                                 leading: Icon(Icons.file_download),
                                 title: Text('Download full'),
                                 subtitle: Text(
-                                  _arguments._galleryViewModel.link,
+                                  _arguments._galleryViewModel.smallSizeLink,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
@@ -106,7 +106,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                                 leading: Icon(Icons.file_download),
                                 title: Text('Download raw'),
                                 subtitle: Text(
-                                  _arguments._galleryViewModel.link,
+                                  _arguments._galleryViewModel.smallSizeLink,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),

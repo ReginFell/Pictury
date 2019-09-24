@@ -18,14 +18,14 @@ class GalleryEntity {
   final String rawLink;
   final String fullSizeLink;
 
-  GalleryEntity({
+  GalleryEntity(
     @required this.id,
     @required this.title,
     @required this.smallSizeLink,
     @required this.regularSizeLink,
     @required this.rawLink,
     @required this.fullSizeLink,
-  });
+  );
 
   GalleryViewModel asViewModel() => GalleryViewModel(
         id: this.id,
