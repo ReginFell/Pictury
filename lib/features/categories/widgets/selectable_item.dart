@@ -38,8 +38,8 @@ class SelectableItem<T> extends StatelessWidget {
             }
           },
           child: isSelected
-              ? Container(key: ValueKey(item), child: selected)
-              : Container(key: ValueKey(item), child: notSelected),
+              ? Container(key: ValueKey(isSelected), child: selected)
+              : Container(key: ValueKey(isSelected), child: notSelected),
         ),
       ),
     );

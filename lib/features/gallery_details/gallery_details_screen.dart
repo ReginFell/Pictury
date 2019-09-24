@@ -24,8 +24,8 @@ class GalleryDetailsScreen extends StatelessWidget {
           _arguments._galleryViewModel, Provider.of(context)),
       builder: (context, bloc) => Scaffold(
         extendBodyBehindAppBar: true,
-        appBar:
-            ApplicationAppBar.create(context, title: _arguments._galleryViewModel.title),
+        appBar: ApplicationAppBar.create(context,
+            title: _arguments._galleryViewModel.title),
         body: Builder(builder: (context) => _buildBody(context, bloc)),
       ),
     );
@@ -79,69 +79,70 @@ class GalleryDetailsScreen extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  customBorder: new CircleBorder(),
-                  onTap: () {
-                    showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        context: context,
-                        builder: (builder) {
-                          return ListView(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            children:
-                                ListTile.divideTiles(context: context, tiles: [
-                              ListTile(
-                                leading: Icon(
-                                  Icons.file_download,
-                                  color: Colors.black,
-                                ),
-                                title: Text('Download full'),
-                                subtitle: Text(
-                                  _arguments._galleryViewModel.smallSizeLink,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.file_download),
-                                title: Text('Download raw'),
-                                subtitle: Text(
-                                  _arguments._galleryViewModel.smallSizeLink,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.image),
-                                title: Text('Set as a background'),
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.image),
-                                title: Text('Sheep'),
-                              ),
-                              ListTile(
-                                title: Text('Goat'),
-                              ),
-                            ]).toList(),
-                          );
-                        });
-                  },
+              child: InkWell(
+                customBorder: new CircleBorder(),
+                onTap: () => _showMenuDialog(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset(
                     "assets/icons/horizontal_options_menu.svg",
                     color: Colors.black,
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _showMenuDialog(BuildContext context) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        context: context,
+        builder: (builder) {
+          return ListView(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: ListTile.divideTiles(context: context, tiles: [
+              ListTile(
+                leading: Icon(
+                  Icons.file_download,
+                  color: Colors.black,
+                ),
+                title: Text('Download full'),
+                subtitle: Text(
+                  _arguments._galleryViewModel.smallSizeLink,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.file_download),
+                title: Text('Download raw'),
+                subtitle: Text(
+                  _arguments._galleryViewModel.smallSizeLink,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.image),
+                title: Text('Set as a background'),
+              ),
+              ListTile(
+                leading: Icon(Icons.image),
+                title: Text('Sheep'),
+              ),
+              ListTile(
+                title: Text('Goat'),
+              ),
+            ]).toList(),
+          );
+        });
   }
 }
 

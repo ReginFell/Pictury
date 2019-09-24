@@ -12,6 +12,8 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
+      minimum: const EdgeInsets.only(right: 8.0, left: 8.0),
       child: Container(
         color: color,
         height: bottomBarSize,
