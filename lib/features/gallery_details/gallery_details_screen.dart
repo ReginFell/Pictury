@@ -25,7 +25,7 @@ class GalleryDetailsScreen extends StatelessWidget {
       builder: (context, bloc) => Scaffold(
         extendBodyBehindAppBar: true,
         appBar:
-            ApplicationAppBar.create(title: _arguments._galleryViewModel.title),
+            ApplicationAppBar.create(context, title: _arguments._galleryViewModel.title),
         body: Builder(builder: (context) => _buildBody(context, bloc)),
       ),
     );
@@ -43,7 +43,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                 backgroundDecoration: BoxDecoration(color: Colors.white),
                 heroAttributes: PhotoViewHeroAttributes(tag: _arguments._tag),
                 imageProvider: CachedNetworkImageProvider(
-                  _arguments._galleryViewModel.link,
+                  _arguments._galleryViewModel.regularSizeLink,
                 )),
           ),
           _buildBottomMenu(context, bloc)
@@ -91,6 +91,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                         context: context,
                         builder: (builder) {
                           return ListView(
+                            shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             children:
                                 ListTile.divideTiles(context: context, tiles: [
@@ -101,7 +102,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                                 ),
                                 title: Text('Download full'),
                                 subtitle: Text(
-                                  _arguments._galleryViewModel.link,
+                                  _arguments._galleryViewModel.smallSizeLink,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
@@ -110,7 +111,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                                 leading: Icon(Icons.file_download),
                                 title: Text('Download raw'),
                                 subtitle: Text(
-                                  _arguments._galleryViewModel.link,
+                                  _arguments._galleryViewModel.smallSizeLink,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),

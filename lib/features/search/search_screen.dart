@@ -16,7 +16,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: _buildBody(context),
-        appBar: ApplicationAppBar.create(title: "Add a new category"));
+        appBar: ApplicationAppBar.create(context, title: "Add a new category"));
   }
 
   Widget _buildBody(BuildContext context) {

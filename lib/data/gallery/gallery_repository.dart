@@ -14,8 +14,14 @@ class GalleryRepository {
     final List<ImageResponse> result = await _api.loadByQuery(query, page);
 
     return result
-        .map((imageResponse) => GalleryEntity(imageResponse.id,
-            imageResponse.description, imageResponse.urls.regular))
+        .map((imageResponse) => GalleryEntity(
+              imageResponse.id,
+              imageResponse.description,
+              imageResponse.urls.small,
+              imageResponse.urls.regular,
+              imageResponse.urls.raw,
+              imageResponse.urls.full,
+            ))
         .toList();
   }
 

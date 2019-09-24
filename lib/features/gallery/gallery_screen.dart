@@ -71,7 +71,7 @@ class GalleryScreen extends StatelessWidget {
           final GalleryViewModel galleryViewModel =
               model.currentState.pictures[index];
 
-          final String heroTag = "image $type ${galleryViewModel.link}";
+          final String heroTag = "image $type ${galleryViewModel.rawLink}";
 
           return Padding(
             padding: const EdgeInsets.all(3.0),
@@ -85,7 +85,7 @@ class GalleryScreen extends StatelessWidget {
                           arguments: GalleryDetailsArguments(
                               galleryViewModel, heroTag),
                         ),
-                    child: CachedNetworkImage(imageUrl: galleryViewModel.link)),
+                    child: CachedNetworkImage(imageUrl: galleryViewModel.smallSizeLink)),
                 tag: heroTag,
               ),
             ),

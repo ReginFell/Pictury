@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:pictury/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
 class ApplicationAppBar extends AppBar {
   ApplicationAppBar._();
 
-  static Widget create({String title, List<Widget> actions}) {
+  static AppBar create(
+    BuildContext context, {
+    String title,
+    List<Widget> actions,
+  }) {
+    final AppTheme theme = Provider.of(context);
+
     return AppBar(
       title: Text(
         title ?? "",
@@ -12,7 +19,7 @@ class ApplicationAppBar extends AppBar {
         overflow: TextOverflow.ellipsis,
       ),
       actions: actions,
-      backgroundColor: Color(0xFF4D4D4D).withOpacity(0.5),
+      backgroundColor: theme.appBarBackgroundColor,
       elevation: 0,
     );
   }
