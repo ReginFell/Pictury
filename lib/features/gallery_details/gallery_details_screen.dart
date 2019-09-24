@@ -43,7 +43,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                 backgroundDecoration: BoxDecoration(color: Colors.white),
                 heroAttributes: PhotoViewHeroAttributes(tag: _arguments._tag),
                 imageProvider: CachedNetworkImageProvider(
-                  _arguments._galleryViewModel.link,
+                  _arguments._galleryViewModel.regularSizeLink,
                 )),
           ),
           _buildBottomMenu(context, bloc)
@@ -89,6 +89,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                         context: context,
                         builder: (builder) {
                           return ListView(
+                            shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             children:
                                 ListTile.divideTiles(context: context, tiles: [

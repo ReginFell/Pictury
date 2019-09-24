@@ -47,10 +47,7 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
           ..isLoading = false
           ..pictures = [
             ...currentState.pictures,
-            ...result
-                .map((value) =>
-                    GalleryViewModel(value.id, value.title, value.link))
-                .toList(),
+            ...result.map((value) => value.asViewModel()).toList(),
           ]);
       }
     }
@@ -60,9 +57,8 @@ class GalleryBloc extends BaseBloc<GalleryViewState, GalleryEvent> {
     yield currentState.rebuild(
       (b) => b
         ..isLoading = false
-        ..pictures = event.entities
-            .map((value) => GalleryViewModel(value.id, value.title, value.link))
-            .toList(),
+        ..pictures =
+            event.entities.map((value) => value.asViewModel()).toList(),
     );
   }
 }

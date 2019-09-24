@@ -82,7 +82,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Gallery` (`id` TEXT, `title` TEXT, `link` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Gallery` (`id` TEXT, `title` TEXT, `smallSizeLink` TEXT, `regularSizeLink` TEXT, `rawLink` TEXT, `fullSizeLink` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Category` (`name` TEXT, `image` TEXT, `query` TEXT, `isSelected` INTEGER, PRIMARY KEY (`name`))');
 
@@ -111,7 +111,10 @@ class _$GalleryDao extends GalleryDao {
             (GalleryEntity item) => <String, dynamic>{
                   'id': item.id,
                   'title': item.title,
-                  'link': item.link
+                  'smallSizeLink': item.smallSizeLink,
+                  'regularSizeLink': item.regularSizeLink,
+                  'rawLink': item.rawLink,
+                  'fullSizeLink': item.fullSizeLink
                 },
             changeListener),
         _galleryEntityDeletionAdapter = DeletionAdapter(
@@ -121,7 +124,10 @@ class _$GalleryDao extends GalleryDao {
             (GalleryEntity item) => <String, dynamic>{
                   'id': item.id,
                   'title': item.title,
-                  'link': item.link
+                  'smallSizeLink': item.smallSizeLink,
+                  'regularSizeLink': item.regularSizeLink,
+                  'rawLink': item.rawLink,
+                  'fullSizeLink': item.fullSizeLink
                 },
             changeListener);
 
@@ -132,7 +138,12 @@ class _$GalleryDao extends GalleryDao {
   final QueryAdapter _queryAdapter;
 
   static final _galleryMapper = (Map<String, dynamic> row) => GalleryEntity(
-      row['id'] as String, row['title'] as String, row['link'] as String);
+      row['id'] as String,
+      row['title'] as String,
+      row['smallSizeLink'] as String,
+      row['regularSizeLink'] as String,
+      row['rawLink'] as String,
+      row['fullSizeLink'] as String);
 
   final InsertionAdapter<GalleryEntity> _galleryEntityInsertionAdapter;
 
