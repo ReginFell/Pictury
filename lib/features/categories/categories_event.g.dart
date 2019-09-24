@@ -13,6 +13,7 @@ class SealedCategoriesEvent {
     @required R Function(SelectCategoryEvent) selectCategoryEvent,
     @required R Function(ContinueEvent) continueEvent,
     @required R Function(SearchQueryChangedEvent) searchQueryChangedEvent,
+    @required R Function(AddCategoryEvent) addCategoryEvent,
   }) {
     if (this is InitEvent) {
       return initEvent(this as InitEvent);
@@ -28,6 +29,9 @@ class SealedCategoriesEvent {
     }
     if (this is SearchQueryChangedEvent) {
       return searchQueryChangedEvent(this as SearchQueryChangedEvent);
+    }
+    if (this is AddCategoryEvent) {
+      return addCategoryEvent(this as AddCategoryEvent);
     }
     throw new Exception(
         'If you got here, probably you forgot to regenerate the classes? Try running flutter packages pub run build_runner build');

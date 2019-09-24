@@ -200,7 +200,9 @@ class CategoriesScreen extends StatelessWidget {
             children: [
               Text(localization.translate("category_not_found")),
               InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    bloc.dispatch(AddCategoryEvent(bloc.currentState.query));
+                  },
                   child: Text(
                     " ${bloc.currentState.query}",
                     style: TextStyle(color: Colors.blue, fontSize: 22),

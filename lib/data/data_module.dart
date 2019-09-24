@@ -48,9 +48,10 @@ List<SingleChildCloneableWidget> dependentServices = [
   ProxyProvider<Preferences, LocalConfigProvider>(
     builder: (context, preferences, _) => LocalConfigProvider(preferences),
   ),
-  ProxyProvider2<Future<CategoryDao>, RemoteConfigProvider, CategoryRepository>(
-    builder: (context, categoryDao, remoteConfigProvider, _) =>
-        CategoryRepository(categoryDao, remoteConfigProvider),
+  ProxyProvider3<Api, Future<CategoryDao>, RemoteConfigProvider,
+      CategoryRepository>(
+    builder: (context, api, categoryDao, remoteConfigProvider, _) =>
+        CategoryRepository(api, categoryDao, remoteConfigProvider),
   )
 ];
 

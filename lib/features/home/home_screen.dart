@@ -89,7 +89,10 @@ class HomeScreen extends StatelessWidget {
                   Navigator.of(context).pushNamed(CategoriesScreen.route),
               child: Padding(
                 padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-                child: Icon(Icons.add),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
@@ -102,7 +105,11 @@ class HomeScreen extends StatelessWidget {
               tabs: [
                 ...model.currentState.categories.map((category) {
                   if (category.iconData != null) {
-                    return Tab(child: Icon(category.iconData));
+                    return Tab(
+                        child: Icon(
+                      category.iconData,
+                      color: Colors.black,
+                    ));
                   } else {
                     return Tab(child: LabelText(category.name));
                   }

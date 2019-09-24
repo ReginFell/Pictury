@@ -28,12 +28,16 @@ class CategoriesBloc extends BaseBloc<CategoriesViewState, CategoriesEvent> {
   @override
   Stream<CategoriesViewState> mapEventToState(event) async* {
     yield* event.when(
-      initEvent: _init,
-      selectCategoryEvent: _selectCategory,
-      continueEvent: _continue,
-      loadCategoriesEvent: _loadCategories,
-      searchQueryChangedEvent: _searchCategories,
-    );
+        initEvent: _init,
+        selectCategoryEvent: _selectCategory,
+        continueEvent: _continue,
+        loadCategoriesEvent: _loadCategories,
+        searchQueryChangedEvent: _searchCategories,
+        addCategoryEvent: _addCategory);
+  }
+
+  Stream<CategoriesViewState> _addCategory(AddCategoryEvent event) async* {
+    await _categoryRepository.addCategory(event.name);
   }
 
   Stream<CategoriesViewState> _init(InitEvent event) async* {

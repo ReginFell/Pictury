@@ -11,15 +11,17 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: color,
-      height: bottomBarSize,
-      child: Column(
-        children: [
-          Expanded(
-            child: child,
-          )
-        ],
+    return SafeArea(
+      child: Container(
+        color: color,
+        height: bottomBarSize,
+        child: Column(
+          children: [
+            Expanded(
+              child: child,
+            )
+          ],
+        ),
       ),
     );
   }

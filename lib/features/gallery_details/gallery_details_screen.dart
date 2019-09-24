@@ -69,9 +69,11 @@ class GalleryDetailsScreen extends StatelessWidget {
                     child: AnimatedSwitcher(
                       duration: Duration(milliseconds: 300),
                       child: bloc.currentState.isFavorite
-                          ? Icon(Icons.star, key: ValueKey("selected"))
+                          ? Icon(Icons.star,
+                              key: ValueKey("selected"), color: Colors.black)
                           : Icon(Icons.star_border,
-                              key: ValueKey("notSelected")),
+                              key: ValueKey("notSelected"),
+                              color: Colors.black),
                     ),
                   )),
             ),
@@ -93,7 +95,10 @@ class GalleryDetailsScreen extends StatelessWidget {
                             children:
                                 ListTile.divideTiles(context: context, tiles: [
                               ListTile(
-                                leading: Icon(Icons.file_download),
+                                leading: Icon(
+                                  Icons.file_download,
+                                  color: Colors.black,
+                                ),
                                 title: Text('Download full'),
                                 subtitle: Text(
                                   _arguments._galleryViewModel.link,

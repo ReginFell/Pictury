@@ -13,9 +13,10 @@ class Api {
 
   Api(this._accessKeyClient, this._baseUrl);
 
-  FutureOr<List<ImageResponse>> loadByQuery(String query, int page) async {
-    http.Response response = await _accessKeyClient
-        .get("$_baseUrl/search/photos?page=$page&query=$query&per_page=30");
+  Future<List<ImageResponse>> loadByQuery(String query, int page,
+      {int perPage = 30}) async {
+    http.Response response = await _accessKeyClient.get(
+        "$_baseUrl/search/photos?page=$page&query=$query&per_page=$perPage");
 
     var parsedJson = await compute(_parseResult, response.body);
     final SearchResponse searchResponse = SearchResponse.fromJson(parsedJson);

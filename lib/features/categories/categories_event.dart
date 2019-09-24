@@ -29,3 +29,9 @@ class SearchQueryChangedEvent extends CategoriesEvent {
 
   SearchQueryChangedEvent(this.query);
 }
+
+class AddCategoryEvent extends CategoriesEvent {
+  final String name;
+
+  AddCategoryEvent(this.name);
+}
