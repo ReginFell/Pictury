@@ -39,7 +39,7 @@ class GalleryDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             child: PhotoView(
-                initialScale: PhotoViewComputedScale.contained,
+                initialScale: PhotoViewComputedScale.contained * 1.2,
                 backgroundDecoration: BoxDecoration(color: Colors.white),
                 heroAttributes: PhotoViewHeroAttributes(tag: _arguments._tag),
                 imageProvider: CachedNetworkImageProvider(
@@ -130,15 +130,11 @@ class GalleryDetailsScreen extends StatelessWidget {
                 ),
               ),
               ListTile(
+                enabled: false,
                 leading: Icon(Icons.image),
                 title: Text('Set as a background'),
-              ),
-              ListTile(
-                leading: Icon(Icons.image),
-                title: Text('Sheep'),
-              ),
-              ListTile(
-                title: Text('Goat'),
+                subtitle: Text('Sorry, this feature doesn\'t work on iOS'),
+
               ),
             ]).toList(),
           );
