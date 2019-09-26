@@ -19,17 +19,17 @@ class HomeBloc extends BaseBloc<HomeViewState, HomeEvent> {
             (categories) => categories.where((category) => category.isSelected))
         .map((categories) =>
             categories.map((category) => category.asViewModel()).toList())
-        .asyncExpand((selectedCategories) {
-      final List<CategoryViewModel> categories = []
-        ..add(CategoryViewModel(
-            name: "Everything",
-            query: selectedCategories.map((v) => v.query).join(","),
-            isSelected: true))
+        .map((selectedCategories) {
+      final List<CategoryViewModel> categories = []..add(CategoryViewModel(
+          name: "Everything",
+          query: selectedCategories.map((v) => v.query).join(","),
+          isSelected: true));
+      categories
         ..add(CategoryViewModel(
             name: "Favorite", iconData: Icons.star, isSelected: true))
         ..addAll(selectedCategories);
 
-      return Future.value(categories).asStream();
+      return categories;
     }).listen((selectedCategories) =>
             dispatch(CategoriesLoadedEvent(selectedCategories)));
   }
