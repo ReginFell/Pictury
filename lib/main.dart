@@ -8,7 +8,6 @@ import 'package:pictury/router.dart';
 import 'package:pictury/theme/cupertino_theme_provider.dart';
 import 'package:pictury/theme/material_theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:wallpaper_changer/wallpaper_changer.dart';
 
 import 'app_localization.dart';
 import 'environment.dart';
@@ -21,11 +20,6 @@ void main() {
           '7901b0a91d93ee491a49c7ff93e0a24fa7a7cff5d26c1d53b21a51e1960ac018',
       supportedTypes: ["jpg", "png", "gif"]);
   runApp(MyApp());
-
-  WallpaperChanger.setWallpaper(
-    "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    Screen.Home,
-  );
 }
 
 class MyApp extends StatelessWidget {

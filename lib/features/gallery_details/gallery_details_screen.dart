@@ -9,6 +9,7 @@ import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
 import 'package:pictury/features/gallery_details/gallery_details_bloc.dart';
 import 'package:pictury/features/gallery_details/gallery_details_event.dart';
 import 'package:provider/provider.dart';
+import 'package:wallpaper_changer/wallpaper_changer.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
   static const String route = '/gallery/details';
@@ -130,15 +131,21 @@ class GalleryDetailsScreen extends StatelessWidget {
                 ),
               ),
               ListTile(
-                enabled: false,
                 leading: Icon(Icons.image),
+                onTap: () => _setAsWallpaper(),
                 title: Text('Set as a background'),
                 subtitle: Text('Sorry, this feature doesn\'t work on iOS'),
-
               ),
             ]).toList(),
           );
         });
+  }
+
+  void _setAsWallpaper() {
+    WallpaperChanger.setWallpaper(
+      _arguments._galleryViewModel.fullSizeLink,
+      Screen.Home,
+    );
   }
 }
 
