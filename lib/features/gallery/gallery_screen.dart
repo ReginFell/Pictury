@@ -62,8 +62,13 @@ class GalleryScreen extends StatelessWidget {
 
   Widget buildGrid(BuildContext context, GalleryBloc model) {
     return StaggeredGridView.countBuilder(
-        staggeredTileBuilder: (int index) =>
-            StaggeredTile.count(2, index.isEven ? 2 : 1),
+        staggeredTileBuilder: (int index) {
+          if (index % 16 == 0) {
+            return StaggeredTile.count(6, 2);
+          } else {
+            return StaggeredTile.count(2, index.isEven ? 2 : 1);
+          }
+        },
         controller: _scrollController,
         crossAxisCount: 4,
         itemCount: model.currentState.pictures.length,
@@ -85,7 +90,8 @@ class GalleryScreen extends StatelessWidget {
                           arguments: GalleryDetailsArguments(
                               galleryViewModel, heroTag),
                         ),
-                    child: CachedNetworkImage(imageUrl: galleryViewModel.smallSizeLink)),
+                    child: CachedNetworkImage(
+                        imageUrl: galleryViewModel.smallSizeLink)),
                 tag: heroTag,
               ),
             ),

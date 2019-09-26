@@ -20,21 +20,16 @@ class HomeBloc extends BaseBloc<HomeViewState, HomeEvent> {
         .map((categories) =>
             categories.map((category) => category.asViewModel()).toList())
         .asyncExpand((selectedCategories) {
-      if (selectedCategories.isEmpty) {
-        return _categoryRepository.observeCategories().map((categories) =>
-            categories.map((category) => category.asViewModel()).toList());
-      } else {
-        final List<CategoryViewModel> categories = []
-          ..add(CategoryViewModel(
-              name: "Everything",
-              query: selectedCategories.map((v) => v.query).join(","),
-              isSelected: true))
-          ..add(CategoryViewModel(
-              name: "Favorite", iconData: Icons.star, isSelected: true))
-          ..addAll(selectedCategories);
+      final List<CategoryViewModel> categories = []
+        ..add(CategoryViewModel(
+            name: "Everything",
+            query: selectedCategories.map((v) => v.query).join(","),
+            isSelected: true))
+        ..add(CategoryViewModel(
+            name: "Favorite", iconData: Icons.star, isSelected: true))
+        ..addAll(selectedCategories);
 
-        return Future.value(categories).asStream();
-      }
+      return Future.value(categories).asStream();
     }).listen((selectedCategories) =>
             dispatch(CategoriesLoadedEvent(selectedCategories)));
   }

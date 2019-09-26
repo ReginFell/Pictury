@@ -41,7 +41,6 @@ class GalleryDetailsScreen extends StatelessWidget {
           Expanded(
             child: PhotoView(
                 initialScale: PhotoViewComputedScale.contained * 1.2,
-                backgroundDecoration: BoxDecoration(color: Colors.white),
                 heroAttributes: PhotoViewHeroAttributes(tag: _arguments._tag),
                 imageProvider: CachedNetworkImageProvider(
                   _arguments._galleryViewModel.regularSizeLink,
@@ -71,10 +70,10 @@ class GalleryDetailsScreen extends StatelessWidget {
                       duration: Duration(milliseconds: 300),
                       child: bloc.currentState.isFavorite
                           ? Icon(Icons.star,
-                              key: ValueKey("selected"), color: Colors.black)
+                              key: ValueKey("selected"), color: Colors.white)
                           : Icon(Icons.star_border,
                               key: ValueKey("notSelected"),
-                              color: Colors.black),
+                              color: Colors.white),
                     ),
                   )),
             ),
@@ -87,7 +86,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset(
                     "assets/icons/horizontal_options_menu.svg",
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ),

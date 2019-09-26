@@ -18,7 +18,7 @@ class MaterialThemeLight extends AppTheme {
   Color get searchBarColor => Colors.grey.withOpacity(0.2);
 
   @override
-  Color get appBarBackgroundColor => Color(0xFF4D4D4D).withOpacity(0.5);
+  Color get appBarBackgroundColor => Color(0xFF4D4D4D).withOpacity(0.95);
 
   @override
   double get searchBarCornerRadius => 10.0;
@@ -29,7 +29,7 @@ class MaterialThemeLight extends AppTheme {
         primaryColor: Colors.amberAccent,
         accentColor: Colors.amber,
         fontFamily: "Sans",
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
       );
 }

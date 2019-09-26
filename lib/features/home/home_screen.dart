@@ -27,18 +27,22 @@ class HomeScreen extends StatelessWidget {
           return DefaultTabController(
               length: model.currentState.categories.length,
               child: Scaffold(
-                appBar: ApplicationAppBar.create(context, title: "Pictury", actions: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, SearchScreen.route);
-                    },
-                  ),
-                ]),
+                appBar: ApplicationAppBar.create(context,
+                    title: "Pictury",
+                    actions: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, SearchScreen.route);
+                        },
+                      ),
+                    ]),
                 extendBodyBehindAppBar: true,
+                extendBody: true,
+                bottomNavigationBar: _buildBottomTabs(context, model),
                 body: _buildBody(context, model),
               ));
         } else {
@@ -49,14 +53,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, HomeBloc model) {
-    return Container(
-      child: Column(
-        children: [
-          Expanded(child: _buildPages(context, model)),
-          _buildBottomTabs(context, model)
-        ],
-      ),
-    );
+    return _buildPages(context, model);
   }
 
   Widget _buildPages(BuildContext context, HomeBloc model) {
@@ -91,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 16.0, left: 16.0),
                 child: Icon(
                   Icons.add,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -108,7 +105,7 @@ class HomeScreen extends StatelessWidget {
                     return Tab(
                         child: Icon(
                       category.iconData,
-                      color: Colors.black,
+                      color: Colors.white,
                     ));
                   } else {
                     return Tab(child: LabelText(category.name));
