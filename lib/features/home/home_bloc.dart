@@ -10,28 +10,28 @@ import 'package:pictury/features/home/home_view_state.dart';
 class HomeBloc extends BaseBloc<HomeViewState, HomeEvent> {
   final CategoryRepository _categoryRepository;
 
-  StreamSubscription _streamSubscription;
-
   HomeBloc(this._categoryRepository) {
-    _streamSubscription = _categoryRepository
-        .observeCategories()
-        .map(
-            (categories) => categories.where((category) => category.isSelected))
-        .map((categories) =>
-            categories.map((category) => category.asViewModel()).toList())
-        .map((selectedCategories) {
-      final List<CategoryViewModel> categories = []..add(CategoryViewModel(
-          name: "Everything",
-          query: selectedCategories.map((v) => v.query).join(","),
-          isSelected: true));
-      categories
-        ..add(CategoryViewModel(
-            name: "Favorite", iconData: Icons.star, isSelected: true))
-        ..addAll(selectedCategories);
+    subscriptions.add(
+      _categoryRepository
+          .observeCategories()
+          .map((categories) =>
+              categories.where((category) => category.isSelected))
+          .map((categories) =>
+              categories.map((category) => category.asViewModel()).toList())
+          .map((selectedCategories) {
+        final List<CategoryViewModel> categories = []..add(CategoryViewModel(
+            name: "Everything",
+            query: selectedCategories.map((v) => v.query).join(","),
+            isSelected: true));
+        categories
+          ..add(CategoryViewModel(
+              name: "Favorite", iconData: Icons.star, isSelected: true))
+          ..addAll(selectedCategories);
 
-      return categories;
-    }).listen((selectedCategories) =>
-            dispatch(CategoriesLoadedEvent(selectedCategories)));
+        return categories;
+      }).listen((selectedCategories) =>
+              dispatch(CategoriesLoadedEvent(selectedCategories))),
+    );
   }
 
   @override
@@ -39,12 +39,6 @@ class HomeBloc extends BaseBloc<HomeViewState, HomeEvent> {
     if (event is CategoriesLoadedEvent) {
       yield HomeViewState(categories: event.categories);
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _streamSubscription.cancel();
   }
 
   @override
