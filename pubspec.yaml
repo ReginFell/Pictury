@@ -14,7 +14,7 @@ dependencies:
 
   flutter_platform_widgets: 0.12.0
   provider: 3.1.0
-  http:
+  http: 0.11.3+17
   shared_preferences: 0.5.3+4
   streaming_shared_preferences: ^1.0.1
   cached_network_image: 1.1.1
@@ -28,6 +28,8 @@ dependencies:
   flutter_svg: 0.14.1
   floor: ^0.8.0
   photo_view: 0.5.0
+  wallpaper_changer:
+    path: './wallpaper_changer'
 
 dev_dependencies:
   flutter_test:
