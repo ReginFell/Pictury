@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pictury/theme/app_theme.dart';
 
-class MaterialThemeLight extends AppTheme {
+class MaterialThemeDark extends AppTheme {
   @override
-  Color get iconColor => Colors.black;
+  Brightness get brightness => Brightness.dark;
+
+  @override
+  Color get colorAccent => Colors.amber;
+
+  @override
+  Color get primaryColor => Colors.amberAccent;
+
+  @override
+  Color get iconColor => Colors.white;
 
   @override
   Color get searchIconColor => Colors.white;
@@ -12,7 +21,10 @@ class MaterialThemeLight extends AppTheme {
   Color get textColor => Colors.black;
 
   @override
-  Color get bottomBarBackgroundColor => Colors.white;
+  Color get bottomBarBackgroundColor => Color(0xFF4D4D4D).withOpacity(0.95);
+
+  @override
+  Color get bottomBarElementColor => Colors.white;
 
   @override
   Color get searchBarColor => Colors.grey.withOpacity(0.2);
@@ -26,10 +38,10 @@ class MaterialThemeLight extends AppTheme {
   @override
   ThemeData get themeData => ThemeData(
         iconTheme: IconThemeData(color: iconColor),
-        primaryColor: Colors.amberAccent,
-        accentColor: Colors.amber,
+        primaryColor: primaryColor,
+        accentColor: colorAccent,
         fontFamily: "Sans",
-        brightness: Brightness.dark,
-        primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
+        brightness: brightness,
+        primaryTextTheme: TextTheme(title: TextStyle(color: textColor)),
       );
 }

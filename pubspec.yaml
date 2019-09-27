@@ -12,7 +12,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  flutter_platform_widgets: 0.12.0
+  flutter_platform_widgets:
+    path: '../flutter_platform_widgets'
   provider: 3.1.0
   http: 0.11.3+17
   shared_preferences: 0.5.3+4

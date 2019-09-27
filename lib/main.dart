@@ -41,10 +41,12 @@ class MyApp extends StatelessWidget {
         ],
         debugShowCheckedModeBanner: false,
         onGenerateRoute: Router.generateRoute,
-        android: (_) => MaterialAppData(
-          theme: MaterialThemeProvider.lightTheme.themeData,
-          darkTheme: MaterialThemeProvider.darkTheme.themeData,
-        ),
+        android: (_) {
+          return MaterialAppData(
+            theme: MaterialThemeProvider.lightTheme.themeData,
+            darkTheme: MaterialThemeProvider.darkTheme.themeData,
+          );
+        },
         ios: (_) => CupertinoAppData(theme: CupertinoThemeProvider.lightTheme),
       ),
     );

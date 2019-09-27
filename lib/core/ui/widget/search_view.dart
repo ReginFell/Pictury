@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pictury/theme/app_theme.dart';
+import 'package:pictury/theme/material_theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class SearchView extends StatelessWidget {
@@ -11,7 +12,8 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppTheme theme = Provider.of(context);
+    final MaterialThemeProvider provider = Provider.of(context);
+    final AppTheme theme = provider.getThemeFromKey(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(theme.searchBarCornerRadius),
