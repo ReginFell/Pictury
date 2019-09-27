@@ -42,6 +42,6 @@ class MaterialThemeLight extends AppTheme {
         accentColor: colorAccent,
         fontFamily: "Sans",
         brightness: brightness,
-        primaryTextTheme: TextTheme(title: TextStyle(color: Colors.black)),
+        primaryTextTheme: TextTheme(title: TextStyle(color: textColor)),
       );
 }

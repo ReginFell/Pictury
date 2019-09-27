@@ -1,4 +1,3 @@
-import 'package:pictury/theme/app_theme.dart';
 import 'package:pictury/theme/material_theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../data/data_module.dart' as dataModule;
