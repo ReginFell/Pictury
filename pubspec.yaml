@@ -39,7 +39,7 @@ dev_dependencies:
   floor_generator: ^0.8.0
   sealed_generator: 0.0.5
   built_value_generator:
-    path: ../built_value.dart/built_value_generator/
+    path: ./built_value_generator/
 
 flutter:
   uses-material-design: true

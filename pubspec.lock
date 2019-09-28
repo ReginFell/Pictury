@@ -102,7 +102,7 @@ packages:
   built_value_generator:
     dependency: "direct dev"
     description:
-      path: "../built_value.dart/built_value_generator"
+      path: built_value_generator
       relative: true
     source: path
     version: "6.7.1"
