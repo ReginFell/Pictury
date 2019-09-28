@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:pictury/theme/app_theme.dart';
+import 'package:pictury/theme/material_theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class BottomBar extends StatelessWidget {
   static const double borderLineSize = 0;
   static const double bottomBarSize = 50 + borderLineSize;
 
   final Widget child;
-  final Color color;
 
-  BottomBar({@required this.child, this.color});
+  BottomBar({@required this.child});
 
   @override
   Widget build(BuildContext context) {
+    final MaterialThemeProvider provider = Provider.of(context);
+    final AppTheme theme = provider.getThemeFromKey(context);
+
     return Container(
-      color: Color(0xFF4D4D4D).withOpacity(0.95),
+      color: theme.bottomBarBackgroundColor,
       child: SafeArea(
         top: false,
         minimum: const EdgeInsets.only(right: 8.0, left: 8.0),
         child: Container(
-          color: color,
           height: bottomBarSize,
           child: Column(
             children: [

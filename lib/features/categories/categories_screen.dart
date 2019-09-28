@@ -38,43 +38,43 @@ class CategoriesScreen extends StatelessWidget {
         },
         bloc: CategoriesBloc(Provider.of(context), Provider.of(context)),
         onBlocReady: (model) => model.dispatch(InitEvent()),
-        builder: (context, model) {
+        builder: (context, bloc) {
           return Scaffold(
             extendBodyBehindAppBar: true,
             appBar: _buildAppBar(context),
-            body: _buildBody(context),
+            body: _buildBody(context, bloc),
+            bottomNavigationBar: _buildBottomBar(context, bloc),
           );
         });
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBottomBar(BuildContext context, CategoriesBloc bloc) {
     final AppLocalizations localization = AppLocalizations.of(context);
-    final CategoriesBloc bloc = BlocProvider.of(context);
 
+    return InkWell(
+      onTap: () => bloc.dispatch(ContinueEvent()),
+      child: BottomBar(
+        child: Center(
+            child: PlatformText(localization.translate(
+                bloc.currentState.filteredCategories.isNotEmpty
+                    ? "continue"
+                    : "skip"))),
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, CategoriesBloc bloc) {
     if (bloc.currentState.isLoading) {
       return Center(child: PlatformCircularProgressIndicator());
     } else {
-      return Container(
-          child: Column(children: [
-        Expanded(
-          child: CustomScrollView(slivers: [
-            _buildSearch(context, bloc),
-            _buildAppCategories(context),
-            if (bloc.currentState.filteredCategories.isEmpty)
-              _buildNewCategory(context, bloc)
-          ]),
-        ),
-        InkWell(
-          onTap: () => bloc.dispatch(ContinueEvent()),
-          child: BottomBar(
-            child: Center(
-                child: PlatformText(localization.translate(
-                    bloc.currentState.filteredCategories.isNotEmpty
-                        ? "continue"
-                        : "skip"))),
-          ),
-        ),
-      ]));
+      return CustomScrollView(slivers: [
+        SliverPadding(padding: EdgeInsets.only(top: 56.0)),
+        _buildSearch(context, bloc),
+        _buildAppCategories(context),
+        SliverPadding(padding: EdgeInsets.only(top: 56.0)),
+        if (bloc.currentState.filteredCategories.isEmpty)
+          _buildNewCategory(context, bloc)
+      ]);
     }
   }
 
