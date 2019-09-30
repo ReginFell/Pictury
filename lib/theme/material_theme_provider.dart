@@ -14,7 +14,7 @@ class MaterialThemeProvider {
   AppTheme getThemeFromKey(BuildContext context) {
     switch (_extractBrightness(context)) {
       case Brightness.light:
-        return lightTheme;
+        return darkTheme;
       case Brightness.dark:
         return darkTheme;
       default:
