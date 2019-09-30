@@ -4,6 +4,7 @@ import 'package:pictury/features/categories/categories_screen.dart';
 import 'package:pictury/features/gallery_details/gallery_details_screen.dart';
 import 'package:pictury/features/home/home_screen.dart';
 import 'package:pictury/features/search/search_screen.dart';
+import 'package:pictury/features/settings/settings_screen.dart';
 import 'package:pictury/features/splash/splash_screen.dart';
 
 class Router {
@@ -11,6 +12,8 @@ class Router {
     switch (settings.name) {
       case SplashScreen.route:
         return MaterialPageRoute(builder: (_) => SplashScreen());
+      case SettingsScreen.route:
+        return MaterialPageRoute(builder: (_) => SettingsScreen());
       case CategoriesScreen.route:
         return MaterialPageRoute(builder: (_) {
           if (settings.arguments != null) {

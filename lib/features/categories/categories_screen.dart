@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
+import 'package:pictury/core/ui/widget/app_label_text.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/core/ui/widget/search_view.dart';
@@ -11,6 +12,8 @@ import 'package:pictury/domain/category/models/category_view_model.dart';
 import 'package:pictury/features/categories/categories_view_state.dart';
 import 'package:pictury/features/categories/widgets/selectable_item.dart';
 import 'package:pictury/features/home/home_screen.dart';
+import 'package:pictury/theme/app_theme.dart';
+import 'package:pictury/theme/material_theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_localization.dart';
@@ -40,8 +43,6 @@ class CategoriesScreen extends StatelessWidget {
         onBlocReady: (model) => model.dispatch(InitEvent()),
         builder: (context, bloc) {
           return Scaffold(
-            extendBodyBehindAppBar: true,
-            appBar: _buildAppBar(context),
             body: _buildBody(context, bloc),
             bottomNavigationBar: _buildBottomBar(context, bloc),
           );
@@ -55,7 +56,7 @@ class CategoriesScreen extends StatelessWidget {
       onTap: () => bloc.dispatch(ContinueEvent()),
       child: BottomBar(
         child: Center(
-            child: PlatformText(localization.translate(
+            child: LabelText(localization.translate(
                 bloc.currentState.filteredCategories.isNotEmpty
                     ? "continue"
                     : "skip"))),
@@ -68,7 +69,7 @@ class CategoriesScreen extends StatelessWidget {
       return Center(child: PlatformCircularProgressIndicator());
     } else {
       return CustomScrollView(slivers: [
-        SliverPadding(padding: EdgeInsets.only(top: 56.0)),
+        _buildAppBar(context),
         _buildSearch(context, bloc),
         _buildAppCategories(context),
         SliverPadding(padding: EdgeInsets.only(top: 56.0)),
@@ -131,7 +132,14 @@ class CategoriesScreen extends StatelessWidget {
   }
 
   Widget _buildAppBar(BuildContext context) {
-    return ApplicationAppBar.create(context, title: "Add a new category");
+    final MaterialThemeProvider provider = Provider.of(context);
+    final AppTheme theme = provider.getThemeFromKey(context);
+
+    return SliverAppBar(
+      floating: false,
+      title: Text("Add a new category"),
+      backgroundColor: theme.appBarBackgroundColor,
+    );
   }
 
   Widget _buildSearch(BuildContext context, CategoriesBloc bloc) {

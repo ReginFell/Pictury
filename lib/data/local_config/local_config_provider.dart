@@ -5,6 +5,7 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class LocalConfigProvider {
   static const String isCategorySelectedPref = "isCategorySelected";
+  static const String isDarkThemeEnabled = "isDarkThemeEnabled";
 
   final Preferences _preferences;
 
@@ -18,8 +19,17 @@ class LocalConfigProvider {
     (await consume()).setBool(isCategorySelectedPref, selected);
   }
 
+  void setDarkThemeEnabled(bool selected) async {
+    (await consume()).setBool(isDarkThemeEnabled, selected);
+  }
+
   Future<bool> isCategorySelected() {
     return consume().then((prefs) =>
         prefs.getBool(isCategorySelectedPref, defaultValue: false).first);
+  }
+
+  Stream<bool> observeThemeState() async* {
+    final preference = await consume();
+    yield* preference.getBool(isDarkThemeEnabled, defaultValue: false);
   }
 }

@@ -19,10 +19,10 @@ void main() {
       accessKey:
           '7901b0a91d93ee491a49c7ff93e0a24fa7a7cff5d26c1d53b21a51e1960ac018',
       supportedTypes: ["jpg", "png", "gif"]);
-  runApp(MyApp());
+  runApp(PicturyApp());
 }
 
-class MyApp extends StatelessWidget {
+class PicturyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(

@@ -13,6 +13,8 @@ import 'package:pictury/features/home/decorations/line_tab_decoration.dart';
 import 'package:pictury/features/home/home_bloc.dart';
 import 'package:pictury/features/home/home_view_state.dart';
 import 'package:pictury/features/search/search_screen.dart';
+import 'package:pictury/features/settings/settings_bloc.dart';
+import 'package:pictury/features/settings/settings_screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -33,15 +35,21 @@ class HomeScreen extends StatelessWidget {
                       IconButton(
                         icon: Icon(
                           Icons.search,
-                          color: Colors.white,
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, SearchScreen.route);
                         },
                       ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.settings,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, SettingsScreen.route);
+                        },
+                      ),
                     ]),
                 extendBodyBehindAppBar: true,
-                extendBody: true,
                 bottomNavigationBar: _buildBottomTabs(context, model),
                 body: _buildBody(context, model),
               ));

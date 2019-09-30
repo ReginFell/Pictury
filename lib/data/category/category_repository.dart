@@ -27,7 +27,7 @@ class CategoryRepository {
           json.decode(storage.getString(categoriesTag));
 
       final List<CategoryEntity> categoryEntities = parsedJson
-          .map((value) => ApiCategory.fromJson(value))
+          .map((value) => CategoryResource.fromJson(value))
           .map((apiCategory) => CategoryEntity(
               apiCategory.name, apiCategory.picture, apiCategory.query, false))
           .toList();

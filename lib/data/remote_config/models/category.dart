@@ -4,24 +4,24 @@ import 'package:json_annotation/json_annotation.dart';
 part 'category.g.dart';
 
 @JsonSerializable()
-class ApiCategory {
+class CategoryResource {
   String name;
   String picture;
   String query;
 
-  ApiCategory();
+  CategoryResource();
 
-  ApiCategory.create({@required this.name, this.picture, this.query});
+  CategoryResource.create({@required this.name, this.picture, this.query});
 
-  factory ApiCategory.fromJson(Map<String, dynamic> json) =>
-      _$ApiCategoryFromJson(json);
+  factory CategoryResource.fromJson(Map<String, dynamic> json) =>
+      _$CategoryResourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ApiCategoryToJson(this);
+  Map<String, dynamic> toJson() => _$CategoryResourceToJson(this);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApiCategory &&
+      other is CategoryResource &&
           runtimeType == other.runtimeType &&
           name == other.name &&
           query == other.query &&

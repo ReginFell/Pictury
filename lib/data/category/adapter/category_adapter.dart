@@ -4,16 +4,16 @@ import 'package:pictury/data/remote_config/models/category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-class CategoryAdapter extends PreferenceAdapter<List<Category>> {
+class CategoryAdapter extends PreferenceAdapter<List<CategoryResource>> {
   @override
-  List<Category> getValue(SharedPreferences preferences, String key) {
+  List<CategoryResource> getValue(SharedPreferences preferences, String key) {
     final value = preferences.getString(key);
     if (value == null) {
       return null;
     } else {
       final List<dynamic> decoded = json.decode(value);
 
-      return decoded.map((value) => ApiCategory.fromJson(value)).toList();
+      return decoded.map((value) => CategoryResource.fromJson(value)).toList();
     }
   }
 
