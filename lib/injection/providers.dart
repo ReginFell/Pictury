@@ -20,5 +20,5 @@ List<SingleChildCloneableWidget> dependentServices = [
 ];
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [
-  Provider<MaterialThemeProvider>.value(value: MaterialThemeProvider())
+
 ];
