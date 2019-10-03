@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/app_label_text.dart';
-import 'package:pictury/core/ui/widget/application_app_bar.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/core/ui/widget/search_view.dart';
 import 'package:pictury/domain/category/models/category_view_model.dart';
@@ -13,7 +12,6 @@ import 'package:pictury/features/categories/categories_view_state.dart';
 import 'package:pictury/features/categories/widgets/selectable_item.dart';
 import 'package:pictury/features/home/home_screen.dart';
 import 'package:pictury/theme/app_theme.dart';
-import 'package:pictury/theme/material_theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_localization.dart';
@@ -132,8 +130,7 @@ class CategoriesScreen extends StatelessWidget {
   }
 
   Widget _buildAppBar(BuildContext context) {
-    final MaterialThemeProvider provider = Provider.of(context);
-    final AppTheme theme = provider.getThemeFromKey(context);
+    final AppTheme theme = Provider.of(context);
 
     return SliverAppBar(
       floating: false,

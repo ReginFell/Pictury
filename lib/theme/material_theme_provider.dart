@@ -4,17 +4,20 @@ import 'package:pictury/theme/app_theme.dart';
 import 'material_theme_dark.dart';
 import 'material_theme_light.dart';
 
-enum Theme { light, dark }
+enum AppThemeMode { light, dark }
 
 class MaterialThemeProvider {
+  final bool isDarkTheme;
+
+  MaterialThemeProvider(this.isDarkTheme);
+
   static ThemeMode themeMode;
 
   static final AppTheme lightTheme = MaterialThemeLight();
 
   static final AppTheme darkTheme = MaterialThemeDark();
 
-  static AppTheme getThemeFromKey(
-      BuildContext context, bool isDarkThemeEnabled) {
+  AppTheme getThemeFromKey(BuildContext context) {
     switch (_extractBrightness(context)) {
       case Brightness.light:
         return darkTheme;
