@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:pictury/core/ui/base/base_bloc.dart';
 import 'package:pictury/data/local_config/local_config_provider.dart';
 import 'package:pictury/features/settings/settings_event.dart';
@@ -11,7 +9,7 @@ class SettingsBloc extends BaseBloc<SettingsViewState, SettingsEvent> {
   SettingsBloc(this._localConfigProvider) {
     _localConfigProvider
         .observeThemeState()
-        .listen((value) => dispatch(ChangeThemeEvent(value)));
+        .listen((value) => dispatch(ThemeChangedEvent(value)));
   }
 
   @override
@@ -19,13 +17,15 @@ class SettingsBloc extends BaseBloc<SettingsViewState, SettingsEvent> {
 
   @override
   Stream<SettingsViewState> mapEventToState(SettingsEvent event) async* {
-    yield* event.when(
-      changeThemeEvent: _changeTheme,
-      themeChangedEvent: _themeChanged,
-    );
+    print(event);
+    if (event is ChangeThemeEvent) {
+      _changeTheme(event);
+    } else if (event is ThemeChangedEvent) {
+      yield* _themeChanged(event);
+    }
   }
 
-  void _changeTheme(ChangeThemeEvent event) async {
+  void _changeTheme(ChangeThemeEvent event) {
     _localConfigProvider.setDarkThemeEnabled(event.isDarkThemeEnabled);
   }
 

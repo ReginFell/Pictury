@@ -15,4 +15,9 @@ class ChangeThemeEvent extends SettingsEvent {
   final bool isDarkThemeEnabled;
 
   ChangeThemeEvent(this.isDarkThemeEnabled);
+
+  @override
+  String toString() {
+    return 'ChangeThemeEvent{isDarkThemeEnabled: $isDarkThemeEnabled}';
+  }
 }

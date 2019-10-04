@@ -26,10 +26,9 @@ class SettingsScreen extends StatelessWidget {
     return ListView(
       children: [
         SwitchListTile(
-          title: Text("Dark theme"),
-          value: bloc.currentState.isDarkThemeEnabled,
-          onChanged: (newValue) => bloc.dispatch(ChangeThemeEvent(newValue)),
-        )
+            title: Text("Dark theme"),
+            value: bloc.currentState.isDarkThemeEnabled,
+            onChanged: (newValue) => bloc.dispatch(ChangeThemeEvent(newValue)))
       ],
     );
   }

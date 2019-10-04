@@ -18,6 +18,14 @@ class MaterialThemeProvider {
   static final AppTheme darkTheme = MaterialThemeDark();
 
   AppTheme getThemeFromKey(BuildContext context) {
+    if (isDarkTheme != null) {
+      if (isDarkTheme) {
+        return darkTheme;
+      } else {
+        return lightTheme;
+      }
+    }
+
     switch (_extractBrightness(context)) {
       case Brightness.light:
         return darkTheme;

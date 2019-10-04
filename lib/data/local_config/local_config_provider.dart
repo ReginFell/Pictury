@@ -9,27 +9,34 @@ class LocalConfigProvider {
 
   final Preferences _preferences;
 
+  StreamingSharedPreferences _streamingSharedPreferences;
+
   LocalConfigProvider(this._preferences);
 
-  Future<StreamingSharedPreferences> consume() async {
-    return await _preferences.sharedPreferences;
+  FutureOr<StreamingSharedPreferences> _consume() async {
+    if (_streamingSharedPreferences == null) {
+      _streamingSharedPreferences = await _preferences.sharedPreferences;
+    }
+    return _streamingSharedPreferences;
   }
 
   void setCategorySelected(bool selected) async {
-    (await consume()).setBool(isCategorySelectedPref, selected);
+    (await _consume()).setBool(isCategorySelectedPref, selected);
   }
 
-  void setDarkThemeEnabled(bool selected) async {
-    (await consume()).setBool(isDarkThemeEnabled, selected);
+  Future<void> setDarkThemeEnabled(bool selected) async {
+    print("selected $selected");
+    (await _consume()).setBool(isDarkThemeEnabled, selected);
   }
 
-  Future<bool> isCategorySelected() {
-    return consume().then((prefs) =>
-        prefs.getBool(isCategorySelectedPref, defaultValue: false).first);
+  Future<bool> isCategorySelected() async {
+    return (await _consume())
+        .getBool(isCategorySelectedPref, defaultValue: false)
+        .first;
   }
 
   Stream<bool> observeThemeState() async* {
-    final preference = await consume();
-    yield* preference.getBool(isDarkThemeEnabled, defaultValue: false);
+    final preference = await _consume();
+    yield* preference.getBool(isDarkThemeEnabled, defaultValue: true);
   }
 }
