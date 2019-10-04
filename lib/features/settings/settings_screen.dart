@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseBlocProvider<SettingsBloc, SettingsViewState>(
-        bloc: SettingsBloc(Provider.of(context)),
+        bloc: SettingsBloc(Provider.of(context), Provider.of(context)),
         builder: (context, bloc) {
           return Scaffold(
             appBar: ApplicationAppBar.create(context, title: "Settings"),
@@ -24,12 +24,15 @@ class SettingsScreen extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, SettingsBloc bloc) {
     return ListView(
-      children: [
-        SwitchListTile(
-            title: Text("Dark theme"),
-            value: bloc.currentState.isDarkThemeEnabled,
-            onChanged: (newValue) => bloc.dispatch(ChangeThemeEvent(newValue)))
-      ],
-    );
+        children: ListTile.divideTiles(context: context, tiles: [
+      SwitchListTile(
+          title: Text("Dark theme"),
+          value: bloc.currentState.isDarkThemeEnabled,
+          onChanged: (newValue) => bloc.dispatch(ChangeThemeEvent(newValue))),
+      ListTile(
+        title: Text("Terms and conditions"),
+        leading: Icon(Icons.info),
+      )
+    ]).toList());
   }
 }

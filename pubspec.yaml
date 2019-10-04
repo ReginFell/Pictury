@@ -12,7 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  flutter_platform_widgets: 0.12.0
+  flutter_platform_widgets: 0.20.0
   provider: 3.1.0
   http: 0.11.3+17
   shared_preferences: 0.5.3+4
@@ -28,6 +28,7 @@ dependencies:
   flutter_svg: 0.14.1
   floor: ^0.8.0
   photo_view: 0.5.0
+  url_launcher: 5.1.4
   wallpaper_changer:
     path: './wallpaper_changer'
 

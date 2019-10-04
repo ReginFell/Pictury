@@ -17,14 +17,16 @@ class GalleryEntity {
   final String regularSizeLink;
   final String rawLink;
   final String fullSizeLink;
+  final String author;
 
   GalleryEntity(
-    @required this.id,
-    @required this.title,
-    @required this.smallSizeLink,
-    @required this.regularSizeLink,
-    @required this.rawLink,
-    @required this.fullSizeLink,
+    this.id,
+    this.title,
+    this.smallSizeLink,
+    this.regularSizeLink,
+    this.rawLink,
+    this.fullSizeLink,
+    this.author,
   );
 
   GalleryViewModel asViewModel() => GalleryViewModel(
@@ -34,5 +36,6 @@ class GalleryEntity {
         regularSizeLink: this.regularSizeLink,
         rawLink: this.rawLink,
         fullSizeLink: this.fullSizeLink,
+        author: author,
       );
 }

@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:pictury/data/preferences/preferences.dart';
+import 'package:pictury/theme/theme_provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class LocalConfigProvider {
   static const String isCategorySelectedPref = "isCategorySelected";
-  static const String isDarkThemeEnabled = "isDarkThemeEnabled";
+  static const String darkThemeMode = "darkThemeMode";
 
   final Preferences _preferences;
 
@@ -24,9 +25,8 @@ class LocalConfigProvider {
     (await _consume()).setBool(isCategorySelectedPref, selected);
   }
 
-  Future<void> setDarkThemeEnabled(bool selected) async {
-    print("selected $selected");
-    (await _consume()).setBool(isDarkThemeEnabled, selected);
+  void setDarkThemeEnabled(AppThemeMode themeMode) async {
+    (await _consume()).setInt(darkThemeMode, themeMode.index);
   }
 
   Future<bool> isCategorySelected() async {
@@ -35,8 +35,10 @@ class LocalConfigProvider {
         .first;
   }
 
-  Stream<bool> observeThemeState() async* {
+  Stream<AppThemeMode> observeAppThemeMode() async* {
     final preference = await _consume();
-    yield* preference.getBool(isDarkThemeEnabled, defaultValue: true);
+    yield* preference
+        .getInt(darkThemeMode, defaultValue: AppThemeMode.unspecified.index)
+        .map((value) => AppThemeMode.values[value]);
   }
 }

@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 abstract class AppTheme {
-
   Brightness brightness;
 
   Color get colorAccent;
@@ -9,8 +9,6 @@ abstract class AppTheme {
   Color get primaryColor;
 
   Color get iconColor;
-
-  Color get searchIconColor;
 
   Color get textColor;
 
@@ -22,7 +20,11 @@ abstract class AppTheme {
 
   Color get appBarBackgroundColor;
 
+  Color get indicatorColor;
+
   double get searchBarCornerRadius;
 
   ThemeData get themeData;
+
+  CupertinoThemeData get cupertinoAppData;
 }

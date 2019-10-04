@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pictury/theme/app_theme.dart';
-import 'package:pictury/theme/material_theme_provider.dart';
+import 'package:pictury/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class BottomBar extends StatelessWidget {
@@ -13,7 +13,7 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MaterialThemeProvider provider = Provider.of(context);
+    final ThemeProvider provider = Provider.of(context);
     final AppTheme theme = provider.getThemeFromKey(context);
 
     return Container(

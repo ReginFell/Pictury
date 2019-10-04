@@ -9,6 +9,7 @@ import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
 import 'package:pictury/features/gallery_details/gallery_details_bloc.dart';
 import 'package:pictury/features/gallery_details/gallery_details_event.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wallpaper_changer/wallpaper_changer.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
@@ -33,6 +34,8 @@ class GalleryDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, GalleryDetailsBloc bloc) {
+    final ThemeData themeData = Theme.of(context);
+
     return Container(
       width: double.infinity,
       child: Column(
@@ -40,7 +43,10 @@ class GalleryDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             child: PhotoView(
-                initialScale: PhotoViewComputedScale.contained * 1.2,
+                backgroundDecoration:
+                    BoxDecoration(color: themeData.scaffoldBackgroundColor),
+                initialScale: PhotoViewComputedScale.contained,
+                minScale: PhotoViewComputedScale.contained,
                 heroAttributes: PhotoViewHeroAttributes(tag: _arguments._tag),
                 imageProvider: CachedNetworkImageProvider(
                   _arguments._galleryViewModel.regularSizeLink,
@@ -53,46 +59,72 @@ class GalleryDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildBottomMenu(BuildContext context, GalleryDetailsBloc bloc) {
-    return BottomBar(
-      child: Material(
-        type: MaterialType.transparency,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: InkWell(
-                  onTap: () => {bloc.dispatch(MakeFavoriteEvent())},
-                  customBorder: new CircleBorder(),
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: AnimatedSwitcher(
-                      duration: Duration(milliseconds: 300),
-                      child: bloc.currentState.isFavorite
-                          ? Icon(Icons.star,
-                              key: ValueKey("selected"), color: Colors.white)
-                          : Icon(Icons.star_border,
-                              key: ValueKey("notSelected"),
-                              color: Colors.white),
+    final ThemeData themeData = Theme.of(context);
+
+    return Container(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
+            child: Container(
+              alignment: Alignment.bottomLeft,
+              child: Row(
+                children: [
+                  Text('Photo by ${_arguments._galleryViewModel.author} on '),
+                  InkWell(
+                    onTap: () => _launchURL(),
+                    child: Text(
+                      "Unsplash",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
-                  )),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                customBorder: new CircleBorder(),
-                onTap: () => _showMenuDialog(context),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(
-                    "assets/icons/horizontal_options_menu.svg",
-                    color: Colors.white,
-                  ),
-                ),
+                  )
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          BottomBar(
+            child: Material(
+              type: MaterialType.transparency,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                        onTap: () => {bloc.dispatch(MakeFavoriteEvent())},
+                        customBorder: new CircleBorder(),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: AnimatedSwitcher(
+                            duration: Duration(milliseconds: 300),
+                            child: bloc.currentState.isFavorite
+                                ? Icon(Icons.star, key: ValueKey("selected"))
+                                : Icon(Icons.star_border,
+                                    key: ValueKey("notSelected")),
+                          ),
+                        )),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      customBorder: new CircleBorder(),
+                      onTap: () => _showMenuDialog(context),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          "assets/icons/horizontal_options_menu.svg",
+                          color: themeData.iconTheme.color,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -111,7 +143,6 @@ class GalleryDetailsScreen extends StatelessWidget {
               ListTile(
                 leading: Icon(
                   Icons.file_download,
-                  color: Colors.black,
                 ),
                 title: Text('Download full'),
                 subtitle: Text(
@@ -138,6 +169,15 @@ class GalleryDetailsScreen extends StatelessWidget {
             ]).toList(),
           );
         });
+  }
+
+  void _launchURL() async {
+    const url = 'https://unsplash.com';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void _setAsWallpaper() {

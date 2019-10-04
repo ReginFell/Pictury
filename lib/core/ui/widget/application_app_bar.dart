@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pictury/theme/app_theme.dart';
-import 'package:pictury/theme/material_theme_provider.dart';
+import 'package:pictury/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class ApplicationAppBar extends AppBar {
@@ -8,10 +8,11 @@ class ApplicationAppBar extends AppBar {
 
   static AppBar create(BuildContext context,
       {String title, List<Widget> actions}) {
-    final MaterialThemeProvider provider = Provider.of(context);
+    final ThemeProvider provider = Provider.of(context);
     final AppTheme theme = provider.getThemeFromKey(context);
 
     return AppBar(
+      iconTheme: IconThemeData(color: theme.iconColor),
       title: Text(
         title ?? "",
         maxLines: 1,

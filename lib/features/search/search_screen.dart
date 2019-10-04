@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
+import 'package:pictury/core/ui/widget/search_view.dart';
 import 'package:pictury/features/gallery/gallery_screen.dart';
 import 'package:pictury/features/gallery/gallery_type.dart';
 import 'package:pictury/features/search/search_bloc.dart';
@@ -29,24 +30,12 @@ class SearchScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(40.0),
-                  child: Container(
-                    color: Colors.grey.withOpacity(0.2),
-                    child: TextField(
-                      decoration: new InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.grey),
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintText: 'Search anything you like',
-                      ),
-                      onChanged: (text) =>
-                          model.dispatch(SearchQueryChangedEvent(text)),
-                    ),
-                  ),
-                ),
-              ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: SearchView(
+                    hint: 'Search anything you like',
+                    onChanged: (text) =>
+                        model.dispatch(SearchQueryChangedEvent(text)),
+                  )),
               Expanded(
                   child: GalleryScreen(
                 RemoteGalleryType(model.currentState.query),

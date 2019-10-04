@@ -7,12 +7,11 @@ import 'package:pictury/core/ui/widget/theme/theme_observer.dart';
 import 'package:pictury/injection/providers.dart';
 import 'package:pictury/router.dart';
 import 'package:pictury/theme/app_theme.dart';
-import 'package:pictury/theme/material_theme_provider.dart';
+import 'package:pictury/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'app_localization.dart';
 import 'environment.dart';
-import 'theme/cupertino_theme_provider.dart';
 
 void main() {
   BuildEnvironment.init(
@@ -33,9 +32,9 @@ class PicturyApp extends StatelessWidget {
     return MultiProvider(
       providers: providers,
       child: ThemeObserver(
-        builder: (context, isDarkTheme) {
+        builder: (context, appThemeMode) {
           return Provider.value(
-              value: MaterialThemeProvider(isDarkTheme),
+              value: ThemeProvider(appThemeMode),
               child: PlatformApp(
                 supportedLocales: [
                   Locale('en', 'US'),
@@ -47,14 +46,15 @@ class PicturyApp extends StatelessWidget {
                 ],
                 debugShowCheckedModeBanner: false,
                 onGenerateRoute: Router.generateRoute,
-                android: (_) {
+                android: (context) {
+                  final ThemeProvider themeProvider = Provider.of(context);
+
                   return MaterialAppData(
-                    theme: MaterialThemeProvider.lightTheme.themeData,
-                    darkTheme: MaterialThemeProvider.darkTheme.themeData,
+                    theme: themeProvider.getThemeFromKey(context).themeData,
                   );
                 },
-                ios: (_) =>
-                    CupertinoAppData(theme: CupertinoThemeProvider.lightTheme),
+                ios: (_) => CupertinoAppData(
+                    theme: ThemeProvider.lightTheme.cupertinoAppData),
               ));
         },
       ),

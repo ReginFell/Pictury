@@ -91,7 +91,7 @@ class GalleryScreen extends StatelessWidget {
                               galleryViewModel, heroTag),
                         ),
                     child: CachedNetworkImage(
-                        imageUrl: galleryViewModel.smallSizeLink)),
+                        imageUrl: galleryViewModel.regularSizeLink)),
                 tag: heroTag,
               ),
             ),

@@ -21,6 +21,7 @@ class GalleryRepository {
               imageResponse.urls.regular,
               imageResponse.urls.raw,
               imageResponse.urls.full,
+              imageResponse.user.username,
             ))
         .toList();
   }

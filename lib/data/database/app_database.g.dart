@@ -82,7 +82,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Gallery` (`id` TEXT, `title` TEXT, `smallSizeLink` TEXT, `regularSizeLink` TEXT, `rawLink` TEXT, `fullSizeLink` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Gallery` (`id` TEXT, `title` TEXT, `smallSizeLink` TEXT, `regularSizeLink` TEXT, `rawLink` TEXT, `fullSizeLink` TEXT, `author` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Category` (`name` TEXT, `image` TEXT, `query` TEXT, `isSelected` INTEGER, PRIMARY KEY (`name`))');
 
@@ -114,7 +114,8 @@ class _$GalleryDao extends GalleryDao {
                   'smallSizeLink': item.smallSizeLink,
                   'regularSizeLink': item.regularSizeLink,
                   'rawLink': item.rawLink,
-                  'fullSizeLink': item.fullSizeLink
+                  'fullSizeLink': item.fullSizeLink,
+                  'author': item.author
                 },
             changeListener),
         _galleryEntityDeletionAdapter = DeletionAdapter(
@@ -127,7 +128,8 @@ class _$GalleryDao extends GalleryDao {
                   'smallSizeLink': item.smallSizeLink,
                   'regularSizeLink': item.regularSizeLink,
                   'rawLink': item.rawLink,
-                  'fullSizeLink': item.fullSizeLink
+                  'fullSizeLink': item.fullSizeLink,
+                  'author': item.author
                 },
             changeListener);
 
@@ -143,7 +145,8 @@ class _$GalleryDao extends GalleryDao {
       row['smallSizeLink'] as String,
       row['regularSizeLink'] as String,
       row['rawLink'] as String,
-      row['fullSizeLink'] as String);
+      row['fullSizeLink'] as String,
+      row['author'] as String);
 
   final InsertionAdapter<GalleryEntity> _galleryEntityInsertionAdapter;
 

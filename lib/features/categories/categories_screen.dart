@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
-import 'package:pictury/core/ui/widget/app_label_text.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/core/ui/widget/search_view.dart';
 import 'package:pictury/domain/category/models/category_view_model.dart';
@@ -12,6 +11,7 @@ import 'package:pictury/features/categories/categories_view_state.dart';
 import 'package:pictury/features/categories/widgets/selectable_item.dart';
 import 'package:pictury/features/home/home_screen.dart';
 import 'package:pictury/theme/app_theme.dart';
+import 'package:pictury/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_localization.dart';
@@ -54,7 +54,7 @@ class CategoriesScreen extends StatelessWidget {
       onTap: () => bloc.dispatch(ContinueEvent()),
       child: BottomBar(
         child: Center(
-            child: LabelText(localization.translate(
+            child: PlatformText(localization.translate(
                 bloc.currentState.filteredCategories.isNotEmpty
                     ? "continue"
                     : "skip"))),
@@ -70,7 +70,6 @@ class CategoriesScreen extends StatelessWidget {
         _buildAppBar(context),
         _buildSearch(context, bloc),
         _buildAppCategories(context),
-        SliverPadding(padding: EdgeInsets.only(top: 56.0)),
         if (bloc.currentState.filteredCategories.isEmpty)
           _buildNewCategory(context, bloc)
       ]);
@@ -110,7 +109,8 @@ class CategoriesScreen extends StatelessWidget {
                 ),
                 notSelected: Stack(
                   children: [
-                    Positioned.fill(child: Container(color: Colors.white)),
+                    Positioned.fill(
+                        child: Container(color: Colors.transparent)),
                     Align(
                       alignment: Alignment.center,
                       child: Text(viewModel.name,
@@ -130,12 +130,14 @@ class CategoriesScreen extends StatelessWidget {
   }
 
   Widget _buildAppBar(BuildContext context) {
-    final AppTheme theme = Provider.of(context);
+    final ThemeProvider themeProvider = Provider.of(context);
 
     return SliverAppBar(
       floating: false,
+      pinned: true,
       title: Text("Add a new category"),
-      backgroundColor: theme.appBarBackgroundColor,
+      backgroundColor:
+          themeProvider.getThemeFromKey(context).appBarBackgroundColor,
     );
   }
 
@@ -143,7 +145,7 @@ class CategoriesScreen extends StatelessWidget {
     final AppLocalizations localization = AppLocalizations.of(context);
 
     return SliverPadding(
-      padding: const EdgeInsets.only(top: 16.0),
+      padding: const EdgeInsets.all(16.0),
       sliver: SliverToBoxAdapter(
           child: SearchView(
         hint: localization.translate("find_category"),
@@ -158,26 +160,24 @@ class CategoriesScreen extends StatelessWidget {
     final AppLocalizations localization = AppLocalizations.of(context);
 
     return SliverPadding(
-      padding: const EdgeInsets.all(16.0),
-      sliver: SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-        return Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(localization.translate("category_not_found")),
-              InkWell(
-                  onTap: () {
-                    bloc.dispatch(AddCategoryEvent(bloc.currentState.query));
-                  },
-                  child: Text(
-                    " ${bloc.currentState.query}",
-                    style: TextStyle(color: Colors.blue, fontSize: 22),
-                  ))
-            ],
-          ),
-        );
-      }, childCount: 1)),
+      padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+      sliver: SliverToBoxAdapter(
+          child: Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(localization.translate("category_not_found")),
+            InkWell(
+                onTap: () {
+                  bloc.dispatch(AddCategoryEvent(bloc.currentState.query));
+                },
+                child: Text(
+                  " ${bloc.currentState.query}",
+                  style: TextStyle(color: Colors.blue, fontSize: 22),
+                ))
+          ],
+        ),
+      )),
     );
   }
 }

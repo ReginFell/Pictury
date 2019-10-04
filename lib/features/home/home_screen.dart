@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
-import 'package:pictury/core/ui/widget/app_label_text.dart';
 import 'package:pictury/core/ui/widget/bottom_bar.dart';
 import 'package:pictury/core/ui/widget/keep_alive_widget.dart';
 import 'package:pictury/core/ui/widget/application_app_bar.dart';
@@ -13,8 +13,9 @@ import 'package:pictury/features/home/decorations/line_tab_decoration.dart';
 import 'package:pictury/features/home/home_bloc.dart';
 import 'package:pictury/features/home/home_view_state.dart';
 import 'package:pictury/features/search/search_screen.dart';
-import 'package:pictury/features/settings/settings_bloc.dart';
 import 'package:pictury/features/settings/settings_screen.dart';
+import 'package:pictury/theme/app_theme.dart';
+import 'package:pictury/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,6 +23,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return BaseBlocProvider<HomeBloc, HomeViewState>(
       bloc: HomeBloc(Provider.of(context)),
       builder: (context, model) {
@@ -32,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                 appBar: ApplicationAppBar.create(context,
                     title: "Pictury",
                     actions: [
-                      IconButton(
+                      PlatformIconButton(
                         icon: Icon(
                           Icons.search,
                         ),
@@ -40,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.pushNamed(context, SearchScreen.route);
                         },
                       ),
-                      IconButton(
+                      PlatformIconButton(
                         icon: Icon(
                           Icons.settings,
                         ),
@@ -83,6 +86,9 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBottomTabs(BuildContext context, HomeBloc model) {
+    final ThemeProvider provider = Provider.of(context);
+    final AppTheme theme = provider.getThemeFromKey(context);
+
     return BottomBar(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -94,10 +100,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.of(context).pushNamed(CategoriesScreen.route),
               child: Padding(
                 padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
+                child: Icon(Icons.add),
               ),
             ),
           ),
@@ -106,17 +109,13 @@ class HomeScreen extends StatelessWidget {
             height: double.infinity,
             child: TabBar(
               isScrollable: true,
-              indicator: LineTabDecoration(color: Colors.black),
+              indicator: LineTabDecoration(color: theme.indicatorColor),
               tabs: [
                 ...model.currentState.categories.map((category) {
                   if (category.iconData != null) {
-                    return Tab(
-                        child: Icon(
-                      category.iconData,
-                      color: Colors.white,
-                    ));
+                    return Tab(child: Icon(category.iconData));
                   } else {
-                    return Tab(child: LabelText(category.name));
+                    return Tab(child: PlatformText(category.name));
                   }
                 })
               ],

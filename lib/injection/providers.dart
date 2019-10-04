@@ -1,4 +1,4 @@
-import 'package:pictury/theme/material_theme_provider.dart';
+import 'package:pictury/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../data/data_module.dart' as dataModule;
 import '../domain/domain_module.dart' as domainModule;
@@ -19,6 +19,4 @@ List<SingleChildCloneableWidget> dependentServices = [
   ...domainModule.dependentServices
 ];
 
-List<SingleChildCloneableWidget> uiConsumableProviders = [
-
-];
+List<SingleChildCloneableWidget> uiConsumableProviders = [];

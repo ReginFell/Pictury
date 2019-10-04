@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:pictury/theme/theme_provider.dart';
 
 part 'settings_event.g.dart';
 
@@ -6,9 +7,9 @@ part 'settings_event.g.dart';
 abstract class SettingsEvent with SealedSettingsEvent {}
 
 class ThemeChangedEvent extends SettingsEvent {
-  final bool isDarkThemeEnabled;
+  final AppThemeMode appThemeMode;
 
-  ThemeChangedEvent(this.isDarkThemeEnabled);
+  ThemeChangedEvent(this.appThemeMode);
 }
 
 class ChangeThemeEvent extends SettingsEvent {

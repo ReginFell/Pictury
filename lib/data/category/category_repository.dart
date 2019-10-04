@@ -12,6 +12,7 @@ class CategoryRepository {
   static const String categoriesTag = "categories";
 
   final Api _api;
+
   final Future<CategoryDao> _categoryDao;
   final RemoteConfigProvider _remoteConfigRepository;
 

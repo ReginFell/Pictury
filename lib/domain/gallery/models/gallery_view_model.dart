@@ -8,6 +8,7 @@ class GalleryViewModel {
   final String regularSizeLink;
   final String rawLink;
   final String fullSizeLink;
+  final String author;
 
   GalleryViewModel({
     @required this.id,
@@ -16,6 +17,7 @@ class GalleryViewModel {
     @required this.regularSizeLink,
     @required this.rawLink,
     @required this.fullSizeLink,
+    @required this.author,
   });
 
   GalleryEntity asEntity() => GalleryEntity(
@@ -25,5 +27,6 @@ class GalleryViewModel {
         this.regularSizeLink,
         this.rawLink,
         this.fullSizeLink,
+        this.author,
       );
 }
