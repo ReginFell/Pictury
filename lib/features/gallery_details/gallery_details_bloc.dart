@@ -58,13 +58,13 @@ class GalleryDetailsBloc
       SetWallpaperEvent event) async* {
     yield currentState.rebuild((b) => b..isLoading = true);
     final File file = await _loadImage(event.galleryViewModel.regularSizeLink);
-    await WallpaperChanger.setWallpaper(file, Screen.Home);
+    await WallpaperChanger.setWallpaper(file, event.screen);
     yield currentState.rebuild((b) => b..isLoading = false);
   }
 
   static Future<File> _loadImage(String url) async {
     final folder = await getTemporaryDirectory();
-    var fileSave = new File('${folder.path}/$tempFileName');
+    var fileSave = File('${folder.path}/$tempFileName');
     final response = await http.get(url);
     await fileSave.writeAsBytes(response.bodyBytes);
     return fileSave;

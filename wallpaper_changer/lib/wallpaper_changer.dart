@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 class WallpaperChanger {
   static const String setWallpaperMethod = 'setWallpaper';
+  static const String lockScreenSupported = 'isLockScreenSupported';
   static const String wallpaperPathKey = 'wallpaperPathKey';
   static const String wallpaperScreenKey = 'wallpaperScreenKey';
 
@@ -21,6 +22,11 @@ class WallpaperChanger {
       wallpaperPathKey: file.path,
       wallpaperScreenKey: screen.index,
     });
+  }
+
+  static Future<bool> isLockScreenSupported() async {
+    final bool result = await _channel.invokeMethod(lockScreenSupported);
+    return result;
   }
 }
 

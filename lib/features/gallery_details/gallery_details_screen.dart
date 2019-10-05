@@ -11,6 +11,7 @@ import 'package:pictury/features/gallery_details/gallery_details_bloc.dart';
 import 'package:pictury/features/gallery_details/gallery_details_event.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wallpaper_changer/wallpaper_changer.dart';
 
 import 'gallery_details_view_state.dart';
 
@@ -157,11 +158,14 @@ class GalleryDetailsScreen extends StatelessWidget {
         return Dialog(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: new Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                new CircularProgressIndicator(),
-                new Text("Loading"),
+                CircularProgressIndicator(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text("Loading"),
+                ),
               ],
             ),
           ),
@@ -203,14 +207,56 @@ class GalleryDetailsScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.image),
-                onTap: () => bloc
-                    .dispatch(SetWallpaperEvent(_arguments._galleryViewModel)),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _showSetWallpaperMenu(context, bloc);
+                },
                 title: Text('Set as a background'),
                 subtitle: Text('Sorry, this feature doesn\'t work on iOS'),
               ),
             ]).toList(),
           );
         });
+  }
+
+  void _showSetWallpaperMenu(
+      BuildContext context, GalleryDetailsBloc bloc) async {
+    final bool isLockSupported = await _isLockSupported();
+
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        context: context,
+        builder: (builder) {
+          return ListView(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: ListTile.divideTiles(context: context, tiles: [
+              ListTile(
+                title: Text('Home'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  bloc.dispatch(SetWallpaperEvent(
+                      _arguments._galleryViewModel, Screen.Home));
+                },
+              ),
+              if (isLockSupported)
+                ListTile(
+                  title: Text('Lock'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    bloc.dispatch(SetWallpaperEvent(
+                        _arguments._galleryViewModel, Screen.Lock));
+                  },
+                ),
+            ]).toList(),
+          );
+        });
+  }
+
+  Future<bool> _isLockSupported() async {
+    return await WallpaperChanger.isLockScreenSupported();
   }
 
   void _launchURL() async {
