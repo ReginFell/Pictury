@@ -113,7 +113,11 @@ class HomeScreen extends StatelessWidget {
                   if (category.iconData != null) {
                     return Tab(child: Icon(category.iconData));
                   } else {
-                    return Tab(child: PlatformText(category.name));
+                    return Tab(
+                        child: PlatformText(
+                      category.name,
+                      style: Theme.of(context).textTheme.body1,
+                    ));
                   }
                 })
               ],

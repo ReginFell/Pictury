@@ -15,20 +15,21 @@ class HomeBloc extends BaseBloc<HomeViewState, HomeEvent> {
       _categoryRepository
           .observeCategories()
           .map((categories) =>
-              categories.where((category) => category.isSelected))
-          .map((categories) =>
               categories.map((category) => category.asViewModel()).toList())
-          .map((selectedCategories) {
-        final List<CategoryViewModel> categories = []..add(CategoryViewModel(
-            name: "Everything",
-            query: selectedCategories.map((v) => v.query).join(","),
-            isSelected: true));
-        categories
+          .map((categories) {
+        final List<CategoryViewModel> selectedCategories =
+            categories.where((category) => category.isSelected).toList();
+
+        final List<CategoryViewModel> homeCategories = []
+          ..add(CategoryViewModel(
+              name: "Everything",
+              query: categories.map((v) => v.query).join(","),
+              isSelected: true))
           ..add(CategoryViewModel(
               name: "Favorite", iconData: Icons.star, isSelected: true))
           ..addAll(selectedCategories);
 
-        return categories;
+        return homeCategories;
       }).listen((selectedCategories) =>
               dispatch(CategoriesLoadedEvent(selectedCategories))),
     );
