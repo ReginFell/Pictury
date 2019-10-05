@@ -1,13 +1,19 @@
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
 import 'package:pictury/core/ui/base/base_bloc.dart';
 import 'package:pictury/data/gallery/gallery_repository.dart';
-import 'package:pictury/data/gallery/models/gallery_entity.dart';
 import 'package:pictury/domain/gallery/models/gallery_view_model.dart';
 import 'package:pictury/features/gallery_details/gallery_details_event.dart';
+import 'package:wallpaper_changer/wallpaper_changer.dart';
+import 'package:http/http.dart' as http;
 
 import 'gallery_details_view_state.dart';
 
 class GalleryDetailsBloc
     extends BaseBloc<GalleryDetailsViewState, GalleryDetailsEvent> {
+  static const String tempFileName = 'temp.png';
+
   final GalleryRepository _galleryRepository;
 
   final GalleryViewModel _galleryViewModel;
@@ -29,6 +35,7 @@ class GalleryDetailsBloc
     yield* event.when(
       makeFavoriteEvent: _makeFavorite,
       galleryUpdatedEvent: _onGalleryUpdated,
+      setWallpaperEvent: _setAsWallpaper,
     );
   }
 
@@ -45,5 +52,21 @@ class GalleryDetailsBloc
     } else {
       await _galleryRepository.addFavorite(_galleryViewModel.asEntity());
     }
+  }
+
+  Stream<GalleryDetailsViewState> _setAsWallpaper(
+      SetWallpaperEvent event) async* {
+    yield currentState.rebuild((b) => b..isLoading = true);
+    final File file = await _loadImage(event.galleryViewModel.regularSizeLink);
+    await WallpaperChanger.setWallpaper(file, Screen.Home);
+    yield currentState.rebuild((b) => b..isLoading = false);
+  }
+
+  static Future<File> _loadImage(String url) async {
+    final folder = await getTemporaryDirectory();
+    var fileSave = new File('${folder.path}/$tempFileName');
+    final response = await http.get(url);
+    await fileSave.writeAsBytes(response.bodyBytes);
+    return fileSave;
   }
 }

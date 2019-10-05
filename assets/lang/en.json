@@ -8,5 +8,8 @@
   "or_add_your_own": "Or add your own",
   "find_category": "You could find a category",
   "category_not_found": "We don't have this category, but we can add",
-  "continue": "Continue"
+  "continue": "Continue",
+  "settings": "Settings",
+  "dark_theme": "Dark Theme",
+  "terms_and_conditions": "Terms and Conditions"
 }

@@ -2,12 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 
 class WallpaperChanger {
-  static const String tempFileName = 'temp.png';
-
   static const String setWallpaperMethod = 'setWallpaper';
   static const String wallpaperPathKey = 'wallpaperPathKey';
   static const String wallpaperScreenKey = 'wallpaperScreenKey';
@@ -20,17 +16,9 @@ class WallpaperChanger {
     return version;
   }
 
-  static Future<void> setWallpaper(String url, Screen screen) async {
-    final folder = await getTemporaryDirectory();
-
-    var fileSave = new File('${folder.path}/$tempFileName');
-
-    final response = await http.get(url);
-
-    await fileSave.writeAsBytes(response.bodyBytes);
-
+  static Future<void> setWallpaper(File file, Screen screen) async {
     _channel.invokeMethod(setWallpaperMethod, <String, dynamic>{
-      wallpaperPathKey: fileSave.path,
+      wallpaperPathKey: file.path,
       wallpaperScreenKey: screen.index,
     });
   }

@@ -23,8 +23,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-
     return BaseBlocProvider<HomeBloc, HomeViewState>(
       bloc: HomeBloc(Provider.of(context)),
       builder: (context, model) {

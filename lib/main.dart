@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pictury/core/ui/widget/theme/theme_observer.dart';
+import 'package:pictury/features/splash/splash_screen.dart';
 import 'package:pictury/injection/providers.dart';
 import 'package:pictury/router.dart';
 import 'package:pictury/theme/app_theme.dart';
@@ -36,6 +37,7 @@ class PicturyApp extends StatelessWidget {
           return Provider.value(
               value: ThemeProvider(appThemeMode),
               child: PlatformApp(
+                home: SplashScreen(),
                 supportedLocales: [
                   Locale('en', 'US'),
                 ],

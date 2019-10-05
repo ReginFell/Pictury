@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:pictury/core/ui/base/base_bloc_provider.dart';
@@ -10,7 +11,8 @@ import 'package:pictury/features/gallery_details/gallery_details_bloc.dart';
 import 'package:pictury/features/gallery_details/gallery_details_event.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wallpaper_changer/wallpaper_changer.dart';
+
+import 'gallery_details_view_state.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
   static const String route = '/gallery/details';
@@ -21,21 +23,33 @@ class GalleryDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseBlocProvider(
+    return BaseBlocProvider<GalleryDetailsBloc, GalleryDetailsViewState>(
       bloc: GalleryDetailsBloc(
           _arguments._galleryViewModel, Provider.of(context)),
-      builder: (context, bloc) => Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: ApplicationAppBar.create(context,
-            title: _arguments._galleryViewModel.title),
-        body: Builder(builder: (context) => _buildBody(context, bloc)),
+      builder: (context, bloc) =>
+          BlocListener<GalleryDetailsBloc, GalleryDetailsViewState>(
+        bloc: bloc,
+        condition: (oldState, newState) =>
+            oldState.isLoading != newState.isLoading,
+        listener: (context, state) {
+          if (state.isLoading) {
+            _showLoadingDialog(context);
+          } else {
+            Navigator.of(context).pop();
+          }
+        },
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: ApplicationAppBar.create(context,
+              title: _arguments._galleryViewModel.title),
+          body: _buildBody(context, bloc),
+        ),
       ),
     );
   }
 
   Widget _buildBody(BuildContext context, GalleryDetailsBloc bloc) {
     final ThemeData themeData = Theme.of(context);
-
     return Container(
       width: double.infinity,
       child: Column(
@@ -68,20 +82,26 @@ class GalleryDetailsScreen extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
             child: Container(
               alignment: Alignment.bottomLeft,
-              child: Row(
+              child: RichText(
+                  text: TextSpan(
                 children: [
-                  Text('Photo by ${_arguments._galleryViewModel.author} on '),
-                  InkWell(
-                    onTap: () => _launchURL(),
-                    child: Text(
-                      "Unsplash",
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
+                  TextSpan(
+                      style: Theme.of(context).textTheme.body1,
+                      text:
+                          'Photo by ${_arguments._galleryViewModel.author} on '),
+                  WidgetSpan(
+                    child: InkWell(
+                      onTap: () => _launchURL(),
+                      child: Text(
+                        "Unsplash",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
                   )
                 ],
-              ),
+              )),
             ),
           ),
           BottomBar(
@@ -110,7 +130,7 @@ class GalleryDetailsScreen extends StatelessWidget {
                     alignment: Alignment.center,
                     child: InkWell(
                       customBorder: new CircleBorder(),
-                      onTap: () => _showMenuDialog(context),
+                      onTap: () => _showMenuDialog(context, bloc),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SvgPicture.asset(
@@ -129,7 +149,28 @@ class GalleryDetailsScreen extends StatelessWidget {
     );
   }
 
-  void _showMenuDialog(BuildContext context) {
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new CircularProgressIndicator(),
+                new Text("Loading"),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showMenuDialog(BuildContext context, GalleryDetailsBloc bloc) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -162,7 +203,8 @@ class GalleryDetailsScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.image),
-                onTap: () => _setAsWallpaper(),
+                onTap: () => bloc
+                    .dispatch(SetWallpaperEvent(_arguments._galleryViewModel)),
                 title: Text('Set as a background'),
                 subtitle: Text('Sorry, this feature doesn\'t work on iOS'),
               ),
@@ -178,13 +220,6 @@ class GalleryDetailsScreen extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  void _setAsWallpaper() {
-    WallpaperChanger.setWallpaper(
-      _arguments._galleryViewModel.fullSizeLink,
-      Screen.Home,
-    );
   }
 }
 

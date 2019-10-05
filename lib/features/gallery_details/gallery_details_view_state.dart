@@ -6,10 +6,15 @@ abstract class GalleryDetailsViewState
     implements Built<GalleryDetailsViewState, GalleryDetailsViewStateBuilder> {
   bool get isFavorite;
 
+  bool get isLoading;
+
   GalleryDetailsViewState._();
 
-  static GalleryDetailsViewState createDefault() =>
-      GalleryDetailsViewState((b) => b..isFavorite = false);
+  static GalleryDetailsViewState createDefault() => GalleryDetailsViewState(
+        (b) => b
+          ..isFavorite = false
+          ..isLoading = false,
+      );
 
   factory GalleryDetailsViewState(
           [void Function(GalleryDetailsViewStateBuilder) updates]) =

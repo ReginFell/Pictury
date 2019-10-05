@@ -9,15 +9,21 @@ part of 'gallery_details_view_state.dart';
 class _$GalleryDetailsViewState extends GalleryDetailsViewState {
   @override
   final bool isFavorite;
+  @override
+  final bool isLoading;
 
   factory _$GalleryDetailsViewState(
           [void Function(GalleryDetailsViewStateBuilder) updates]) =>
       (new GalleryDetailsViewStateBuilder()..update(updates)).build();
 
-  _$GalleryDetailsViewState._({this.isFavorite}) : super._() {
+  _$GalleryDetailsViewState._({this.isFavorite, this.isLoading}) : super._() {
     if (isFavorite == null) {
       throw new BuiltValueNullFieldError(
           'GalleryDetailsViewState', 'isFavorite');
+    }
+    if (isLoading == null) {
+      throw new BuiltValueNullFieldError(
+          'GalleryDetailsViewState', 'isLoading');
     }
   }
 
@@ -33,18 +39,21 @@ class _$GalleryDetailsViewState extends GalleryDetailsViewState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GalleryDetailsViewState && isFavorite == other.isFavorite;
+    return other is GalleryDetailsViewState &&
+        isFavorite == other.isFavorite &&
+        isLoading == other.isLoading;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, isFavorite.hashCode));
+    return $jf($jc($jc(0, isFavorite.hashCode), isLoading.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('GalleryDetailsViewState')
-          ..add('isFavorite', isFavorite))
+          ..add('isFavorite', isFavorite)
+          ..add('isLoading', isLoading))
         .toString();
   }
 }
@@ -58,11 +67,16 @@ class GalleryDetailsViewStateBuilder
   bool get isFavorite => _$this._isFavorite;
   set isFavorite(bool isFavorite) => _$this._isFavorite = isFavorite;
 
+  bool _isLoading;
+  bool get isLoading => _$this._isLoading;
+  set isLoading(bool isLoading) => _$this._isLoading = isLoading;
+
   GalleryDetailsViewStateBuilder();
 
   GalleryDetailsViewStateBuilder get _$this {
     if (_$v != null) {
       _isFavorite = _$v.isFavorite;
+      _isLoading = _$v.isLoading;
       _$v = null;
     }
     return this;
@@ -83,8 +97,9 @@ class GalleryDetailsViewStateBuilder
 
   @override
   _$GalleryDetailsViewState build() {
-    final _$result =
-        _$v ?? new _$GalleryDetailsViewState._(isFavorite: isFavorite);
+    final _$result = _$v ??
+        new _$GalleryDetailsViewState._(
+            isFavorite: isFavorite, isLoading: isLoading);
     replace(_$result);
     return _$result;
   }
